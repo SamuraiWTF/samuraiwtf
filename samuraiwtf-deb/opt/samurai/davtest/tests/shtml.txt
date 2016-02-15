@@ -1,0 +1,2 @@
+content=<!--#config timefmt="%Y" -->YEAR:<!--#flastmod file="$$FILENAME$$"-->:YEAR<br />EXEC ls:<!--#exec cmd="ls -al"-->:EXEC ls<br />EXEC dir:<!--#exec cmd="dir"-->:EXEC dir
+execmatch=YEAR\:[0-9]{4}\:YEAR

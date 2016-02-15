@@ -1,0 +1,18 @@
+127.0.0.1	localhost
+127.0.0.1	samuraiwtf
+127.0.1.1	samurai-wtf.localhost samurai-wtf
+127.42.84.1     dojo-basic dojobasic dojo-basic.sec642.org
+127.42.84.2     dvwa
+127.42.84.3     webgoat
+127.42.84.4     dojo-scavenger dojoscavenger pvuln.professionallyevil.com
+127.42.84.5     vulnscripts
+127.42.84.6     mutillidae
+127.42.84.7	wodepressed
+127.42.84.8	bwapp
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters

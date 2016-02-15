@@ -1,0 +1,2 @@
+content=TXT put via davtest
+execmatch=TXT put via davtest

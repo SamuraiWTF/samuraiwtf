@@ -1,0 +1,3 @@
+# This is a complete guess as to syntax
+content=<%= System.out.println(7.8 * 6.4); %>
+execmatch=49.92
