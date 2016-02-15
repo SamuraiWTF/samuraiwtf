@@ -2,7 +2,7 @@
 
 *NOTE: This project should currently be considered experimentation only, as it is not yet ready for release.*
 
-The purpose behind this project is to migrate the SamuraiWTF (http://www.samura-wtf.org) distribution to a standalone Debian package structure for easier maintenance and installation flexibility.  SamuraiWTF is intended to be installed over a Ubuntu distro, though this may be expanded in the future.
+The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org) distribution to a standalone Debian package structure for easier maintenance and installation flexibility.  SamuraiWTF is intended to be installed over a Ubuntu distro, though this may be expanded in the future.
 
 ## Building the Package
 In general, the package can be built with dpkg as follows:
