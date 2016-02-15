@@ -1,0 +1,245 @@
+Phpshell 2.4
+  * Commands with HTML entities (e.g.: echo "&uuml;") were displayed 
+    encoded in the history-output
+  * Updated list of not allowed usernames (restriction of parse_ini_file())
+  * phpshell stopped working, when the current directory was removed
+    or made unreadable (by the user or another process).
+  * Fixed correct encoding of prompt string.
+  * Safe mode warning was not displayed.
+
+
+Phpshell 2.3
+  * added file upload feature (not enabled by default)
+  * fixed a strange UTF-8 bug
+  * added internal history command
+  * prompt $PS1 is now configurable
+  * Commands with HTML entities (e.g.: echo "&uuml;") were displayed 
+    encoded in the output
+
+
+------------------------------------------------------
+2010-11-29  Wolfgang Dautermann
+    * Reimplemented the feature to change to subdirectorys using mouseclicks (was available in older version)
+
+2010-11-21  Wolfgang Dautermann
+    * One can navigate to higher level directories using hyperlinks.
+
+2010-11-05  Wolfgang Dautermann
+    * Use SHA1 password hashing if possible. Changed project links to http://phpshell.sourceforge.net/
+
+2010-01-30  Natan Bueno <natan.bueno@gmail.com>
+    * phpshell.php
+	Added AddOn to editor "vim".  
+
+2010-01-15  Natan Bueno <natan.bueno@gmail.com>
+    * phpshell.php
+	Replaced deprecated function ereg by the function preg_match
+
+2005-12-27  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php:
+	Added code to prevent simple replay attacks by only accepting each
+	login form once.
+	
+2005-12-25  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* INSTALL: Information about the new internal configuration.
+	
+	* phpshell.php: Made authentication internal.
+
+	* SECURITY: New file.
+
+	* config.php: New file.
+
+	* style.css: New file.  Renamed from phpshell.css.
+
+2004-03-27  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.29: Removed debug output.
+
+	* README 1.11: Updated documentation for new cool shell-like interface.
+
+	* INSTALL 1.5:
+	Updated documentation about the command substitution using alises.
+
+	* phpshell.css 1.2:
+	New styles to make the textarea and input box blend together.
+
+	* phpshell.php 1.28: A little documentation for the alias feature.
+
+	* phpshell.php 1.27:
+	The shell now looks and behaves much more like a real shell: the shell
+	now has a commandline history just like a real shell.
+
+	The parsing of 'cd' commands have been rewritten so that even more
+	special cases are taken care of, and simple command substitution using
+	aliases have been introduced.
+
+2004-03-24  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.26:
+	Increased year of copyright to 2004.  Fixed the references to the PNG
+	images, as pointed out by Michael Z. Bell.
+
+2003-11-11  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* AUTHORS 1.6:
+	Added Wolfgang Dautermann <dauti@users.sourceforge.net>.
+
+	* phpshell.php 1.25:
+	Ups, I commited with $passwd = array('foo' => 'bar').
+
+	* phpshell.php 1.24:
+	Wolfgang Dautermann <dauti@users.sourceforge.net> suggested
+	that the directory list should be sorted.
+
+	Also, changing directory through symbolic links now works as expected,
+	so that it's possible to go back using 'cd ..'.
+
+2003-04-01  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* INSTALL 1.4:
+	New instructions on how to change the username and password.
+
+	* README 1.10:
+	Updated to be in sync with new instructions on how the password
+	protection works.
+
+	* phpshell.css 1.1: New file.
+
+	* phpshell.php 1.23:
+	Updated to use XHTML 1.0 Strict and the $_* variables in PHP
+	4.1.0. This effectively breaks compatibility with earlier versions of
+	PHP. If you cannot upgrade your PHP installation (you really should
+	consider upgrading to get hold of the latest security and bug fixes)
+	when just use PhpShell version 1.7 --- there's no new functionality in
+	this release.
+
+	* COPYING 1.1: New file.
+
+	* phpshell.php 1.22: Changed PHP Shell into PhpShell.
+
+	* phpshell.php 1.21: Added HTTP basic authentication to the script.
+
+	* AUTHORS 1.5: Moved Jeremy Miller <JMiller@marketaxess.com>.
+
+	* phpshell.php 1.20: Updated version.
+
+	* AUTHORS 1.4, phpshell.php 1.19:
+	Applied patch from Michael Zech <keldrin@web.de> that made the
+	stderr-checkbox remember it's state.
+
+2002-09-18  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.18:
+	Use the directory of phpshell.php as the default working directory.
+
+	* AUTHORS 1.3: Added Gerry Calderhead <caldergf@everythingsucks.co.uk>.
+
+	* phpshell.php 1.17:
+	PHP Shell now works on PHP 4.2.0 with register_globals turned off.
+
+2002-06-10  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* INSTALL 1.3: Added a section about Safe Mode in PHP.
+
+	* README 1.9:
+	Added a section about Safe Mode in PHP. Also fixed a lot of spelling
+	errors.
+
+2002-03-23  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* README 1.8: Added a version number to the file.
+
+	* AUTHORS 1.2: Added a notice about Robert Niess <sturm@i-st.net>.
+
+	* phpshell.php 1.16:
+	Added a PHPSHELL_VERSION constant. Also, when using stderr-trapping,
+	we now use a unique filename as returned by tempnam() - Robert Niess
+	<sturm@i-st.net> made me aware of this, thanks.
+
+	* phpshell.php 1.15: Small changes in the layout.
+
+	* phpshell.php 1.14:
+	Updated copyright statements - they were getting quite old :-)
+
+	* README 1.7:
+	Added a tip from Jeremy Miller <JMiller@marketaxess.com> about how to
+	use PHP Shell together with Sudo to execute code as another user.
+
+2001-12-10  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.13:
+	I found out that 'ls -F' produced better output than 'ls -p'.
+
+	* README 1.6: Told people about the rewriting of 'ls' into 'ls -F'
+
+	* phpshell.php 1.12:
+	You can now travel through the filesystem by using the normal 'cd'
+	command. If your command involves 'cd', it will be intercepted and the
+	current working directory will be changed accordingly.
+
+	* README 1.5: Updated the documentation a bit.
+
+2001-02-11  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.11:
+	Another suggestion from Thomas Langen <langen@langensoft.de>: some
+	people can't use the .php extension, so now the script uses $PHP_SELF
+	instead.
+
+	* phpshell.php 1.10:
+	Expanded all PHP start-tags (<?) to <?php, as suggested by Thomas
+	Langen <langen@langensoft.de>.
+
+2000-11-20  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* AUTHORS 1.1: New file.
+
+	* phpshell.php 1.9:
+	Applied a patch from richard@joffray.com which fixed a problem with
+	accessing the root-directory.
+
+2000-09-24  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.8: Removed a debug-comment.
+
+2000-09-09  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* README 1.4: Expanded the brief explanation at the top.
+
+	* README 1.3: Ups, I forgot to make a description of sample.htaccess.
+
+	* README 1.2:
+	Added a description of all the files found in the tarball.
+
+	* INSTALL 1.2: Made BUGS lowercase.
+
+	* INSTALL 1.1, README 1.1: New file.
+
+	* phpshell.php 1.7:
+	Removed 'Martin Geisler' from the title, putting my name on the bottom
+	of the page ought to be enough :-)
+
+2000-08-06  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.6:
+	Added a link to gimpster.com at the bottom of the page
+
+2000-08-05  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.5:
+	Removed references to php3 - I now use php4 so all my files end with
+	just a '.php'
+
+2000-06-21  Martin Geisler  <mgeisler@mgeisler.net>
+
+	* phpshell.php 1.4:
+	Fix - there were still references to the old name: shell.php3.
+
+	* phpshell.php 1.3: Workaround for stderr-trapping. Seams to work...
+
+	* phpshell.php 1.2: Initial commit
+
+	* phpshell.php 1.1: New file.
+

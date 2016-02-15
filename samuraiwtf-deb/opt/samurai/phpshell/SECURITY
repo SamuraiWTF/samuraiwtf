@@ -1,0 +1,148 @@
+SECURITY file for PHP Shell
+Copyright (C) 2005-2012 the PHP Shell-team
+Licensed under the GNU GPL.  See the file COPYING for details.
+
+
+PHP Security
+============
+
+Installing PHP on your server is an inherently dangerous thing to do,
+somewhat similar to the danger one faces when one buys a car: it might
+kill you if you have an accident.  On the other hand a car makes so
+many things so much more convenient, so most people are willing to
+accept the risk of accidents.
+
+Likewise, PHP is a powerful tool which will let you build your
+webpages easier and faster than without.  But it is a *very* powerful
+tool --- PHP is a full programming language which can be used for
+general purpose programming and not just to format HTML for display in
+a browser.
+
+So PHP has support for reading and writing files on the filesystem.
+But PHP also has support for *deleting* files.  PHP even has support
+for executing other programs.  In other words, PHP has lots of support
+for interacting with the rest of the computer it runs on.  This
+interaction is potentially much more powerful than you want it to, and
+this can be a problem if this power ends up in the wrong hands.
+
+
+What about Safe Mode?
+---------------------
+
+As they note in the PHP manual, Safe Mode is an inherently wrong way
+to secure PHP, but is nevertheless used in many installations.
+Turning Safe Mode on in PHP basically tries to restrict the language
+and its functions to make it "safe".
+
+This involves a strict check on file ownership so that PHP wont
+operate on files and directories which are not owned by the owner of
+the current script.  Other restrictions in Safe Mode include limits on
+which files can be executed and includes (thus making a primitive form
+of chroot or jail around the PHP script).
+
+PHP Shell is made mostly useless with Safe Mode since it restricts the
+two commands that PHP Shell uses: ``chdir()`` and ``proc_open()``:
+
+* With Safe Mode you cannot change to a directory unless you are the
+  owner of that directory.  This means that you cannot change to, say,
+  ``/etc`` since ``root`` own that directory.
+
+  You'll see this when 'cd /etc' results in this error from PHP Shell:
+
+    chdir(): SAFE MODE Restriction in effect.  The script whose uid is
+    500 is not allowed to access /etc owned by uid 0
+    cd: could not change to: /etc
+
+* When Safe Mode is active, PHP forces the argument to ``proc_open()``
+  to be escaped, which means that you cannot use normal shell
+  wildcards, pipes or any such stuff.
+
+  So if you enter 'ls *.txt' in a directory where you know for certain
+  that there is a text file ending in '.txt', you will get the
+  following error:
+
+    /bin/ls: *.txt: No such file or directory
+
+  This is because PHP has silently changed the command into 'ls
+  \*.txt' to disable the wildcard.
+
+* You cannot execute programs unless they are placed in a directory
+  listed in ``safe_mode_exec_dir``.  Say you want to execute the
+  program ``tr`` (which translates between sets of characters) and you
+  get this strange messages back:
+
+    sh: line 1: /bin/tr: No such file or directory
+
+  Then you have a problem with the ``safe_mode_exec_dir`` setting.  In
+  this case ``safe_mode_exec_dir`` is set to just ``/bin`` and so PHP
+  has forced the shell to execute ``/bin/tr`` and since ``tr`` is
+  installed in ``/usr/bin`` it could not be found.
+
+  If you have write access to a directory listed in
+  ``safe_mode_exec_dir``, then try copying the wanted program there
+  first.  Executing it should now work.
+
+
+Even without enabling Safe Mode some functions might have been
+disabled via the ``disabled_functions`` setting.  If the
+``proc_open()`` function used by PHP Shell has been disabled, then you
+will see an error like this:
+
+    Fatal Error!
+
+    proc_open() has been disabled for security reasons
+
+    in /path/to/your/installation/phpshell.php, line 329.
+
+
+
+PHP Shell Security
+==================
+
+As noted above, PHP is a powerful tool --- how does PHP Shell fit into
+this?  PHP Shell is actually quite simple and does one thing: it uses
+the standard PHP function ``proc_open()`` to execute programs.
+
+Executing other programs is probably the most powerful thing you can
+do in PHP, and so PHP Shell gives you a convenient interface to this
+the most powerful feature of PHP.  Nothing more.
+
+
+Is PHP Shell Dangerous?
+-----------------------
+
+Short answer: *yes*!  PHP Shell has been used in the past by people
+with not-so-good intentions to destroy valuable content on servers.
+
+The longer answer is that installing PHP Shell is like building a new
+door in your house --- if you leave it unlocked, then people can (and
+probably will!)  walk into it and steal your possessions.  So you want
+to lock it, and make sure you use a good lock.
+
+With PHP Shell that is equivalent of using a secure password.  A
+secure password is one which is hard to guess (make it long, make it
+random, and put both numbers, special characters and normal letters in
+it).
+
+  Remember that guessing the password is all that stands between the
+  crackers and your files!
+
+If you use a good password, then PHP Shell does not make your system
+any more insecure than it already was.  Security is always a matter of
+finding the weakest link in the chain: if you use FTP with a simple
+password for updating your site, then it would be much easier for the
+crackers to attack that instead of trying to guess your super-hard PHP
+Shell password.  So make sure that you tighten security on all fronts
+you know of.
+
+If you use PHP Shell not very often, you can also remove all 
+permissions from the "phpshell" directory as an addtional security
+measure, when it is not used, so that the webserver can not access
+PHP Shell (and only set the normal permissions (755 usually in 
+Unix/Linux) when you use it).
+
+
+
+If you have comments or suggestions for improvements to this little
+guide in system security, then please do not hesitate to contact the
+PHP shell team.

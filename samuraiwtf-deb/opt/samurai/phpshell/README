@@ -1,0 +1,174 @@
+README file for PHP Shell
+Copyright (C) 2000-2012 the Phpshell-team
+Licensed under the GNU GPL.  See the file COPYING for details.
+
+What is PHP Shell?
+==================
+
+PHP Shell is a shell wrapped in a PHP script.  It's a tool you can use
+to execute arbitrary shell-commands or browse the filesystem on your
+remote webserver.  This replaces, to a degree, a normal
+telnet-connection.
+
+You use it for administration and maintenance of your website, which
+is often much easier to do if you can work directly on the server.
+For example, you could use PHP Shell to unpack and move big files
+around.  All the normal command line programs like ps, free, du, df,
+etc... can be used.
+ 
+
+Limitations
+===========
+
+There are some limitations on what kind of programs you can run.  It
+won't do no good if you start a graphical program like Firefox or even
+a console based one like vi.  All programs have to be strictly command
+line programs, and they will have no chance of getting user input
+after they have been lunched.
+
+They probably also have to terminate within 30 seconds, as this is the
+default time-limit imposed unto all PHP scripts, to prevent them from
+running in an infinite loop.  Your ISP may have set this time-limit to
+something else.
+
+But you can rely on all the normal shell-functionality, like pipes,
+output and input redirection, etc...  (There is no <tab>-completion,
+though :-)
+
+
+Safe Mode
+=========
+
+Safe Mode is the nemisis of PHP Shell.  If PHP is running in Safe Mode
+then PHP Shell will normally not work --- sorry.  Please read the
+detailed explanation in the SECURITY file.
+
+
+Who am I?
+=========
+
+You may not be the same user when using PHP Shell, as you are when you
+upload your files with FTP.  On some systems you will be ``nobody``,
+on other systems you will become ``httpd`` or ``www-data``.  This is a
+rather dangerous "feature" of the way PHP is run by the webserver.  A
+possible effect of this is that you might end up creating files using
+PHP Shell which you cannot delete afterwards using FTP and maybe not
+even using PHP Shell.  Strange, but true :-)
+
+If you want to execute code as different user, then it's possible to
+do so by using the Sudo program available from this address:
+
+  http://www.courtesan.com/sudo/
+
+The trick is to configure Sudo to allow the user running the webserver
+to execute certain commands as a more privileged user.  This will have
+to be done by the administrator of the server.  Please refer to the
+documentation for Sudo for further information about doing this.
+
+
+How to Use It
+=============
+
+When you point your browser at PHP Shell you will be asked to
+authenticate yourself.  By default no username/password will work, so
+please go read INSTALL for information about adding a user.
+
+You're back?  Good.  Enter your username and password and press
+the "Login" button.
+
+You will then be presented with a rather simple page containing
+nothing much except a big window with the cursor blinking at the
+bottom, signaling that it's ready to obey your commands.
+
+Write a command and press ENTER --- or alternatively, press the 'Execute
+Command' button if you really want.  The command will be executed and
+the result will be shows in the terminal.  You can now enter another
+command.
+
+To be more precise: the terminal is updated with the command line you
+have just executed, the output of the command to standard out
+(stdout), and following that any error output sent to stderr.
+
+The commands are executed relative to a current working directory,
+which is written at the top.  You change this by the normal 'cd'
+command (or by selecting a other working directory using the links).
+
+The commands must also be complete, so you cannot enter a multiline command:
+$ for i in a b c ; do
+> echo $i
+> done
+However, in one line it is allowed: for i in a b c ; do echo $i ; done
+
+Variables are also not preserved between the commands, so
+$ A=1
+$ echo $A
+will output 0 instead of 1. But in one line it works as expected:
+$ A=1 ; echo $A
+will give you the expected result: 1
+
+Alternatives
+============
+
+An incomplete list of alternatives to PHP Shell would be:
+
+* SSH. The Secure Shell is the standard solution to the problem that
+  PHP Shell tries to solve. SSH lets you login to a remote system in a
+  secure way where the traffic and password is encrypted at all
+  times. You can also upload and download files securely and make
+  encrypted TCP tunnels.
+
+  If your host supports SSH then use it and forget about PHP Shell or
+  any other solution.
+
+* Telnet. This is the old way to obtain an interactive login on a
+  remote system. Unfortunately telnet is insecure since the password
+  and subsequent traffic are sent in clear text. SSH was developed
+  precisely to replace telnet. The advantage of telnet over PHP Shell
+  is that it gives you an interactive session.
+
+* See more alternatives at the Anyterm homepage:
+
+    http://anyterm.org/compared.html
+
+
+Download
+========
+
+You can download the newest version of PHP Shell from
+
+  http://phpshell.sourceforge.net/
+
+The tarball/zipfile contains these files:
+
+phpshell.php
+  This is the script you run when you use PHP Shell.
+
+pwhash.php
+  A utility used to generate a hashed password.  Please read INSTALL
+  for more information.  This file poses no security risk.
+
+ChangeLog
+  This file describe the changes I've made to PHP Shell.  By reading
+  it you'll always know when I've added a new feature or made a
+  bugfix, and the nature of the feature/bugfix.
+
+README
+  This file! :-)
+
+INSTALL
+  Tells you how to install PHP Shell.  Among other things, it
+  explains how to change the password protection so that you can use
+  PHP Shell.
+
+  Remember that it's very important to have PHP Shell password
+  protected, or else everybody will be able so snoop into your files
+  and perhaps also be able to delete them!  Please take the time to
+  protect your installation of PHP Shell.
+
+SECURITY
+  A separate guide about security with PHP in general and PHP Shell in
+  particular.  Be sure to read this too, especially if you are getting
+  strange errors back from PHP Shell.
+
+COPYING
+  Standard GNU GPL.

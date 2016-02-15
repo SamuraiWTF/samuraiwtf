@@ -1,0 +1,123 @@
+INSTALL file for PHP Shell
+Copyright (C) 2000-2012 the Phpshell-team
+Licensed under the GNU GPL.  See the file COPYING for details.
+
+
+Downloading PHP Shell
+=====================
+
+You can always get the latest version of PHP Shell from:
+
+  http://phpshell.sourceforge.net/
+
+
+
+Installation
+============
+
+Installation is easy: first unpack the tarball or zipfile downloaded
+from the above website into your webserver.  This will create a
+subdirectory called phpshell-@VERSION@ for PHP Shell version @VERSION@.
+
+Try loading the file ``phpshell.php`` in your browser and check that
+you are served a page that asks you to authenticate yourself with a
+username and a password.  If you do not see such a page, then please
+check that you have entered the URL correctly and that PHP is working
+on your server.
+
+
+
+Configuration
+=============
+
+All configuration happens in the ``config.php`` file.  This is an
+ini-file despite its name.  Ini-files consist of a number of sections,
+each containing a number of 'key = "value"' pairs.  PHP Shell has tree
+sections: '[users]' for configuring usernames and passwords,
+'[aliases]' for configuring shell aliases, and '[settings]' for
+general settings.
+
+
+Setting usernames and passwords
+-------------------------------
+
+As a security precaution PHP Shell has no default username and
+password (people often forget to change them...).  To add the user
+"alice" with password "secret" you simply add
+
+  [users]
+  alice = "secret"
+
+to the file.  Note that you can add as many users as you want by
+simply adding more lines like this.
+
+This system works, but there is a better way --- a way so that the
+password does not appear in clear text in the file.  For that you use
+the supplied script ``pwhash.php`` to generate a hashed password.
+Please see the instructions given in ``pwhash.php``.
+
+With the above example the result could look like
+
+  [users]
+  alice    = "sha1:1a4861:a8640981d2a5f9452c75a7bb0491eac3ecd8bdc3"
+
+You will not get exactly the same line if you try it out, this is a
+feature of the system which means that both "alice" and "bob" could
+have "secret" as their password, and you would not be able to tell
+from just looking at ``config.php``.
+
+
+Shell Aliases
+-------------
+
+As in a normal shell, PHP Shell supports alias expansion, albeit in a
+simple form.  Aliases are defined by 'key = "value"' pairs in the
+'[aliases]' section.  The "key" will be matched against the first
+token of the command line and substituted with the "value" given.
+
+Two convenient aliases are already defined:
+
+  [aliases]
+  ls = "ls -CvhF"
+  ll = "ls -lvhF"
+
+
+General Settings
+----------------
+
+You can define some other settings in the '[settings]' section:
+
+
+home-directory = "Path/to/some/directory": 
+what directory should be considered as home-directory, where should the
+user be after startup and where will he return after a bare "cd" command.
+
+safe-mode-warning = true (or false):
+should PHP Shell print a warning, if PHP safe mode is detected? PHP Shell will 
+probably not work correctly if safe mode is enabled.
+
+PS1 = "string"  (e.g.: "$ "):
+What string should be used as standard prompt string.
+
+file-upload = false (or true):
+do you want to use the new file-upload feature?
+
+
+Bugs?  Comments?
+================
+
+If you find a bug or miss something in PHP Shell, please take a look
+at the Tracker System at SourceForge:
+
+  http://sourceforge.net/tracker/?group_id=156638
+
+There you will find trackers for Bugs, Patches, and Feature Requests.
+You are invited to add items to these so that they wont get lost.
+
+You can also email the development list, found at:
+
+  https://lists.sourceforge.net/lists/listinfo/phpshell-devel
+
+This list is for discussion about all things PHP Shell and it is a
+good place to discuss a feature or bug before adding it to one of the
+SourceForge trackers.

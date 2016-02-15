@@ -1,0 +1,51 @@
+AJAX/PHP command shell by Ironfist
+
+Version 0.8 (if I find time to work on it) will probally contain a GUI (like now) and a simple command line thing, for people who don't like the crap :-)
+Password function really needs some sort of encryption too...
+
+
+
+
+CHANGELOG
+v0.7 => Code cleanup
+| Title changed to working host
+| Create file function
+	=> Thing is implemented as a tab
+	=> Can alse be used from the Filebrowser, editing files with one click :-)
+	=> VERY EARLY BETA AND WILL PROBALLY NEVER LEAVE THE BETA STAGE
+
+	
+v0.6 => 
+Release @ Sourceforge :D
+code is getting way too messy, but who cares about that :-)
+| Filebrowser is looking nice but code sucks
+| Removed custom command: list directory (filebrowser does the same but better)
+| Bug in upload function fixed, now displaying correct upload dir
+
+
+v0.5 => more fun(ctions)
+|Tabs, easy to add :-)
+|Upload function
+|Change directory function
+	=> This is a very cool function, you can change the directory where you want to execute your commands, it will be stored in a session.
+	=> Has a script-dir function (is clickable, no copy&paste shit)
+|Filebrowser tab, oh dear, this is a really hard part, will probally be available in like, version 1.0 :-P
+
+v0.4 => this is more like the way I wanted it
+| History function (omg this is so cool xD)
+	=> Possible to click on the history, command will be loaded into Command input screen
+	=> "Clear history" custom command added
+|Some design changes, added titles to the tabs.
+
+
+v0.3 => Huge changes :-)
+|Directory listing when everything is disabled.
+|Can-I-run function, will control some server variables.
+| Open ports function
+| Running processes function
+|Function management / buttons now work with one array to make life easier :-)
+|Added alternatives to passthru(exec, shell_exec, system)
+
+v0.2 => added password protection, auto-clear (thanks to CHRiSNEW) of the command input line.
+v0.1 => first release, function management has been updated, works easier now. Huge block of dumb code removed
+<0.1 => core stuff created, white theme replaced by a black one, some simple functions added.

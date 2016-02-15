@@ -1,0 +1,40 @@
+AUTHORS file for PHP Shell
+Copyright (C) 2000-2012 the Phpshell-team
+Licensed under the GNU GPL.  See the file COPYING for details.
+
+
+Current maintainer: Wolfgang Dautermann <dauti@users.sourceforge.net>
+Original author: Martin Geisler <mgeisler@mgeisler.net>
+
+Thanks goes to all these persons who have helped:
+
+richard@joffray.com
+  Fixed a problem the list of directories, if one accessed the
+  root-directory.
+
+Robert Niess <sturm@i-st.net>
+  Made me aware of a security hole in the handling of stderr-trapping.
+
+Gerry Calderhead <caldergf@everythingsucks.co.uk>
+  Patch for PHP 4.2.0 where register_globals are turned off.
+
+Jeremy Miller <JMiller@marketaxess.com>
+  Suggested that one could use Sudo from
+
+    http://www.courtesan.com/sudo/
+
+  to let PHP Shell execute code with different privileges than the
+  webserver.
+
+Michael Zech <keldrin@web.de>
+  Patch to make the stderr-checkbox remember it's state.
+
+Wolfgang Dautermann <dauti@users.sourceforge.net>
+  Multiple patches, including the sorting of directory entries in the
+  drop down box.
+  
+Natan Bueno Ungethuem
+  Patch for PHP 5.X because the function ereg was deprecated
+  
+Tobias Unger
+  AddOn including an Editor ("vim") for PHP-Shell 2.1.
