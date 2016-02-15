@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=dig
+GenericName=DNS Lookup Tool
+Comment=
+Icon=terminal
+#Exec=samurai dig examples; bash
+Exec=gnome-terminal --tab -e "/bin/bash -c 'samurai dig examples; exec /bin/bash -i'"
+StartupNotify=true
+Terminal=true
+Categories=samurai-recon-dnswhois
+#se man dig
+#se dig samurai-wtf.org
+#se dig -x 198.168.22.2
+#se dig -t AXFR secureideas.net @ns1.secureideas.net

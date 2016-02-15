@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=WebCheck
+GenericName=Website Link Checker
+Comment=
+#Icon=
+Exec=samurai webcheck examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-mapping-spider
+#se man webcheck

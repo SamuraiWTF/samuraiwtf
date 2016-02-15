@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=MetaSploit Console
+GenericName=Shell Goodness :-)
+Comment=
+Icon=terminal
+Exec=sudo msfconsole; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-exploitation-general
+#se msfconsole --help
+#se sudo msfconsole

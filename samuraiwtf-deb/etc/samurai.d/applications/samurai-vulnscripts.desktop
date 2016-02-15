@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=VulnScripts
+GenericName=Basic Command Injection and SQL Injection Pages
+Comment=
+Icon=www-browser
+Exec=sensible-browser http://vulnscripts
+StartupNotify=false
+Terminal=false
+Categories=samurai-targets
+#se firefox http://vulnscripts

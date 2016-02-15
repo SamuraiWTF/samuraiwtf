@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd /opt/samurai/gxfr
+python gxfr.py $*

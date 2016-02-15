@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=UserNameGenYahoo 
+GenericName=Reconoiter's User Name Generator for Yahoo
+Comment=
+#Icon=
+Exec=samurai usernameGenYahoo examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-recon-socialnetworks
+# usage: usernameGenYahoo.py company-name yahoo-api-id #-of-results

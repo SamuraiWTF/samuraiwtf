@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=MetaSploit GUI
+GenericName=GUI Shell Goodness :-)
+Comment=
+Icon=applications-ruby
+Exec=kdesudo msfgui
+StartupNotify=true
+Terminal=false
+Categories=samurai-exploitation-general

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=TCPDump
+GenericName=Network Packet Capture
+Comment=
+Icon=terminal
+#Exec=samurai tcpdump examples; bash
+Exec=gnome-terminal --tab -e "/bin/bash -c 'samurai tcpdump examples; exec /bin/bash -i'"
+StartupNotify=true
+Terminal=true
+Categories=samurai-discovery-packetcapture
+#se man tcpdump

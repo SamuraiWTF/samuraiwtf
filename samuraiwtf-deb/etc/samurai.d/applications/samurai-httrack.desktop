@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=HTTrack
+GenericName=Commandline Web Spider
+Comment=
+#Icon=
+Exec=samurai httrack examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-mapping-spider
+#se man httrack
+#se httrack http://dojo-basic

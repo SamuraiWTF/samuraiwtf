@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=SQL Map
+GenericName=Python Commandline Tool for SQL Injection
+Comment=
+Icon=terminal
+#Exec=samurai sqlmap examples; bash
+Exec=gnome-terminal --tab -e "/bin/bash -c 'samurai sqlmap examples; exec /bin/bash -i'"
+StartupNotify=true
+Terminal=false
+Categories=samurai-exploitation-sql
+#se sqlmap --help
+#se sqlmap -u "http://dojo-basic/index.php?page=login.php" --data 'user_name=j&password=p&Submit_button=Submit'
+#se sqlmap -u "http://dojo-basic/index.php?page=login.php" --data 'user_name=j&password=p&Submit_button=Submit' --dbs

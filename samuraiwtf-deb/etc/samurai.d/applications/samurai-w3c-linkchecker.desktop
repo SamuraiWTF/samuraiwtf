@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=W3C Link Checker
+GenericName=Link Checker
+Comment=
+#Icon=
+Exec=sensible-browser http://localhost/w3c-linkchecker
+StartupNotify=false
+Terminal=false
+Categories=samurai-mapping-spider

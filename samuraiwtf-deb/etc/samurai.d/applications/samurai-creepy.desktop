@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Creepy
+GenericName=Map geolaction data from Twitter feed
+Comment=
+#Icon=
+Exec=creepy
+StartupNotify=true
+Terminal=false
+Categories=samurai-recon-location
+#se creepy

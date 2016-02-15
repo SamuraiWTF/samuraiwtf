@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=SoapUI
+GenericName=Testing tools for SOAP Web Services
+Comment=
+Icon=/opt/samurai/SoapUI-5.0.0/.install4j/SoapUI-5.0.0.png
+Exec=/bin/sh "/opt/samurai/SoapUI-5.0.0/bin/SoapUI-5.0.0"
+StartupNotify=true
+Terminal=false
+Categories=samurai-mapping-webservices

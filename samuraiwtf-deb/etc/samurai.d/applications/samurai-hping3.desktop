@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=HPing 3
+GenericName=Commandline TCP/IP Packet Crafter
+Comment=
+#Icon=
+Exec=samurai hping3 examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-discovery-packetgeneration
+#se man hping3

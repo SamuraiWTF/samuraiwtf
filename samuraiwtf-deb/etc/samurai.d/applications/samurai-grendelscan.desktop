@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Grendel Scan
+GenericName=Java-GUI-based Automated Vulnerability Scanner
+Comment=
+#Icon=
+Exec=grendelscan
+StartupNotify=true
+Terminal=false
+Categories=samurai-discovery-automated
+NoDisplay=true

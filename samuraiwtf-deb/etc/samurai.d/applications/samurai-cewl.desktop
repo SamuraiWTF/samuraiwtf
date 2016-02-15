@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=CeWL
+GenericName=Custom World List Generator
+Comment=Spiders target website extracting content for password guessing
+Icon=terminal
+#Exec=samurai cewl examples; bash
+Exec=gnome-terminal --tab -e "/bin/bash -c 'samurai cewl examples; exec /bin/bash -i'"
+StartupNotify=true
+Terminal=true
+Categories=samurai-discovery-wordlists
+#se cewl --help
+#se cewl http://dojo-basic
+#se cewl -v http://webgoat:8080 --depth 1 --meta --email --write ~/Tool-Output/Cewl/webgoat.cewl

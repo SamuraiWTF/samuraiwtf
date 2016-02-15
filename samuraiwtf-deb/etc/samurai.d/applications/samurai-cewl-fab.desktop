@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=CeWL-FAB
+GenericName=CeWL Files Already Bagged
+Comment=
+#Icon=
+Exec=samurai cewl-fab examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-discovery-wordlists
+NoDisplay=true
+#se cewl-fab

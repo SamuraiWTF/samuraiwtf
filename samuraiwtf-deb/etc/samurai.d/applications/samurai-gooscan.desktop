@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Gooscan
+GenericName=
+Comment=
+#Icon=
+Exec=gooscan
+StartupNotify=true
+Terminal=true
+Categories=samurai-recon-searching

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=bWAPP
+GenericName=Practice Target
+Comment=
+Icon=www-browser
+Exec=sensible-browser http://bwapp
+StartupNotify=false
+Terminal=false
+Categories=samurai-targets
+#se firefox http://bwapp

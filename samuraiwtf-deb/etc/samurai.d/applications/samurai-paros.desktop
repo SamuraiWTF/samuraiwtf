@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Paros
+GenericName=GUI-based Interception Proxy
+Comment=
+#Icon=
+Exec=paros
+StartupNotify=true
+Terminal=false
+Categories=samurai-mapping-interception
+NoDisplay=true

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Yokoso!
+GenericName=Fingerprints for Web Scanning and Browser History Detection
+Comment=
+Icon=folders-documents
+Exec=xdg-open /opt/samurai/yokoso
+StartupNotify=false
+Terminal=false
+Categories=samurai-discovery-wordlists
+#se less /usr/share/doc/yokoso/fingerprints
+#se cp /usr/share/doc/yokoso/fingerprints ~/ && kate fingerprints

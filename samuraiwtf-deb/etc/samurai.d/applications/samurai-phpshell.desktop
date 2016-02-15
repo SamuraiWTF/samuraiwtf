@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=PHPShell
+GenericName=Basic Shell for PHP
+Comment=
+Icon=folders-documents
+Exec=xdg-open /opt/samurai/phpshell
+StartupNotify=false
+Terminal=false
+Categories=samurai-exploitation-payloads
+NoDisplay=false
+#se ls -R /opt/samurai/phpshell | less

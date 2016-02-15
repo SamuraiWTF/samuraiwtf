@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Flare
+GenericName=Decompile Flash Objects (SWF Files)
+Comment=
+#Icon=
+Exec=samurai flare examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-discovery-mobilecode
+#se flare
+#se flare myflashfile.swf  (sorry, don't have sample flash file for you)

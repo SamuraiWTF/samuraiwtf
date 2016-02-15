@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=SSLStrip
+GenericName=Create MitM Attacks and Spoofed Certificates
+Comment=
+#Icon=
+Exec=samurai sslstrip examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-exploitation-encryption
+#se man sslstrip

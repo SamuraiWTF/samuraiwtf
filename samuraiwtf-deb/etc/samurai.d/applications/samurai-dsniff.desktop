@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Dsniff
+GenericName=Password Sniffer
+Comment=
+#Icon=
+Exec=samurai dsniff examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-discovery-packetcapture
+NoDisplay=true
+#se man dsniff

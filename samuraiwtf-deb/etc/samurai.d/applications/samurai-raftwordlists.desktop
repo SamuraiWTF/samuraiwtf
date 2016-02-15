@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Raft Wordlists
+GenericName=Unlinked Dirs/Files (from robots.txt)
+Comment=
+Icon=folders-documents
+Exec=xdg-open /opt/samurai/raft/
+StartupNotify=false
+Terminal=false
+Categories=samurai-discovery-wordlists
+#se ls -R /usr/share/raft/data/wordlists | less

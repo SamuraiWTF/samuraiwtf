@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Raft
+GenericName=Python GUI-based HTTP Fuzzer & Analysis
+Comment=
+#Icon=
+Exec=raft
+StartupNotify=true
+Terminal=false
+Categories=samurai-discovery-fuzzing
+#se raft

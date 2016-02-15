@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Dojo-Scavenger
+GenericName=CTF-like Scavenger Hunt
+Comment=
+Icon=www-browser
+Exec=sensible-browser http://dojo-scavenger
+StartupNotify=false
+Terminal=false
+Categories=samurai-targets
+#se firefox http://dojo-scavenger

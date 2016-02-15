@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Rat Proxy (Passive Mode)
+GenericName=Commandline-based Automated & Passive Vulnerability Scanner
+Comment=
+#Icon=
+Exec=xterm -e 'ratproxy -lextifscgjm -w `date +%Y%m%d-%T` -v ~/RatProxy -p 8086; exit' 
+StartupNotify=false
+Terminal=false
+Categories=samurai-discovery-automated
+NoDisplay=true

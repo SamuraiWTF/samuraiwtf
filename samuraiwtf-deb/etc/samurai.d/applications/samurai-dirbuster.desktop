@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=DirBuster
+GenericName=Java GUI-based Unlinked File/Directory Fuzzer
+Comment=
+#Icon=
+Exec=dirbuster
+StartupNotify=true
+Terminal=false
+Categories=samurai-discovery-fuzzing
+#se dirbuster --help
+#se dirbuster

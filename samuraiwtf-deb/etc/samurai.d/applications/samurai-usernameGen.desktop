@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=UserNameGen
+GenericName=User Name Generator
+Comment=
+#Icon=
+Exec=samurai usernamegen examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-recon-socialnetworks
+# usernameGnen --help
+# usernameGen microsoft
+# usernameGen google 10

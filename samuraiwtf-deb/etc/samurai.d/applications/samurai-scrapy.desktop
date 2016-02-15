@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Scrapy
+GenericName=Python-based Commandline Spider Tool
+Comment=
+#Icon=
+Exec=samurai scrapy examples; bash
+StartupNotify=true
+Terminal=true
+Categories=samurai-mapping-spider
+#se man scapy
+#se 
