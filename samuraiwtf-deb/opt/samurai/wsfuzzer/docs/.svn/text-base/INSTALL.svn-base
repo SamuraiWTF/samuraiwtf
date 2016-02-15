@@ -1,0 +1,36 @@
+Pre-requisites:
+
+Python 2.5/2.6 **
+PyXML
+Java 1.6.X
+
+Tar and Gzip are used in concert to create the wsfuzzer* "gzipped archives". Hence the package has the .tar.gz extension. The install process is to simply:
+
+1. extract the files from this tarball (archive)
+2. alter the "JAVA_HOME" value in file "parseWsdl.sh" - this is the full path up to the java home (currently Java 1.6 is required)
+
+So for example that value may look like this on a Mac:
+
+JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home"
+
+
+To extract the program one can obviously use the tar and gzip commands separately. But an easier way takes into account that tar's -z option feeds the archive to gzip after unpacking, Thus:
+
+# tar -xvzf wsfuzzer*.tar.gz
+
+extracts all files from the gzipped archive and places them into the current directory. For example:
+
+cd /pentest
+tar -xvzf wsfuzzer-1.9.4.tar.gz
+
+extracts all files to /pentest/
+
+Upon proper tarball extraction perform step 2 as listed above and the install is complete. You can move on to running the program.
+
+Get the tarball from sourceforge: http://sourceforge.net/project/showfiles.php?group_id=155697
+
+
+** Code has been updated to be compatible with the 2.6/3.X families of Python. If you are running something older like Python2.4 then you will have to install some libraries... 
+
+Hashlib is one of those lib's that needs to get installed, find it here: http://code.krypto.org/python/hashlib/
+ 

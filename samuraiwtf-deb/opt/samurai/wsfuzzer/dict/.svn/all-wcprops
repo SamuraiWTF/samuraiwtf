@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/wsfuzzer/!svn/ver/353/trunk/WSFuzzer/dict
+END
+dirs.txt
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/wsfuzzer/!svn/ver/353/trunk/WSFuzzer/dict/dirs.txt
+END
+filetypes.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/wsfuzzer/!svn/ver/353/trunk/WSFuzzer/dict/filetypes.txt
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/wsfuzzer/!svn/ver/353/trunk/WSFuzzer/dict/__init__.py
+END
+All_attack.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/wsfuzzer/!svn/ver/353/trunk/WSFuzzer/dict/All_attack.txt
+END

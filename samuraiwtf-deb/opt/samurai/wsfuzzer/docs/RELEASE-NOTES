@@ -1,0 +1,116 @@
+version 1.9.5
+
+~]$ Restructured the code base a bit to make this more modular
+~]$ Added XDoS Attack feature
+~]$ Added output to PDF
+~]$ Added support for Basic Auth on WSDL Requests
+~]$ Removed one of the obscure PyXML dependencies
+~]$ Updated the version of soapUI included
+~]$ Added support for some of the WS-Security standard for legit use (non- attack based)
+
+version 1.9.4
+
+~]$ Ripped out all dependency on the original Soappy lib's. They were great but proved to be limited as things progressed.
+~]$ Introduced integration with the soapui WSDL parser. This has greatly improved the prog's WSDL interaction capabilities.
+~]$ Added a new conf file attribute (allparams) to allow the setting of attacking all involved parameters with no questions asked.
+~]$ Changed the logging around so that now one HTML file holds everything.
+~]$ Added attack type categorizations in the logging and in the data structures. Due to this the format of the accepted dictionary files has changed. Each line must now be vector:::type
+~]$ Fixed some issues with the functionality of saving data to and retrieving data from the attack vector XML file.
+~]$ Added output of the request/response (the data that goes into the HTML file) to a CSV file.
+~]$ Added support for WSDL based services that have multiple endpoints.
+
+version 1.9.3
+
+~]$ Toned down some of the random attack vector generation processes so as to improve prog run time performance.
+~]$ Added support for Document/Literal SOAP payloads to be submitted via the --xml option.
+~]$ Added code to check for host availability at the earliest possible stage. Prog dies if host not available.
+~]$ Added code to automatically save (to local file) all generated attack vectors for a given run. The file is in a simple XML format.
+~]$ Added a feature to utilize saved attack vectors from the XML file as opposed to the dynamic generation of attack vectors. This option is invoked with the "--attacks=" switch.
+~]$ Added more options into the config file model so that when one is used less interactive aspects are exercised.
+
+version 1.9.2.1
+
+~]$ Added support for the use of an alternate value in the HTTP Host header.
+
+version 1.9.2
+
+~]$ Added support for the use of a proxy server.  This is limited to HTTP for now, no HTTPS support yet.
+~]$ Added HTTP Response Status Code to the HTML output.
+~]$ Added some very basic statistics to the HTML output.
+~]$ Added the option of using conf files to augment the traditional interactive mode.
+
+version 1.9.1
+
+~]$ Re-engineered, and improved, the way WSFuzzer handles response XML payloads.
+
+version 1.9
+
+~]$ Fixed a bug in the way straight HTTPS is handled (i.e. with no client-side certs involved, etc).
+~]$ Added a new model of usage based on a known good XML payload.
+
+version 1.8.5
+
+~]$ Added functionality to automatically write out the raw response to individual files.
+~]$ Fixed bug in the way the endpoint is generated when a WSDL in the form of a local file is introduced.
+
+version 1.8.4
+
+~]$ Added support for client side X.509 certificates.
+~]$ Added support for HTTP Basic Auth.
+
+version 1.8.3
+
+~]$ Implemented big change in the form of the HTTP transport mechanism.  WSFuzzer now uses XMLPost as this mechanism as opposed to SOAPpy.
+~]$ Added custom method to client.py from SOAPpy so that we grab an initial known good XML payload from SOAPpy.
+
+version 1.8.2
+
+~]$ Implemented stopwatch functionality so that the results now show how long each round trip took.
+~]$ Restructured the Levenshtein distance function so that it is available to all parts of the prog.
+
+version 1.8.1
+
+~]$ Created a new mode of attack called "simultaneous" where all chosen parameters are injected with the given data sets.  This is different than the original "individual" mode where each parameters gets injected individually while the other chosen parameters are left alone.
+~]$ Fixed small formatting version check bug.
+
+version 1.8
+
+~]$ Fixed version check bug that popped up if the running host was not connected to the Internet.
+~]$ Introduced a series of automated WSSE based XML attacks.
+~]$ Restructured key parts of the prog so as to enhance modularity.
+
+version 1.7.1
+
+~]$ Added functionality so that static text files are now checked against what is posted on neurofuzz.
+
+version 1.7
+
+~]$ Adjusted some of the automated fuzzing so as to use mem better.
+~]$ Introduced a series of automated XML eXternal Entity (XXE) based attacks.
+
+version 1.6
+
+~]$ Added a simple multi-threaded (queue based) TCP port scanner for cases where you need to integrate some simple port scanning.
+~]$ Added the functionality to utilize port scanning as part of the discovery process when the -h switch is used.
+
+version 1.5.3
+
+~]$ Added a large random data generation process to the XML tag based attack method.
+~]$ Segmented out the AntiIDS class to its own file.
+~]$ Cleaned up AntiIDS a bit and added some more IDS Evasion patterns (Windows targets only).
+~]$ Added the new IDS Evasion patterns as options that can be chosen.
+
+version 1.5.2
+
+~]$ Introduced some randomness into the data used for known negative pattern generation (discovery functionality).
+~]$ Added some more automated XML based attack vectors.
+~]$ Added the option to specify the directory name for the results output.
+~]$ The HTML output was cleaned up a bit so that large data sets dont make the HTML page nasty looking.
+
+version 1.5.1
+
+~]$ Fixed bug with the "A for All" option in choosing target methods.
+~]$ Fixed bug where the final STDOUT output only referenced one method when there were multiple methods being attacked.
+~]$ Added functionality so that the automated fuzz data generation (that augments the dictionary used) is now optional.
+~]$ Added count output for generated attack dictionaries per target method.
+~]$ Added the first XML based attack vector (CDATA based), many more to come ...

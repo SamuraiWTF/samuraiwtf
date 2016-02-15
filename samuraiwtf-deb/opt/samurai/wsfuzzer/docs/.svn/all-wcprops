@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/wsfuzzer/!svn/ver/416/trunk/WSFuzzer/docs
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/wsfuzzer/!svn/ver/335/trunk/WSFuzzer/docs/LICENSE
+END
+COPYING.LESSER
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/wsfuzzer/!svn/ver/335/trunk/WSFuzzer/docs/COPYING.LESSER
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/wsfuzzer/!svn/ver/335/trunk/WSFuzzer/docs/AUTHORS
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/wsfuzzer/!svn/ver/335/trunk/WSFuzzer/docs/INSTALL
+END
+RELEASE-NOTES
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/wsfuzzer/!svn/ver/411/trunk/WSFuzzer/docs/RELEASE-NOTES
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/wsfuzzer/!svn/ver/335/trunk/WSFuzzer/docs/COPYING
+END
+CREDITS
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/wsfuzzer/!svn/ver/416/trunk/WSFuzzer/docs/CREDITS
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/wsfuzzer/!svn/ver/335/trunk/WSFuzzer/docs/README
+END

@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/wsfuzzer/!svn/ver/333/trunk/WSFuzzer/reportlab/platypus
+END
+tableofcontents.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/tableofcontents.py
+END
+tables.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/tables.py
+END
+frames.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/frames.py
+END
+flowables.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/flowables.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/__init__.py
+END
+paraparser.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/paraparser.py
+END
+doctemplate.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/doctemplate.py
+END
+para.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/para.py
+END
+figures.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/figures.py
+END
+xpreformatted.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/xpreformatted.py
+END
+paragraph.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/platypus/paragraph.py
+END

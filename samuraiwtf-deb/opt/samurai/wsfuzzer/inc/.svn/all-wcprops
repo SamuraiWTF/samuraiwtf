@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/wsfuzzer/!svn/ver/412/trunk/WSFuzzer/inc
+END
+attackUtils.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/wsfuzzer/!svn/ver/332/trunk/WSFuzzer/inc/attackUtils.py
+END
+validate.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/wsfuzzer/!svn/ver/326/trunk/WSFuzzer/inc/validate.py
+END
+versionchecker.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/wsfuzzer/!svn/ver/349/trunk/WSFuzzer/inc/versionchecker.py
+END
+genUtils.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/wsfuzzer/!svn/ver/420/trunk/WSFuzzer/inc/genUtils.py
+END
+vars.py
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/wsfuzzer/!svn/ver/412/trunk/WSFuzzer/inc/vars.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/wsfuzzer/!svn/ver/326/trunk/WSFuzzer/inc/__init__.py
+END
+configobj.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/wsfuzzer/!svn/ver/326/trunk/WSFuzzer/inc/configobj.py
+END
+xmlpp.py
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/wsfuzzer/!svn/ver/388/trunk/WSFuzzer/inc/xmlpp.py
+END
+xmlUtils.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/wsfuzzer/!svn/ver/412/trunk/WSFuzzer/inc/xmlUtils.py
+END
+typechecker.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/wsfuzzer/!svn/ver/326/trunk/WSFuzzer/inc/typechecker.py
+END

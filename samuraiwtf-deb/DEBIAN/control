@@ -4,6 +4,6 @@ Architecture: all
 Essential: no
 Section: web
 Priority: optional
-Depends: git, python (>=2.6), nikto, w3af-console, w3af, nmap, python-pip, mysql-server, mysql-client, apache2, php5, php5-mysql, libapache2-mod-php5
+Depends: git, python (>=2.7), nikto, w3af-console, w3af, nmap, zenmap, python-pip, mysql-server, mysql-client, apache2, php5, php5-mysql, libapache2-mod-php5, w3af, wireshark, ruby-full
 Maintainer: "Jason Gillam" <jgillam@professionallyevil.com>
 Description: Samurai Web Testing Framework

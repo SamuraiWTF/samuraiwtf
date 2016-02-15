@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples
+END
+linechart_with_markers.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/linechart_with_markers.py
+END
+radar.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/radar.py
+END
+bubble.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/bubble.py
+END
+stacked_column.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/stacked_column.py
+END
+runall.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/runall.py
+END
+scatter_lines.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/scatter_lines.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/__init__.py
+END
+exploded_pie.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/exploded_pie.py
+END
+stacked_bar.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/stacked_bar.py
+END
+scatter.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/scatter.py
+END
+clustered_column.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/clustered_column.py
+END
+line_chart.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/line_chart.py
+END
+filled_radar.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/filled_radar.py
+END
+clustered_bar.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/clustered_bar.py
+END
+excelcolors.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/excelcolors.py
+END
+scatter_lines_markers.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/scatter_lines_markers.py
+END
+simple_pie.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/samples/simple_pie.py
+END

@@ -1,0 +1,203 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/wsfuzzer/!svn/ver/333/trunk/WSFuzzer/reportlab/lib
+END
+pagesizes.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/pagesizes.py
+END
+abag.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/abag.py
+END
+fontfinder.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/fontfinder.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/__init__.py
+END
+testutils.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/testutils.py
+END
+colors.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/colors.py
+END
+attrmap.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/attrmap.py
+END
+geomutils.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/geomutils.py
+END
+extformat.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/extformat.py
+END
+codecharts.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/codecharts.py
+END
+logger.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/logger.py
+END
+styles.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/styles.py
+END
+formatters.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/formatters.py
+END
+normalDate.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/normalDate.py
+END
+pygments2xpre.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/pygments2xpre.py
+END
+enums.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/enums.py
+END
+fonts.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/fonts.py
+END
+sequencer.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/sequencer.py
+END
+utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/utils.py
+END
+textsplit.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/textsplit.py
+END
+boxstuff.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/boxstuff.py
+END
+yaml.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/yaml.py
+END
+units.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/units.py
+END
+rltempfile.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/rltempfile.py
+END
+corp.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/corp.py
+END
+arciv.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/arciv.py
+END
+validators.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/validators.py
+END
+set_ops.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/set_ops.py
+END
+rparsexml.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/rparsexml.py
+END
+pdfencrypt.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/pdfencrypt.py
+END
+randomtext.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/randomtext.py
+END
+PyFontify.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/PyFontify.py
+END
+xmllib.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/lib/xmllib.py
+END

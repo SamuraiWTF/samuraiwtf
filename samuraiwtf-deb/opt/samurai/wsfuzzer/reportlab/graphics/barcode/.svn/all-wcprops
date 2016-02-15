@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode
+END
+common.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/common.py
+END
+usps.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/usps.py
+END
+lto.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/lto.py
+END
+VERSION
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/VERSION
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/__init__.py
+END
+usps4s.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/usps4s.py
+END
+code128.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/code128.py
+END
+widgets.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/widgets.py
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/README
+END
+eanbc.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/eanbc.py
+END
+fourstate.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/fourstate.py
+END
+TODO
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/TODO
+END
+test.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/test.py
+END
+code93.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/code93.py
+END
+code39.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/wsfuzzer/!svn/ver/331/trunk/WSFuzzer/reportlab/graphics/barcode/code39.py
+END

@@ -1,0 +1,19 @@
+Credit/ACK, outside the spectrum of the authors of WSFuzzer, goes out to the following entities:
+
+~]$ Original inspiration for WSFuzzer came from WSBang from isecpartners (http://www.isecpartners.com/tools.html).  Scott Stender is listed as the author of WSBang.
+
+~]$ spider.py is used in its original form, untouched, as written by L.C. Rees (xanimal [at] users dot sf dot net)
+
+~]$ The SensePost team, Haroon Meer (http://roon.net) in particular, for the general concept behind the basic resource detection function used in WSFuzzer.
+
+~]$ FuzzGenerator is based on a class by the same name, written by Sergio Alvarez (shadown [at] gmail dot com)
+
+~]$ Saumil Shah for the advanced technique used with page/response signatures.
+
+~]$ /the-eviware-soapui-team; Ole, Niclas, Lars and Emil
+
+~]$ pyguy2 at yahoo dot com for the typechecker.py code
+
+~]$ Fredrik Ekholdt for xmlpp (Pretty print an XML document) - http://xmlpp.codeplex.com/
+
+~]$ The SUDS team at: https://fedorahosted.org/suds/#Development - for inspiration behind the WSSE class

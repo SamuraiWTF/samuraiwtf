@@ -1,0 +1,349 @@
+Overview
+
+WSFuzzer is a LGPL'd program and is OSI Certified Open Source Software. It is written in Python and currently targets SOAP Web Services. In the current version HTTP based SOAP services are the main target. This tool was created based on, and to automate, some real-world manual SOAP pen testing work. This tool is NOT meant to be a replacement for solid manual human analysis. Please view WSFuzzer as a tool to augment analysis performed by competent and knowledgable professionals. Web Services are not trivial in nature so expertise in this area is a must for proper pen testing.
+
+
+Goals
+
+à To automate some of the more intense SOAP fuzzing processes that would be quite time consuming if performed manually
+à To do attack vector generation in a dynamic and intelligent fashion based on the specific target
+à Providing its functionality/resulting data to other tools in a seamless fashion
+à To facilitate the repeatable use of known successful attack vectors, especially against specific targets
+à To be part of a solid web application pen testing toolkit
+à To be as easy to use within the spectrum of understanding, and working with, SOAP services
+
+It is not the goal of WSFuzzer to replace human analysis. AAMOF WSFuzzer does not currently do any analysis of the results gathered. The job of analysis is left to the analyst/engineer running a given pen test.
+
+This tool is ultimately meant to augment a pen testers job in respect to SOAP services.
+
+Check out a video of WSFuzzer in action @ http://www.neurofuzz.com/modules/software/vidz.php
+
+For further info please visit: http://www.owasp.org/index.php/Category:OWASP_WSFuzzer_Project
+
+
+Current Version
+
+1.9.5
+
+
+Install
+
+Tar and Gzip are used in concert to create the wsfuzzer* "gzipped archives". Hence the package has the .tar.gz extension. The install process is to simply:
+
+1. extract the files from this tarball (archive)
+2. alter the "JAVA_HOME" value in file "parseWsdl.sh" - this is the full path up to the java home (currently Java 1.6 is required)
+
+So for example that value may look like this on a Mac:
+
+JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home"
+
+
+To extract the program one can obviously use the tar and gzip commands separately. But an easier way takes into account that tar's -z option feeds the archive gzip after unpacking, Thus:
+
+# tar -xvzf wsfuzzer*.tar.gz
+
+extracts all files from the gzipped archive and places them into the current directory. For example:
+
+cd /pentest
+tar -xvzf wsfuzzer-1.9.4.tar.gz
+
+extracts all files to /pentest/
+
+Upon proper tarball extraction perform step 2 as listed above and the install is complete. You can move on to running the program.
+
+Get the tarball from sourceforge: http://sourceforge.net/project/showfiles.php?group_id=155697
+
+
+Features
+
+à Pen tests an HTTP SOAP web service based on either valid WSDL, known good XML payload, or a valid endpoint & namespace.
+à It can try to intelligently detect WSDL for a given target.
+à Includes a simple TCP port scanner.
+à WSFuzzer has the ability to Fuzz methods with multiple parameters. There are 2 modes of attack/fuzzing: "individual" and "simultaneous". Each parameter is either handled as a unique entity (individual mode), and can either be attacked or left alone, or multiple parameters are attacked simultaneously (hence the name - simultaneous mode) with a given data set.
+à The fuzz generation (attack strings) consists of a combination of a dictionary file, some optional dynamic large injection patterns, and some optional method specific attacks including automated XXE and WSSE attack generation.
+à The tool also provides the option of using some IDS Evasion techniques which makes for a powerful security infrastructure (IDS/IPS) testing experience.
+à A time measurement of each round trip between request and response is now provided to potentially aid in results analysis.
+à For any given program run the generated attack vectors are saved out to an xml file. The XML file is named "wsfuzzer-date-time-stamp.xml" and is located in the same directory where the results HTML file is saved. 
+à A previously generated XML file of attack vectors can be utilized instead of the dictionary/automated combo. This is for the sake of repeatability when the same vectors need to be used over and over again.
+
+One source of the WSFuzzer feature set is our user community. So if you feel a feature would be useful please submit it to us at: wsfuzzer [at] neurofuzz dot com
+
+
+Command line usage
+
+python WSFuzzer.py [-w wsdl_url | -e endpoint -n namespace | --xml | -h host | --conf | --bauser username --bapass password | --keyfile keyfile --certfile certfile | --proxy proxyserver --proxyport port | --attacks file]
+
+-w WSDL_URL -- A FQDN WSDL URL - i.e. http://host/service/service.asmx?wsdl
+Example: python WSFuzzer.py -w http://host/service/service.asmx?wsdl
+
+-e endpoint -n namespace -- -e and -n are used together
+-e is the web service endpoint -- i.e. WSDL URL
+-n is the web service namespace -- i.e. URI
+When using -e and -n you will have to manually establish the method to be attacked
+Example: python WSFuzzer.py -e "http://host/service/service.asmx" -n "urn:querySOAP"
+
+--xml --- A text file of the XML payload to be used against the target
+
+-h host -- A URL of the target host. This option will do some digging into the target URL, it will scrape for anything WSDL or DISCO related and construct a list of verified WSDL URL's
+Example: python WSFuzzer.py -h http://host
+
+--conf --- A file containing some config data so as to automate some of the normally interactive parts of WSFuzzer
+
+--bauser username --bapass password --- these 2 optional arguments are used together whenever HTTP Basic Auth needs to be used
+--bauser is a Basic Auth username
+--bapass is a Basic Auth password to be used with the "bauser" username
+
+--keyfile keyfile --certfile certfile --- these 2 optional arguments are used together whenever client-side certs need to be used
+--keyfile is the PEM formatted file that contains the respective private key to be used
+--certfile is the PEM formatted file that contains the X.509 certificate to be used with the "keyfile"
+
+--attacks -- the name of a XML attack vector file previously generated by WSFuzzer
+
+
+Configuration File Examples
+
+The basic story with the config files is that the more info you add in to them the less questions you will be asked by the program.
+
+The following represents the possible values per option for proper use of the config files:
+
+   wsdl - full path to the WSDL resource, including protocol
+   xml - full path to the file holding an XML payload
+   endpoint - full URL representing the target endpoint
+   namespace - the namespace for the target
+   method - name of the target method
+   parameters - comma separated list of parameter names, for example: param1, param2, param3
+   simultaneous - 'yes'
+   host - full URL, if the protocol is not present "http" will be used
+   uri - path to the resource
+   soapaction - name of the action
+   idsevasion - 'yes' or 'no'
+   idsevasionopt - '0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','R'
+   directory - the name of the directory you want to use for a given program run
+   alternatehost - either the string representing the alternate host or 'no'
+   attacks - full path to the XML file holding the attack vectors you want to use
+   dictionary - full path to an attack dictionary
+   automate - 'yes' or 'no'
+   bauser - basic auth username
+   bapass - basic auth password
+   keyfile - full path to the key file
+   certfile - full path to the cert file
+   proxy - full URL of the proxy server to be used
+   proxyport - number of port to be used
+   allparams - yes
+   
+
+The following represents the options that each mode will read in:
+
+   Mode 1 will read in:
+   wsdl
+   simultaneous
+   bauser
+   bapass
+   keyfile
+   certfile
+   proxy
+   proxyport
+   idsevasion
+   idsevasionopt
+   directory
+   alternatehost
+   attacks
+   dictionary
+   automate
+   allparams
+
+   Mode 2 will read in:
+   endpoint
+   namespace
+   method
+   parameters
+   simultaneous
+   soapaction
+   bauser
+   bapass
+   keyfile
+   certfile
+   proxy
+   proxyport
+   idsevasion
+   idsevasionopt
+   directory
+   alternatehost
+   attacks
+   dictionary
+   automate
+   allparams
+
+   Mode 3 will read in:
+   xml
+   host
+   uri
+   soapaction
+   bauser
+   bapass
+   keyfile
+   certfile
+   proxy
+   proxyport
+   idsevasion
+   idsevasionopt
+   directory
+   alternatehost
+   attacks
+   dictionary
+   automate
+   allparams
+
+The structure of the files should resemble these examples:
+
+   # Mode 1 automates some parts of the -w switch
+   Mode = 1
+   wsdl = http://target/resource.asmx?wsdl
+   idsevasion = no
+   simultaneous = yes
+   directory = directoryName
+   dictionary = attack2.txt
+   automate = no
+   alternatehost = no
+   allparams = yes
+
+   # Mode 2 automates some of the endpoint (-e) and namespace (-n) options
+   Mode = 2
+   endpoint = http://your.end.point
+   namespace = the_namespace
+   method = target_method
+   parameters = param1, param2, param3
+   simultaneous = yes
+   dictionary = dict.txt
+   automate = no
+   idsevasion = yes
+   idsevasionopt = 5
+   directory = directoryName
+
+   # Mode 3 automates some parts of the --xml switch
+   Mode = 3
+   xml = payload.xml
+   dictionary = dict.txt
+   host = http://target:port
+   automate = no
+   idsevasion = yes
+   idsevasionopt = R
+   uri = /path/to/resource.jws
+   simultaneous = yes
+   directory = directoryName
+   allparams = yes
+
+
+Run-Time Examples
+
+Here are examples of different types of runs:
+
+à python WSFuzzer.py --conf confmode3.txt
+à python.bat WSFuzzer.py -w http://target/service/service.asmx?wsdl
+à python WSFuzzer.py -e http://target/service/service.asmx -n urn:service
+à python WSFuzzer.py --xml file.xml
+à python WSFuzzer.py -h http://target
+
+
+Upon completion of a run the current output is based on a directory the prog will create. That dir is created within the root dir where the program is installed and run from. By default the pattern for dir creation is based on the string FuzzingResults-N. N is dynamically calculated based on existing directories fitting the pattern. So if you run the prog from "/opt/WSFuzzer" for instance you will end up with something like:
+
+à /opt/WSFuzzer/FuzzingResults-0
+à /opt/WSFuzzer/FuzzingResults-1
+à ...
+à /opt/WSFuzzer/FuzzingResults-N
+
+In each one of these directories there will be an index.html file, an xml file, and a dir called HeaderData.
+
+index.html will give you an overview of the results. In the HeaderData dir you will find files that hold a Request / Response pair for each of the attacks sent to the target. One file has one Request and one Response. In some cases there will be no response if the attack Request caused some sort of crash on the server (500 status response, etc). Each one of the links in the Http Info column will provide you a path into the respective file as per the rest of the data in that row.
+
+In reference to the "Round Trip" values:
+
+   M = milliseconds
+   S = seconds 
+
+
+IDS Evasion
+
+The following options are currently available for purposes of IDS Evasion:
+
+0) null method processing - ** Windows targets only
+1) random URI (non-UTF8) encoding
+2) directory self-reference (/./)
+3) premature URL ending
+4) prepend long random string
+5) fake parameter
+6) TAB as request spacer
+7) random case sensitivity - ** Windows targets only
+8) directory separator (\) - ** Windows targets only
+10) URI (non-UTF8) encoding
+11) double percent hex encoding - ** Windows targets only
+12) double nibble hex encoding - ** Windows targets only
+13) first nibble hex encoding - ** Windows targets only
+14) second nibble hex encoding - ** Windows targets only
+R) choose an option at random
+
+Working with the following target URI: "/WSDigger_WS/WSDigger_WS.asmx" here is an idea of what the URI data would look like when IDS Evasion is in use for the HTTP POST's:
+
+   * null method processing: %00%20/WSDigger_WS/WSDigger_WS.asmx
+
+   * random URI (non-UTF8): /%57SDi%67g%65r%5fW%53/%57%53D%69gge%72_%57%53.asm%78
+
+   * directory self-reference (/./): /./WSDigger_WS/./WSDigger_WS.asmx
+
+   * premature URL ending: /%20HTTP/1.1%0D%0A%0D%0AAccept%3A%20PTdOoYWl2A/../../WSDigger_WS/WSDigger_WS.asmx
+
+   * prepend long random string: /UCD8SiuHKgBhOrUmmdRtn15khQD17fWScHMz6Wa3x65ihPOzBPCkj2M3e4Lr0lwAYgx0zrDAh7ZOUlAqE1vHpqvIFKj2hHQjUS4VdyUyOewrIDnEsaX5
+     WrpOYIphWuzZIT3J1nezbYxjwvg0R5u6QVbBJFiafkY2t5mIPexZd9Zwq9f9Nu3lHRJzRauoDP2VpewGimw9TVrcynp0NJFCEefV6ETCMbhdn9fUPC3dYN8
+     MyubOeLQqOMWDKI4y35prsntMfGX2WWbRFii912f75zVuaYDOR5CxVopXT6bU7eDbCea8YSAZAWxdt0kuGtEmFbH46WXl6cInovsY3nLmTgZ77XX
+     4JncWWatypv34az9iuMmr0GqyCgOuxLIW0600zGhTlAuZYf3I6rs0Lm4NHaEmLi7ZNdPywNV0IUs2Wwlu2EsbHcTXnNbZ00Za2ixKuIJGqVKTrgS7LhfP5e
+
+     16rR2D9mvBWkxVXIHhj30iniGoHhRl1XPs2mnO0ROb6CS0Xy3Nquzv/../WSDigger_WS/WSDigger_WS.asmx
+
+   * fake parameter: /eLCk3rV3v1.html%3fyW0TziI2SP=/..//WSDigger_WS/WSDigger_WS.asmx
+
+   * TAB as request spacer: /WSDigger_WS/WSDigger_WS.asmx
+
+   * random case sensitivity: /WSDiggER_WS/WSDIgGER_WS.AsmX
+
+   * directory separator (\): /WSDigger_WS\WSDigger_WS.asmx
+
+   * URI (non-UTF8): /%57%53%44%69%67%67%65%72%5f%57%53/%57%53%44%69%67%67%65%72%5f%57%53%2e%61%73%6d%78
+
+   * double percent hex encoding: /%2557%2553%2544%2569%2567%2567%2565%2572%255f%2557%2553%2557%2553%2544%2569%2567%2567%2565%2572%255f%2557%2553%252e%2561%2573%256d%2578
+
+   * double nibble hex encoding: /%%35%37%%35%33%%34%34%%36%39%%36%37%%36%37%%36%35%%37%32%%35%66%%35%37%%35%33/%%35%37%%35%33%%34%34
+     %%36%39%%36%37%%36%37%%36%35%%37%32%%35%66%%35%37%%35%33%%32%65%%36%31%%37%33%%36%64%%37%38
+
+   * first nibble hex encoding: /%%357%%353%%344%%369%%367%%367%%365%%372%%35f%%357%%353/%%357%%353%%344%%369%%367%%367%%365%%372%%35f
+     %%357%%353%%32e%%361%%373%%36d%%378
+
+   * second nibble hex encoding: /%5%37%5%33%4%34%6%39%6%37%6%37%6%35%7%32%5%66%5%37%5%33/%5%37%5%33%4%34%6%39%6%37%6%37%6%35%7%32%5%66
+     %5%37%5%33%2%65%6%31%7%33%6%64%7%38
+
+
+Future Development
+
+à More types of dynamic and intelligent XML content based attacks
+à Further development of attack vectors for:
+   o WS-Security
+   o SAML
+   o XML Security (Digital Signatures, XML Encryption, etc)
+à Different results output formats (possibly AVDL, NBE, etc)
+
+
+Known Limitations/Issues
+
+à We have gotten reports from a few users stating that the automated fuzzing is causing client side memory errors. Admittedly the automated fuzzing generates a lot of data and is intense :-) But that is one of the MO's of attacks so this is not accidental. As of version 1.7 we have toned down these type of attacks a bit and it seems to be playing nicer. So keep us posted on these types of issues but remember that the point with some of these attack vectors is to break the rules and force anomalies in order to see how the server side target holds up. In other words dont write me complaining about the fact that the tool is generating and sending bad XML, yes that is one of the things this tool purposely does.
+à There is no GUI - Not quite sure that is entirely a limitation.
+
+
+Project Contributors
+
+Current development for WSFuzzer is performed by:
+Andres Andreu <andres [at] neurofuzz dot com>
+Cosmin Banciu <ccbanciu [at] gmail dot com>
+
+QA Testing is performed by:
+Shelly Saunders <shelly [at] poppywood dot eu>
+Cynthia Gonzalez <cynth.gonzalez [at] gmail dot com>
+Christopher Elias <chris.ec.pr [at] gmail dot com>

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd /opt/samurai/
+java -jar burpsuite_free_v1.6.32.jar $*
