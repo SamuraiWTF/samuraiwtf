@@ -39,3 +39,4 @@ git clone git://git.code.sf.net/p/bwapp/code bwapp
 # TODO - Initialize DB, etc...
 a2ensite bwapp
 
+service apache2 restart
