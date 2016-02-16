@@ -14,6 +14,7 @@ Some package that may need to be pre-installed:
 
 To install these, use:
 ```
+sudo apt-get update
 sudo apt-get install kde-plasma-desktop git gdebi
 ```
 
