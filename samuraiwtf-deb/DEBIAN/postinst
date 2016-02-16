@@ -3,6 +3,8 @@ echo 'Samurai Web Testing Framework: additional installations...'
 
 a2enmod ssl
 a2enmod headers
+a2dissite 000-default
+cp /opt/samurai/install/000-default.conf /etc/apache2/sites-available/
 a2ensite 000-default
 a2ensite vulnscripts
 
@@ -10,7 +12,7 @@ echo '  >>> Installing Samurai Dojo target applications...'
 cd /usr/share
 git clone https://github.com/meeas/Samurai-Dojo.git samurai-dojo
 cp samurai-dojo/dojo-basic /etc/apache2/sites-available/
-cp samurai-dojo/dojo-scaventer /etc/apache2/sites-available/
+cp samurai-dojo/dojo-scavenger /etc/apache2/sites-available/
 # TODO - Initialize DB
 a2ensite dojo-basic
 a2ensite dojo-scavenger
