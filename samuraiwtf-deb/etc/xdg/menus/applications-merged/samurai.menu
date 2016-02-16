@@ -1,0 +1,255 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+"http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">
+
+<Menu>
+    <Name>Applications</Name>
+    
+        <Menu>
+            <AppDir>/etc/samurai.d/applications</AppDir>
+            <DirectoryDir>/etc/samurai.d/desktop-directories</DirectoryDir>
+            <Name>Samurai</Name>
+            <Directory>samurai.directory</Directory>
+            <Layout>
+                <Merge type="menus"/>
+                <Menuname>Project Info</Menuname>
+                <Menuname>Recon</Menuname>
+                <Menuname>Mapping</Menuname>
+                <Menuname>Discovery</Menuname>
+                <Menuname>Exploitation</Menuname>
+                <Menuname>Targets</Menuname>
+            </Layout>
+
+                    <Menu>
+                        <Name>Project Info</Name>
+                        <Directory>samurai-projectinfo.directory</Directory>
+                    </Menu>
+
+                    <Menu>
+                        <Name>Recon</Name>
+                        <Directory>samurai-recon.directory</Directory>
+                        <Layout>
+                            <Merge type="menus"/>
+                            <Menuname>General</Menuname>
+                            <Menuname>DNS and Whois</Menuname>
+                            <Menuname>Search Engines</Menuname>
+                            <Menuname>Social Networks</Menuname>
+                            <Menuname>Location</Menuname>
+                        </Layout>
+
+                                <Menu>
+                                    <Name>DNS and Whois</Name>
+                                    <Directory>samurai-recon-dnswhois.directory</Directory>
+                                    <Include><And><Category>samurai-recon-dnswhois</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>General</Name>
+                                    <Directory>samurai-recon-general.directory</Directory>
+                                    <Include><And><Category>samurai-recon-general</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Location</Name>
+                                    <Directory>samurai-recon-location.directory</Directory>
+                                    <Include><And><Category>samurai-recon-location</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Search Engines</Name>
+                                    <Directory>samurai-recon-searchengines.directory</Directory>
+                                    <Include><And><Category>samurai-recon-searching</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Social Networks</Name>
+                                    <Directory>samurai-recon-socialnetworks.directory</Directory>
+                                    <Include><And><Category>samurai-recon-socialnetworks</Category></And></Include>
+                                </Menu>
+                                
+                    </Menu>
+                    
+                    <Menu>
+                        <Name>Mapping</Name>
+                        <Directory>samurai-mapping.directory</Directory>
+                        <Layout>
+                            <Merge type="menus"/>
+                            <Menuname>Port Scanning</Menuname>
+                            <Menuname>Fingerprinting</Menuname>
+                            <Menuname>Interception Proxies</Menuname>
+                            <Menuname>Spider</Menuname>
+                            <Menuname>Webservices</Menuname>
+                        </Layout>
+                        
+                                <Menu>
+                                    <Name>Fingerprinting</Name>
+                                    <Directory>samurai-mapping-fingerprinting.directory</Directory>
+                                    <Include><And><Category>samurai-mapping-fingerprinting</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Interception Proxies</Name>
+                                    <Directory>samurai-mapping-interception.directory</Directory>
+                                    <Include><And><Category>samurai-mapping-interception</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Port Scanning</Name>
+                                    <Directory>samurai-mapping-portscanning.directory</Directory>
+                                    <Include><And><Category>samurai-mapping-portscanning</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Spider</Name>
+                                    <Directory>samurai-mapping-spider.directory</Directory>
+                                    <Include><And><Category>samurai-mapping-spider</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Web Services</Name>
+                                    <Directory>samurai-mapping-webservices.directory</Directory>
+                                    <Include><And><Category>samurai-mapping-webservices</Category></And></Include>
+                                </Menu>
+                                
+                    </Menu>
+                            
+                    <Menu>
+                        <Name>Discovery</Name>
+                        <Directory>samurai-discovery.directory</Directory>
+                        <Layout>
+                            <Merge type="menus"/>
+                            <Menuname>Automated</Menuname>
+                            <Menuname>Packet Capture</Menuname>
+                            <Menuname>Packet Generation</Menuname>
+                            <Menuname>Encryption</Menuname>
+			    <Menuname>Wordlists</Menuname>
+                            <Menuname>Fuzzing</Menuname>
+                            <Menuname>Mobile Code</Menuname>
+                            <Menuname>Source Code</Menuname>
+                            <Menuname>Log Analysis</Menuname>
+                        </Layout>
+                        
+                                <Menu>
+                                    <Name>Automated</Name>
+                                    <Directory>samurai-discovery-automated.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-automated</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Encryption</Name>
+                                    <Directory>samurai-discovery-encryption.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-encryption</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Fuzzing</Name>
+                                    <Directory>samurai-discovery-fuzzing.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-fuzzing</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Log Analysis</Name>
+                                    <Directory>samurai-discovery-loganalysis.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-loganalysis</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Mobile Code</Name>
+                                    <Directory>samurai-discovery-mobilecode.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-mobilecode</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Packet Capture</Name>
+                                    <Directory>samurai-discovery-packetcapture.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-packetcapture</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Packet Generation</Name>
+                                    <Directory>samurai-discovery-packetgeneration.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-packetgeneration</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Source Code</Name>
+                                    <Directory>samurai-discovery-sourcecode.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-sourcecode</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Wordlists</Name>
+                                    <Directory>samurai-discovery-wordlists.directory</Directory>
+                                    <Include><And><Category>samurai-discovery-wordlists</Category></And></Include>
+                                </Menu>
+                                
+                    </Menu>
+                            
+                    <Menu>
+                        <Name>Exploitation</Name>
+                        <Directory>samurai-exploitation.directory</Directory>
+                        <Layout>
+                            <Merge type="menus"/>
+                            <Menuname>General</Menuname>
+                            <Menuname>Payloads</Menuname>
+                            <Menuname>Backdoors</Menuname>
+                            <Menuname>Encryption</Menuname>
+                            <Menuname>SQL</Menuname>
+                            <Menuname>XSS</Menuname>
+                            <Menuname>CSRF</Menuname>
+                            <Menuname>Password Cracking</Menuname>
+                            <Menuname>Password Guessing</Menuname>
+                            <Menuname>Denial of Service</Menuname>
+                            <Menuname>Social Engineering</Menuname>
+                        </Layout>
+                        
+                                <Menu>
+                                    <Name>Backdoors</Name>
+                                    <Directory>samurai-exploitation-backdoors.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-backdoors</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>CSRF</Name>
+                                    <Directory>samurai-exploitation-csrf.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-csrf</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Denial of Service</Name>
+                                    <Directory>samurai-exploitation-dos.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-dos</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Encryption</Name>
+                                    <Directory>samurai-exploitation-encryption.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-encryption</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>General</Name>
+                                    <Directory>samurai-exploitation-general.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-general</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Password Cracking</Name>
+                                    <Directory>samurai-exploitation-passwordcracking.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-passwordcracking</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Password Guessing</Name>
+                                    <Directory>samurai-exploitation-passwordguessing.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-passwordguessing</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Payloads</Name>
+                                    <Directory>samurai-exploitation-payloads.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-payloads</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>Social Engineering</Name>
+                                    <Directory>samurai-exploitation-socialengineering.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-socialengineering</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>SQL</Name>
+                                    <Directory>samurai-exploitation-sql.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-sql</Category></And></Include>
+                                </Menu>
+                                <Menu>
+                                    <Name>XSS</Name>
+                                    <Directory>samurai-exploitation-xss.directory</Directory>
+                                    <Include><And><Category>samurai-exploitation-xss</Category></And></Include>
+                                </Menu>
+                                
+                    </Menu>
+                            
+                    <Menu>        
+                        <Name>Targets</Name>
+                        <Directory>samurai-targets.directory</Directory>
+                        <Include><And><Category>samurai-targets</Category></And></Include>
+                    </Menu>
+
+        </Menu>
+
+</Menu>
