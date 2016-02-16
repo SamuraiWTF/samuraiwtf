@@ -1,2 +1,39 @@
 #! /bin/sh
-echo 'Samurai Web Testing Framework - Post Installation...'
+echo 'Samurai Web Testing Framework: additional installations...'
+
+a2enmod ssl
+a2enmod headers
+a2ensite 000-default
+a2ensite vulnscripts
+
+echo '  >>> Installing Samurai Dojo target applications...'
+cd /usr/share
+git clone https://github.com/meeas/Samurai-Dojo.git samurai-dojo
+cp samurai-dojo/dojo-basic /etc/apache2/sites-available/
+cp samurai-dojo/dojo-scaventer /etc/apache2/sites-available/
+# TODO - Initialize DB
+a2ensite dojo-basic
+a2ensite dojo-scavenger
+
+
+echo '  >>> Installing Mutillidae...'
+git clone git://git.code.sf.net/p/mutillidae/git mutillidae
+# TODO - Fix this cert
+cp samurai-dojo/ssl.crt mutillidae/
+# TODO - Initialize DB
+a2ensite mutillidae
+
+
+echo ' >>> Installing DVWA...'
+git clone https://github.com/RandomStorm/DVWA.git dvwa
+# TODO - Fix this cert
+cp samurai-dojo/ssl.crt dvwa/
+# TODO - Initialize DB
+a2ensite dvwa
+
+
+echo ' >>> Installing bWAPP...'
+git clone git://git.code.sf.net/p/bwapp/code bwapp
+# TODO - Initialize DB, etc...
+a2ensite bwapp
+

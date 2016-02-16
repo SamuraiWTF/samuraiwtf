@@ -1,5 +1,6 @@
 127.0.0.1	localhost
 127.0.0.1	samuraiwtf
+127.0.0.1	ubuntu
 127.0.1.1	samurai-wtf.localhost samurai-wtf
 127.42.84.1     dojo-basic dojobasic dojo-basic.sec642.org
 127.42.84.2     dvwa
