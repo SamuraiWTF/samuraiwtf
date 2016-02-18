@@ -11,12 +11,13 @@ a2ensite vulnscripts
 
 echo '>>> Installing Samurai Dojo target applications...'
 cd /usr/share
-git clone https://github.com/meeas/Samurai-Dojo.git samurai-dojo
+git clone https://github.com/SamuraiWTF/Samurai-Dojo.git samurai-dojo
 cp samurai-dojo/dojo-basic /etc/apache2/sites-available/
 cp samurai-dojo/dojo-scavenger /etc/apache2/sites-available/
 cd /usr/share/samurai-dojo/basic
 php reset-db.php
-# TODO: Initialize scavenger db
+mysqladmin -u root -psamurai create samurai_dojo_scavenger
+mysql -u root -psamurai samurai_dojo_scavenger < /usr/share/samurai-dojo/scavenger/scavenger.sql
 cd
 
 a2ensite dojo-basic
