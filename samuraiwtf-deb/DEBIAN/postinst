@@ -1,5 +1,5 @@
 #! /bin/sh
-echo 'Samurai Web Testing Framework: additional installations...'
+echo 'Post Install: SamuraiWTF tools and targets...'
 
 a2enmod ssl
 a2enmod headers
@@ -8,17 +8,23 @@ cp /opt/samurai/install/000-default.conf /etc/apache2/sites-available/
 a2ensite 000-default
 a2ensite vulnscripts
 
-echo '  >>> Installing Samurai Dojo target applications...'
+
+echo '>>> Installing Samurai Dojo target applications...'
 cd /usr/share
 git clone https://github.com/meeas/Samurai-Dojo.git samurai-dojo
 cp samurai-dojo/dojo-basic /etc/apache2/sites-available/
 cp samurai-dojo/dojo-scavenger /etc/apache2/sites-available/
-# TODO - Initialize DB
+cd /usr/share/samurai-dojo/basic
+php reset-db.php
+# TODO: Initialize scavenger db
+cd
+
 a2ensite dojo-basic
 a2ensite dojo-scavenger
 
 
-echo '  >>> Installing Mutillidae...'
+echo '>>> Installing Mutillidae...'
+cd /usr/share
 git clone git://git.code.sf.net/p/mutillidae/git mutillidae
 # TODO - Fix this cert
 cp samurai-dojo/ssl.crt mutillidae/
@@ -26,7 +32,8 @@ cp samurai-dojo/ssl.crt mutillidae/
 a2ensite mutillidae
 
 
-echo ' >>> Installing DVWA...'
+echo '>>> Installing DVWA...'
+cd /usr/share
 git clone https://github.com/RandomStorm/DVWA.git dvwa
 # TODO - Fix this cert
 cp samurai-dojo/ssl.crt dvwa/
@@ -34,9 +41,40 @@ cp samurai-dojo/ssl.crt dvwa/
 a2ensite dvwa
 
 
-echo ' >>> Installing bWAPP...'
+echo '>>> Installing bWAPP...'
+cd /usr/share
 git clone git://git.code.sf.net/p/bwapp/code bwapp
 # TODO - Initialize DB, etc...
 a2ensite bwapp
 
 service apache2 restart
+
+# Add the samurai user if we don't have it, and add to the sudo group
+USERCOUNT=`cat /etc/passwd |grep "samurai:" | wc -l`
+if [ $USERCOUNT -eq 0 ]
+then
+  echo ">>> It looks like the samurai user does not exist.  Running adduser."
+  echo ">>> If this is a default samuraiwtf install, use the password 'samurai'"
+  adduser samurai
+fi
+adduser samurai sudo
+
+# Make the samurai user auto-login
+# TODO: Make this optional since most people really should login :)
+if [ ! -d "/etc/lightdm/lightdm.conf.d" ]
+then
+  mkdir /etc/lightdm/lightdm.conf.d
+fi
+echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf.d/50-myconfig.conf
+echo autologin-user=samurai >> /etc/lightdm/lightdm.conf.d/50-myconfig.conf
+
+# Setup the background
+# TODO: This doesn't seem to be working... not sure why
+# su - samurai -c 'kwriteconfig --file plasma-appletsrc --group Containments --group 8 --group Wallpaper --group image --key wallpaper /opt/samurai/samurai-background.png'
+# su - samurai -c 'gsettings set org.gnome.desktop.background picture-uri file:////opt/samurai/samurai-background.png'
+# TODO: Reload plasma to see desktop background.  Maybe not necessary if we just do a reboot?
+# pkill plasma
+# plasma-desktop &
+
+echo "Additional manual changes (until we get them working):"
+echo "- Set the background desktop image to /opt/samurai/samurai-background.png"
