@@ -35,4 +35,4 @@ sudo gdebi samurai-wtf-0.0.0_i386.deb
 ...and again, the 0.0.0 refers to the actual release version of the distribution.
 
 ## Installation Notes
-* You will be prompted to choose a root password when installing MySQL.
+* You will be prompted to choose a root password when installing MySQL. For now this should be "samurai" (this will be configurable at a later time)
