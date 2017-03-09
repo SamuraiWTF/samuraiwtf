@@ -23,30 +23,33 @@ do
 	pcount=$(ps -ef | grep  -c apt.systemd.daily)
 done
 
-echo 'Running updates...'
-apt-get update
-apt-get -y upgrade
 if [ ! -d /opt/samurai ]; then
 	echo 'Removing unecessary default packages...'
 	apt-get remove -y --purge libreoffice*
+	apt-get remove -y --purge thunderbird
 	apt-get -y clean
 	apt-get -y autoremove
 else
 	echo 'Skipping removal of default packages'
 fi
+echo 'Running updates...'
+apt-get update
+apt-get -y upgrade
+
+# Set locale (Fixes broken terminal)
+locale-gen "en_US.UTF-8"
+localectl set-locale LANG="en_US.UTF-8"
 
 echo 'Installing AMP stack...'
-# These next two did not work... not sure why?
-# debconf-set-selections <<< 'mysql-server mysql-server/root_password samurai'
-# debconf-set-selections <<< 'mysql-server mysql-server/root_password_again samurai'
-
 if [ -d /etc/mysql/mysql.conf.d ]; then
-	apt-get install -y mysql-server	
+	apt-get install -y mysql-server
+	mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'samurai';"	
 else
 	apt-get install -y mysql-server
-	mysqladmin -u root password samurai
 fi
-apt-get install -y git apache2 php php-mysql libapache2-mod-php
+
+# Dependencies...
+apt-get install -y git apache2 php php-mysql libapache2-mod-php php-gd php-curl
 
 echo 'Copying directories...'
 cp -r /tmp/samuraiwtf/etc/* /etc/
@@ -68,6 +71,16 @@ if [ $USERCOUNT -eq 0 ]; then
   echo autologin-user=samurai >> /etc/lightdm/lightdm.conf.d/50-myconfig.conf
 fi
 
+# TODO: Reload the menu (not sure why this isn't happening on restart like it did in Ubuntu 14.04)
+#       may need to move apps to ~/.local/share/applications or /usr/share/applications
+# TODO: Turn off lock screen
+
+# Some cosmetics
+gsettings set com.canonical.Unity.Launcher favorites "['application://ubiquity.desktop', 'application://org.gnome.Nautilus.desktop', 'application://firefox.desktop','application://chromium-browser.desktop','application://unity-control-center.desktop', 'application://gnome-terminal.desktop', 'unity://running-apps', 'unity://expo-icon', 'application://samurai.desktop']"
+gsettings set org.gnome.desktop.background picture-uri 'file:///opt/samurai/samurai-background.png'
+gsettings set com.canonical.Unity.Launcher launcher-position 'Bottom'
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+
 ##################################################################
 # TARGETS
 ##################################################################
@@ -81,66 +94,81 @@ cp /opt/samurai/install/000-default.conf /etc/apache2/sites-available/
 a2ensite 000-default
 a2ensite vulnscripts
 
-### TODO: conditionally git clone these
-echo 'Installing Samurai Dojo target applications...'
-cd /usr/share
-git clone https://github.com/SamuraiWTF/Samurai-Dojo.git samurai-dojo
-#|cp samurai-dojo/dojo-basic.conf /etc/apache2/sites-available/
-#|cp samurai-dojo/dojo-scavenger.conf /etc/apache2/sites-available/
-cd /usr/share/samurai-dojo/basic
-phpenmod mysqli
-php reset-db.php
-mysqladmin -u root -psamurai create samurai_dojo_scavenger
-mysql -u root -psamurai samurai_dojo_scavenger < /usr/share/samurai-dojo/scavenger/scavenger.sql
+# Samurai Dojo
+if [ ! -d /usr/share/samurai-dojo ]; then
+	echo 'Installing Samurai Dojo...'
+	cd /usr/share
+	git clone https://github.com/SamuraiWTF/Samurai-Dojo.git samurai-dojo
+	cd /usr/share/samurai-dojo/basic
+	phpenmod mysqli
+	php reset-db.php
+	mysqladmin -u root -psamurai create samurai_dojo_scavenger
+	mysql -u root -psamurai samurai_dojo_scavenger < /usr/share/samurai-dojo/scavenger/scavenger.sql
+	a2ensite dojo-basic
+	a2ensite dojo-scavenger
+else
+	echo 'Updating Samurai Dojo...'
+	cd /usr/share/samurai-dojo
+	git pull
+fi
 
-a2ensite dojo-basic
-a2ensite dojo-scavenger
+# Mutillidae
+if [ ! -d /usr/share/mutillidae ]; then
+	echo 'Installing Mutillidae...'
+	cd /usr/share
+	git clone git://git.code.sf.net/p/mutillidae/git mutillidae
+	# TODO - Fix this cert
+	cp samurai-dojo/ssl.crt mutillidae/
+	a2ensite mutillidae
+	# TODO: Automate this
+	echo "- Visit http://mutillidae and reset the database"
+else
+	echo 'Updating Mutillidae...'
+	cd /usr/share/mutillidae
+	git pull
+fi
 
+# DVWA
+if [ ! -d /usr/share/dvwa ]; then
+	echo 'Installing DVWA...'
+	cd /usr/share
+	git clone https://github.com/RandomStorm/DVWA.git dvwa
+	# TODO - Fix this cert
+	cp samurai-dojo/ssl.crt dvwa/
+	cd /usr/share/dvwa
+	sed -i 's/p@ssw0rd/samurai/g' config/config.inc.php
+	chmod 777 hackable/uploads/
+	chmod 666 external/phpids/0.6/lib/IDS/tmp/phpids_log.txt
+	a2ensite dvwa
+	## TODO: automate this:
+	echo "- Visit http://dvwa/setup.php and reset the database"
+else
+	echo 'Updating DVWA...'
+	cd /usr/share/dvwa
+	git pull
+fi
 
-echo '>>> Installing Mutillidae...'
-cd /usr/share
-git clone git://git.code.sf.net/p/mutillidae/git mutillidae
-# TODO - Fix this cert
-cp samurai-dojo/ssl.crt mutillidae/
-a2ensite mutillidae
-
-
-echo '>>> Installing DVWA...'
-cd /usr/share
-git clone https://github.com/RandomStorm/DVWA.git dvwa
-# TODO - Fix this cert
-cp samurai-dojo/ssl.crt dvwa/
-cd /usr/share/dvwa
-sed -i 's/p@ssw0rd/samurai/g' config/config.inc.php
-chmod 777 hackable/uploads/
-chmod 666 external/phpids/0.6/lib/IDS/tmp/phpids_log.txt
-a2ensite dvwa
-
-
-echo '>>> Installing bWAPP...'
-cd /usr/share
-git clone git://git.code.sf.net/p/bwapp/code bwapp
-cd /usr/share/bwapp/bWAPP
-chmod 777 passwords/
-chmod 777 images/
-chmod 777 documents/
-mkdir logs
-chmod 777 logs/
-sed -i 's/\$db_password = "bug";/\$db_ssword = "samurai";/g' admin/settings.php
-
-# TODO - Initialize DB, etc...
-a2ensite bwapp
+# bWAPP
+if [ ! -d /usr/share/bwapp ]; then
+	echo 'Installing bWAPP...'
+	cd /usr/share
+	git clone git://git.code.sf.net/p/bwapp/code bwapp
+	cd /usr/share/bwapp/bWAPP
+	chmod 777 passwords/
+	chmod 777 images/
+	chmod 777 documents/
+	mkdir logs
+	chmod 777 logs/
+	sed -i 's/\$db_password = "bug";/\$db_password = "samurai";/g' admin/settings.php
+	a2ensite bwapp
+	curl -s http://bwapp/install.php?install=yes > /dev/null
+else
+	echo 'Updating bWAPP...'
+	cd /usr/share/bwapp
+	git pull
+fi
 
 service apache2 restart
-
-# Make the samurai user auto-login
-# TODO: Make this optional since most people really should login :)
-if [ ! -d "/etc/lightdm/lightdm.conf.d" ]
-then
-  mkdir /etc/lightdm/lightdm.conf.d
-fi
-echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf.d/50-myconfig.conf
-echo autologin-user=samurai >> /etc/lightdm/lightdm.conf.d/50-myconfig.conf
 
 # Setup the background
 # TODO: This doesn't seem to be working... not sure why
@@ -149,15 +177,15 @@ echo autologin-user=samurai >> /etc/lightdm/lightdm.conf.d/50-myconfig.conf
 # TODO: Reload plasma to see desktop background.  Maybe not necessary if we just do a reboot?
 # pkill plasma
 # plasma-desktop &
-
 echo "Additional manual (for now) installation steps:"
 echo "- Set the background desktop image to /opt/samurai/samurai-background.png"
-echo "- Visit http://bWAPP/install.php and run the install"
-echo "- Visit http://mutillidae and reset the database"
-echo "- Visit http://dvwa/setup.php and reset the database"
+
 
 
 ##################################################################
 # TOOLS
 ##################################################################
 # echo 'samurai' | sudo -S apt-get install -y python, nikto, w3af-console, w3af, nmap, zenmap, python-pip, apache2, libapache2-mod-php5, mysql-server, libapache2-mod-auth-mysql, php5-mysql, w3af, wireshark, openjdk-7-jre, ruby-full, chromium-browser, firefox, php5-curl, php5-gd
+
+apt-get install -y nikto w3af-console w3af nmap zenmap python-pip w3af wireshark openjdk-9-jre ruby-full chromium-browser
+

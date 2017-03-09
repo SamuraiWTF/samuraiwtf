@@ -12,6 +12,9 @@ The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai
 ## Vagrant Notes
 Vagrant should be used for ongoing development of SamuraiWTF. Development should occur as follows:
 
+## Initial Install
+Assuming you have Vagrant installed, just type `vagrant up` from within this folder. Then sit back and wait for it to finish. Immediately after the first time start up it is recommend you do a restart using `vagrant reload`.
+
 ### Files
 The following folders under *samuraiwtf-deb/* are shared under the guest folder */tmp/samuraiwtf/* :
 
