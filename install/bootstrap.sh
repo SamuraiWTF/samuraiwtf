@@ -23,6 +23,9 @@ do
 	pcount=$(ps -ef | grep  -c apt.systemd.daily)
 done
 
+add-apt-repository -y ppa:kubuntu-ppa/backports
+apt-get install -y kubuntu-desktop
+
 if [ ! -d /opt/samurai ]; then
 	echo 'Removing unecessary default packages...'
 	apt-get remove -y --purge libreoffice*
@@ -75,7 +78,7 @@ fi
 #       may need to move apps to ~/.local/share/applications or /usr/share/applications
 # TODO: Turn off lock screen
 
-# Some cosmetics
+# Some cosmetics... these don't seem to be taking?
 gsettings set com.canonical.Unity.Launcher favorites "['application://ubiquity.desktop', 'application://org.gnome.Nautilus.desktop', 'application://firefox.desktop','application://chromium-browser.desktop','application://unity-control-center.desktop', 'application://gnome-terminal.desktop', 'unity://running-apps', 'unity://expo-icon', 'application://samurai.desktop']"
 gsettings set org.gnome.desktop.background picture-uri 'file:///opt/samurai/samurai-background.png'
 gsettings set com.canonical.Unity.Launcher launcher-position 'Bottom'
