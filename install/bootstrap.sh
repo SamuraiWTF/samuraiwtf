@@ -44,7 +44,7 @@ locale-gen "en_US.UTF-8"
 localectl set-locale LANG="en_US.UTF-8"
 
 echo 'Installing AMP stack...'
-if [ -d /etc/mysql/mysql.conf.d ]; then
+if [ ! -d /opt/samurai ]; then
 	apt-get install -y mysql-server
 	mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'samurai';"	
 else
@@ -79,10 +79,10 @@ fi
 # TODO: Turn off lock screen
 
 # Some cosmetics... these don't seem to be taking?
-gsettings set com.canonical.Unity.Launcher favorites "['application://ubiquity.desktop', 'application://org.gnome.Nautilus.desktop', 'application://firefox.desktop','application://chromium-browser.desktop','application://unity-control-center.desktop', 'application://gnome-terminal.desktop', 'unity://running-apps', 'unity://expo-icon', 'application://samurai.desktop']"
-gsettings set org.gnome.desktop.background picture-uri 'file:///opt/samurai/samurai-background.png'
-gsettings set com.canonical.Unity.Launcher launcher-position 'Bottom'
-gsettings set org.gnome.desktop.screensaver lock-enabled false
+# gsettings set com.canonical.Unity.Launcher favorites "['application://ubiquity.desktop', 'application://org.gnome.Nautilus.desktop', 'application://firefox.desktop','application://chromium-browser.desktop','application://unity-control-center.desktop', 'application://gnome-terminal.desktop', 'unity://running-apps', 'unity://expo-icon', 'application://samurai.desktop']"
+# gsettings set org.gnome.desktop.background picture-uri 'file:///opt/samurai/samurai-background.png'
+# gsettings set com.canonical.Unity.Launcher launcher-position 'Bottom'
+# gsettings set org.gnome.desktop.screensaver lock-enabled false
 
 ##################################################################
 # TARGETS
