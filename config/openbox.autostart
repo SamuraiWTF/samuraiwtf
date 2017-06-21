@@ -1,0 +1,3 @@
+xcompmgr -c &
+tint2 -c ~/.config/tint2.conf &
+~/.fehbg &

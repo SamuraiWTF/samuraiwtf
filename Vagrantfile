@@ -15,6 +15,8 @@ Vagrant.configure("2") do |config|
   # config.vm.box = "boxcutter/ubuntu1604-desktop"
   config.vm.box = "bento/debian-8.7"
 
+  config.vm.host_name = "samuraiwtf"
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -42,20 +44,20 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-config.vm.synced_folder "./samuraiwtf-deb", "/tmp/samuraiwtf"
+config.vm.synced_folder "./config", "/tmp/config"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
 config.vm.provider "virtualbox" do |vb|
-  # Display the VirtualBox GUI when booting the machine   
-  vb.gui = true
-  
+  # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
+
   # Customize the amount of memory on the VM:
   vb.memory = "2048"
 end
-  
+
   # View the documentation for the provider you are using for more
   # information on available options.
 
