@@ -87,6 +87,7 @@ sudo apt-get install -y tint2 xcompmgr feh tilda
 
 echo 'Installing tools...'
 
+echo '...installing from debian repos...'
 sudo apt-get install -y firefox-esr leafpad
 
 ###Nikto missing, along with SQL map, word lists, firefox plugins
@@ -97,14 +98,29 @@ sudo apt-get install -y w3af w3af-console nmap zenmap #wireshark
 #some zenmap features require sudo - need to add it to the ob menu a "gksudo zenmap"
 
 ###JRE
+sudo apt-get install -y  default-jre
 
 ###Need to work out burp
+echo '...fetching installers...'
+sudo mkdir /tmp/installers
+sudo chmod 777 /tmp/installers
 
-#wget -O burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+sudo mkdir /usr/share/burpsuite
+sudo wget -O /usr/share/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+
+wget -O /tmp/installers/sqlmap.tar.gz https://github.com/sqlmapproject/sqlmap/tarball/master
+wget -O /tmp/installers/nikto.tar.gz https://github.com/sullo/nikto/tarball/master
+
 #mkdir /usr/share/burp
 #mv burp.jar /usr/share/burpsuite_free/burp.jar
 
 #sudo apt-get install -y mozilla-firefox chromium-browser
+
+#Hack to fix w3af_console
+sudo ln -s /usr/bin/python /usr/bin/python2.5
+
+echo 'copying launch scripts to /usr/bin'
+sudo cp /tmp/config/launcher/* /usr/bin/
 
 ###############################################
 # USER CONFIG (Should be changed to samurai)
@@ -115,21 +131,22 @@ echo 'Setting up user config...'
 sudo touch /var/log/vagrantup.log
 sudo chown vagrant /var/log/vagrantup.log
 
-sudo cp -v /tmp/config/xinitrc /home/samurai/.xinitrc >> /var/log/vagrantup.log
-sudo cp -v /tmp/config/bashprofile /home/samurai/.bash_profile >> /var/log/vagrantup.log
+sudo cp -v /tmp/config/xinitrc /home/samurai/.xinitrc
+sudo cp -v /tmp/config/bashprofile /home/samurai/.bash_profile
 
 sudo mkdir -v /home/samurai/.config >> /var/log/vagrantup.log
-sudo cp -v /tmp/config/tint2.conf /home/samurai/.config/ >> /var/log/vagrantup.log
+sudo cp -v /tmp/config/tint2.conf /home/samurai/.config/
 
 sudo mkdir -v /home/samurai/.config/openbox >> /var/log/vagrantup.log
-sudo cp -v /tmp/config/openbox.autostart /home/samurai/.config/openbox/autostart >> /var/log/vagrantup.log
+sudo cp -v /tmp/config/openbox.autostart /home/samurai/.config/openbox/autostart
 
 sudo mkdir -v /home/samurai/.config/wallpaper >> /var/log/vagrantup.log
-sudo cp -v /tmp/config/samurai-background.png /home/samurai/.config/wallpaper >> /var/log/vagrantup.log
+sudo cp -v /tmp/config/samurai-background.png /home/samurai/.config/wallpaper
 
 echo "feh --bg-fill '/home/samurai/.config/wallpaper/samurai-background.png'" >> /home/samurai/.fehbg
 
 sudo cp /tmp/config/menu.xml /home/samurai/.config/openbox/
+sudo cp /tmp/config/openbox_rc.xml /home/samurai/.config/openbox/rc.xml
 
 sudo mkdir /home/samurai/.config/tilda
 sudo cp /tmp/config/tilda_config_0 /home/samurai/.config/tilda/config_0
