@@ -1,5 +1,5 @@
 # samuraiwtf
-Notes: Vagrant plugins used: vagrant-vbguest
+Notes: Vagrant plugins used: vagrant-vbguest vagrant-hostsupdater
 
 *NOTE: This is an experimental fork of the already experimental build. It's **not ready** for general consumption.*
 
