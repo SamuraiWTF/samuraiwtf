@@ -76,5 +76,5 @@ end
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  config.vm.provision :shell, path: "install/bootstrap.sh"
+  config.vm.provision :shell, path: "install/userenv_bootstrap.sh"
 end
