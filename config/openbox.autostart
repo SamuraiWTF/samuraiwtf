@@ -1,3 +1,4 @@
 xcompmgr -c &
 tint2 -c ~/.config/tint2.conf &
-~/.fehbg &
+bash ~/.fehbg &
+tilda -h -t 25 &

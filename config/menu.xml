@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu xmlns="http://openbox.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/
+	file:///usr/share/openbox/menu.xsd">
+ <menu id="root-menu" label="Openbox 3" >
+ 	<separator label="--SamuraiWTF--" />
+ 	<item label="Terminal">
+ 		<action name="Execute"><execute>x-terminal-emulator</execute></action>
+ 	</item>
+ 	<item label="Firefox">
+ 		<action name="Execute"><execute>firefox</execute></action>
+ 	</item>
+ 	<separator label="--Tools--" />
+ 	<menu id="recon" label="Recon">
+ 		<separator label="--GUI--" />
+ 		<item label="W3AF">
+ 			<action name="Execute"><execute>w3af</execute></action>
+ 		</item>
+ 		<item label="ZenMap">
+ 			<action name="Execute"><command>gksudo zenmap</command></action>
+ 		</item>
+ 		<separator label="--Console--" />
+ 		<item label="nmap">
+ 			<action name="Execute"><command>x-terminal-emulator -e "nmap -h;bash"</command></action>
+ 		</item>
+ 		<item label="w3af_console">
+ 			<action name="Execute"><command>x-terminal-emulator -e "w3af_console;bash"</command></action>
+ 		</item>
+ 	</menu>
+ 	<menu id="discovery" label="Discovery">
+ 		<item label="SqlMap">
+ 			<action	name="Execute"><command>x-terminal-emulator -e "echo Sqlmap not installed;bash"</command></action>
+ 		</item>
+ 	</menu>
+ 	<separator label="--System--" />
+ 	<item label="Logout">
+       <action name="Execute">
+          <command>openbox --exit</command>
+       </action>
+    </item>
+ </menu>
+</openbox_menu>

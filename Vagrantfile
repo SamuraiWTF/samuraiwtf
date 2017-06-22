@@ -53,9 +53,10 @@ config.vm.synced_folder "./config", "/tmp/config"
 config.vm.provider "virtualbox" do |vb|
   # Display the VirtualBox GUI when booting the machine
     vb.gui = true
-
+    vb.name = "samuraiwtf"
   # Customize the amount of memory on the VM:
-  vb.memory = "2048"
+    vb.memory = "2048"
+    vb.customize ["modifyvm", :id, "--vram", "16"]
 end
 
   # View the documentation for the provider you are using for more

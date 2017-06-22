@@ -1,5 +1,8 @@
 # samuraiwtf
+Notes: Vagrant plugins used: vagrant-vbguest
+
 *NOTE: This is an experimental fork of the already experimental build. It's **not ready** for general consumption.*
+
 **Everything below this line is from the original readme**
 
 *NOTE: This project should currently be considered experimentation only, as it is not yet ready for release.*
