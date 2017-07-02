@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     #for debugging mainly
     target.vm.network "private_network", ip: "192.168.42.42"
     target.vm.hostname = "samurai-wtf"
-    config.hostsupdater.aliases = ["juice-shop.wtf"]
+    config.hostsupdater.aliases = ["juice-shop.wtf","dojo-basic.wtf"]
 
     target.vm.provider "virtualbox" do |vb|
       vb.name = "Samurai Target Server"

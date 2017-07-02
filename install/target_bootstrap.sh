@@ -11,7 +11,7 @@ echo 'Installing Docker Community Edition...'
 echo "deb http://ftp.debian.org/debian jessie-backports main" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update
 
-sudo apt-get install vim
+sudo apt-get install -y vim
 
 sudo apt-get install -y \
      apt-transport-https \
@@ -50,15 +50,40 @@ sudo docker pull bkimminich/juice-shop
 #BWAPP
 
 #DOJO BASIC
+echo 'Setting up dojo-basic...'
+echo '...cloning repo...'
+sudo git clone --recursive https://github.com/mgillam/dojo-basic-docker.git /opt/targets/dojo-basic-docker
+echo '...rewriting db config...'
+sudo rm /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+echo "<?php" | sudo tee /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+echo "\$dbhost = 'db';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+echo "\$dbuser = 'root';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+echo "\$dbpass = 'dojo';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+echo "\$dbname = 'dojo_basic';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+echo "?>" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+echo '...initializing services...'
+cd /opt/targets/dojo-basic-docker
+echo '...starting app...'
+sudo docker-compose up -d
+echo '...calling db init php script...'
+curl http://localhost:30080/reset-db.php #currently doesn't work. Might need a dependson directive in the compose yml
+echo '...stopping app...'
+sudo docker-compose down
+echo 'Done.'
 
 #DOJO SCAVENGER
 
 #MUTILLIDAE
+
+#Reverse Proxy
 
 echo 'Installing nginx'
 sudo apt-get install -y nginx
 
 echo 'Setting up reverse-proxy config'
 sudo cp /tmp/config/sites-enabled/* /etc/nginx/sites-enabled/
+
+#Update hosts entries
+#TODO
 
 echo 'All finished!'
