@@ -103,10 +103,11 @@ sudo apt-get install -y  default-jre
 ###Need to work out burp
 echo '...fetching installers...'
 sudo mkdir /tmp/installers
+sudo mkdir /opt/samurai
 sudo chmod 777 /tmp/installers
 
-sudo mkdir /usr/share/burpsuite
-sudo wget -O /usr/share/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+sudo mkdir /opt/samurai/burpsuite
+sudo wget -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
 wget -O /tmp/installers/sqlmap.tar.gz https://github.com/sqlmapproject/sqlmap/tarball/master
 wget -O /tmp/installers/nikto.tar.gz https://github.com/sullo/nikto/tarball/master
