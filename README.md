@@ -1,4 +1,9 @@
 # samuraiwtf
+Notes: Vagrant plugins used: vagrant-vbguest vagrant-hostsupdater
+
+*NOTE: This is an experimental fork of the already experimental build. It's **not ready** for general consumption.*
+
+**Everything below this line is from the original readme**
 
 *NOTE: This project should currently be considered experimentation only, as it is not yet ready for release.*
 
@@ -30,3 +35,6 @@ The main Vagrant provisioning script is *install/bootstrap.sh*.  Changes for the
 
 ## Production VM Notes:
 *TBD*
+
+[ TODO ]
+Combine Targets and base system
