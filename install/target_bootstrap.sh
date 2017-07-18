@@ -19,6 +19,7 @@ sudo apt-get install -y \
      curl \
      gnupg2 \
      software-properties-common
+
 echo "...getting key..."
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 echo "...got key, adding docker repo..."

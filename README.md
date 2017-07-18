@@ -1,5 +1,5 @@
 # samuraiwtf
-Notes: Vagrant plugins used: vagrant-vbguest vagrant-hostsupdater
+Notes: Vagrant plugins used: vagrant-vbguest 
 
 *NOTE: This is an experimental fork of the already experimental build. It's **not ready** for general consumption.*
 
@@ -18,7 +18,7 @@ The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai
 Vagrant should be used for ongoing development of SamuraiWTF. Development should occur as follows:
 
 ## Initial Install
-Assuming you have Vagrant installed, just type `vagrant up` from within this folder. Then sit back and wait for it to finish. Immediately after the first time start up it is recommend you do a restart using `vagrant reload`.
+Assuming you have Vagrant installed, just type `vagrant up` from within this folder. Then sit back and wait for it to finish. Immediately after the first time start up it is recommend you do a restart using `vagrant reload`.  Just running the vagrant up will build the primary target, which is a single VM with both the user environment and the targets.  You can run `vagrant up userenv` and vagrant up target` to build seperate virtual machines for those purposes.
 
 ### Files
 The following folders under *samuraiwtf-deb/* are shared under the guest folder */tmp/samuraiwtf/* :

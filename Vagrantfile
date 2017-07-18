@@ -8,6 +8,26 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "./config", "/tmp/config"
 
+# Single Machine
+# Primary build
+  config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
+    samuraiwtf.vm.host_name = "SamuraiWTF"
+
+    userenv.vm.provider "virtualbox" |vb|
+    # Display the VirtualBox GUI when booting the machine
+      vb.gui = true
+      vb.name = "SamuraiWTF"
+    # Customize the amount of memory on the VM:
+      vb.memory = "4096"
+      vb.customize ["modifyvm", :id, "--vram", "16"]
+    end
+
+    samuraiwtf.vm.provision :shell, path: "install/userenv_bootstrap.sh"
+    samuraiwtf.vm.provision :shell, path: "install/target_bootstrap.sh"
+
+  end
+
+#Additional build options.  Sepearate virtual machines
 #attack machine
   config.vm.define "userenv" do |userenv|
     userenv.vm.host_name = "samuraiwtf"
@@ -15,7 +35,7 @@ Vagrant.configure("2") do |config|
     userenv.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
       vb.gui = true
-      vb.name = "SamuraiWTF"
+      vb.name = "SamuraiWTF User Environment"
     # Customize the amount of memory on the VM:
       vb.memory = "2048"
       vb.customize ["modifyvm", :id, "--vram", "16"]
