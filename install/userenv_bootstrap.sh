@@ -69,6 +69,9 @@ else
 	echo "Samurai user appears to already exist"
 fi
 
+#switch to the samurai user for permissions
+sudo su - samurai
+
 ################################################
 # GUI
 ################################################
@@ -107,15 +110,12 @@ sudo mkdir /opt/samurai
 sudo chown samurai:samurai /opt/samurai
 sudo chmod 777 /tmp/installers
 
-#switch to the samurai user for permissions
-sudo su - samurai
 cd /opt/samurai
 
 mkdir /opt/samurai/burpsuite
 wget -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
 wget -O /tmp/installers/sqlmap.tar.gz https://github.com/sqlmapproject/sqlmap/tarball/master
-#wget -O /tmp/installers/nikto.tar.gz https://github.com/sullo/nikto/tarball/master
 
 
 
