@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
 #Additional build options.  Sepearate virtual machines
 #attack machine
-  config.vm.define "userenv" do |userenv|
+  config.vm.define "userenv", autostart: false do |userenv|
     userenv.vm.host_name = "samuraiwtf"
 
     userenv.vm.provider "virtualbox" do |vb|
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
   end
 
 #target server
-  config.vm.define "target" do |target|
+  config.vm.define "target", autostart: false do |target|
     target.vm.host_name = "samuraitargets"
     #for debugging mainly
     target.vm.network "private_network", ip: "192.168.42.42"
