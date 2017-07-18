@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
     samuraiwtf.vm.host_name = "SamuraiWTF"
 
-    userenv.vm.provider "virtualbox" |vb|
+    samuraiwtf.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
       vb.gui = true
       vb.name = "SamuraiWTF"
