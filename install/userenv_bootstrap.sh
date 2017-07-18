@@ -104,18 +104,23 @@ sudo apt-get install -y  default-jre
 echo '...fetching installers...'
 sudo mkdir /tmp/installers
 sudo mkdir /opt/samurai
+sudo chown samurai:samurai /opt/samurai
 sudo chmod 777 /tmp/installers
 
-sudo mkdir /opt/samurai/burpsuite
-sudo wget -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+#switch to the samurai user for permissions
+sudo su - samurai
+cd /opt/samurai
+
+mkdir /opt/samurai/burpsuite
+wget -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
 wget -O /tmp/installers/sqlmap.tar.gz https://github.com/sqlmapproject/sqlmap/tarball/master
-wget -O /tmp/installers/nikto.tar.gz https://github.com/sullo/nikto/tarball/master
+#wget -O /tmp/installers/nikto.tar.gz https://github.com/sullo/nikto/tarball/master
 
-#mkdir /usr/share/burp
-#mv burp.jar /usr/share/burpsuite_free/burp.jar
 
-#sudo apt-get install -y mozilla-firefox chromium-browser
+
+# install Nikto from Git at https://github.com/sullo/nikto.git
+git clone https://github.com/sullo/nikto.git
 
 #Hack to fix w3af_console
 sudo ln -s /usr/bin/python /usr/bin/python2.5
