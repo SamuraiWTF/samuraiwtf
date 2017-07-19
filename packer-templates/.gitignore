@@ -1,5 +1,0 @@
-base-vm
-packer_cache
-*.box
-output-*
-packerlog*
