@@ -94,7 +94,7 @@ echo '...installing from debian repos...'
 sudo apt-get install -y firefox-esr leafpad
 
 ###Nikto missing, along with SQL map, word lists, firefox plugins
-sudo apt-get install -y w3af w3af-console nmap zenmap unzip #wireshark
+sudo apt-get install -y w3af w3af-console nmap zenmap unzip build-essentials #wireshark
 
 #Wireshark requires an input atm, probably need to deb-conf it
 #w3af_console tried to run /usr/bin/python2.5 (quick and dirty fix might be to create a symlink)
@@ -103,7 +103,43 @@ sudo apt-get install -y w3af w3af-console nmap zenmap unzip #wireshark
 ###JRE
 sudo apt-get install -y  default-jre
 
-###Need to work out burp
+echo 'Installing Docker Community Edition...'
+
+echo "deb http://ftp.debian.org/debian jessie-backports main" | sudo tee -a /etc/apt/sources.list
+sudo apt-get update
+
+sudo apt-get install -y vim
+
+sudo apt-get install -y \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common
+
+echo "...getting key..."
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+echo "...got key, adding docker repo..."
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/debian \
+   $(lsb_release -cs) \
+   stable"
+echo "...updating apt cache..."
+sudo apt-get update
+echo "...installing docker-ce..."
+sudo apt-get install -y docker-ce
+echo "...Docker CE installed."
+
+echo 'Installing Docker Compose...'
+sudo curl -s -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+echo '...Docker Compose installed.'
+
+echo 'Setting up wpscan'
+sudo docker pull wpscanteam/wpscan
+
+
 echo '...fetching installers...'
 sudo mkdir /tmp/installers
 sudo mkdir /opt/samurai
@@ -133,6 +169,28 @@ sudo ln -s /usr/bin/python /usr/bin/python2.5
 
 echo 'copying launch scripts to /usr/bin'
 sudo cp /tmp/config/launcher/* /usr/bin/
+
+###############################################
+# FIREFOX CONFIG 
+###############################################
+
+echo 'installing and configuring plugins for Firefox'
+
+#install node.js because Mozilla hates people
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+
+
+
+
+
+mkdir /tmp/extensions
+#sudo mkdir /usr/share/mozilla/extensions
+#wget -q -O foxyproxy.xpi https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/addon-2464-latest.xpi
+#unzip foxyproxy.xpi
+#rm foxyproxy.xpi
+#mkdir /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 
 ###############################################
 # USER CONFIG (Should be changed to samurai)
