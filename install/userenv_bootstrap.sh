@@ -107,10 +107,10 @@ sudo mkdir /opt/samurai
 sudo chmod 777 /tmp/installers
 
 sudo mkdir /opt/samurai/burpsuite
-sudo wget -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+sudo wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
-wget -O /tmp/installers/sqlmap.tar.gz https://github.com/sqlmapproject/sqlmap/tarball/master
-wget -O /tmp/installers/nikto.tar.gz https://github.com/sullo/nikto/tarball/master
+wget -q -O /tmp/installers/sqlmap.tar.gz https://github.com/sqlmapproject/sqlmap/tarball/master
+wget -q -O /tmp/installers/nikto.tar.gz https://github.com/sullo/nikto/tarball/master
 
 #mkdir /usr/share/burp
 #mv burp.jar /usr/share/burpsuite_free/burp.jar
