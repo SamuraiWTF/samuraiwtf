@@ -1,8 +1,0 @@
-# from http://web.archive.org/web/20121008032106/http://blogs.kma-llc.net/microknowledge/2010/05/may-2010-sharepoint-2010-release-version-numbers.html
-# TODO: add release data, supported, EOL, etc.
-14.0.0.4762=SharePoint 2010
-14.0.0.4730=SharePoint Server 2010 Release Candidate
-14.0.0.4536=SharePoint Server 2010 Public Beta
-14.0.0.4524=SharePoint Server 2010 SPC2009 Demos
-14.0.0.4514=SharePoint Server 2010 Technical Preview "2" [SPC2009 demo build]
-14.0.0.4006=SharePoint Server 2010 Technical Preview

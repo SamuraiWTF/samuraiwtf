@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-cd /opt/samurai/ZAP_2.4.3
-./zap.sh $*

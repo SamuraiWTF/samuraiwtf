@@ -1,4 +1,0 @@
-[Desktop Entry] Type=Application Name=Recon-NG GenericName=An all 
-inclusive recon framework Comment= Icon=python Exec=xterm -e 'recon-ng'; 
-exit StartupNotify=false Terminal=true 
-Categories=samurai-recon-dnswhois;samurai-recon-general;samurai-recon-location;samurai-recon-searchengines;samurai-recon-socialnetworks
