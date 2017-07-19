@@ -94,7 +94,7 @@ echo '...installing from debian repos...'
 sudo apt-get install -y firefox-esr leafpad
 
 ###Nikto missing, along with SQL map, word lists, firefox plugins
-sudo apt-get install -y w3af w3af-console nmap zenmap #wireshark
+sudo apt-get install -y w3af w3af-console nmap zenmap unzip #wireshark
 
 #Wireshark requires an input atm, probably need to deb-conf it
 #w3af_console tried to run /usr/bin/python2.5 (quick and dirty fix might be to create a symlink)
@@ -115,10 +115,18 @@ cd /opt/samurai
 mkdir /opt/samurai/burpsuite
 wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
-wget -q -O /tmp/installers/sqlmap.tar.gz https://github.com/sqlmapproject/sqlmap/tarball/master
-
 # install Nikto from Git at https://github.com/sullo/nikto.git
 git clone https://github.com/sullo/nikto.git
+
+# install sqlmap from Git at https://github.com/sqlmapproject/sqlmap.git
+git clone https://github.com/sqlmapproject/sqlmap.git
+
+# install fuzzdb from Git at https://github.com/fuzzdb-project/fuzzdb.git
+git clone https://github.com/fuzzdb-project/fuzzdb.git
+
+# installing ZAP from the OWASP download site on Git
+wget -q -O https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip /tmp/installers/
+unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip 
 
 #Hack to fix w3af_console
 sudo ln -s /usr/bin/python /usr/bin/python2.5
