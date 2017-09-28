@@ -4,7 +4,7 @@
  <menu id="root-menu" label="Openbox 3" >
  	<separator label="--SamuraiWTF--" />
  	<item label="Terminal">
- 		<action name="Execute"><execute>x-terminal-emulator</execute></action>
+ 		<action name="Execute"><execute>sakura</execute></action>
  	</item>
  	<item label="Firefox">
  		<action name="Execute"><execute>firefox</execute></action>
