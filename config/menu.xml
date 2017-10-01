@@ -10,6 +10,12 @@
  		<action name="Execute"><execute>firefox</execute></action>
  	</item>
  	<separator label="--Tools--" />
+	<item label="Burp Suite">
+		<action name="Execute"><execute>burp</execute></action>
+	</item>
+	<item label="Zed Attack Proxy">
+		<action name="Execute"><execute>zaproxy</execute></action>
+	</item>
  	<menu id="recon" label="Recon">
  		<separator label="--GUI--" />
  		<item label="W3AF">
@@ -28,8 +34,11 @@
  	</menu>
  	<menu id="discovery" label="Discovery">
  		<item label="SqlMap">
- 			<action	name="Execute"><command>x-terminal-emulator -e "echo Sqlmap not installed;bash"</command></action>
+ 			<action	name="Execute"><command>x-terminal-emulator -e "sqlmap --help;bash"</command></action>
  		</item>
+		<item label="Nikto">
+			<action name="Execute"><command>x-terminal-emulator -e "nikto -Help;bash"</command></action>
+		</item>
  	</menu>
  	<separator label="--System--" />
  	<item label="Logout">

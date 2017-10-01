@@ -26,9 +26,6 @@ done
 #Re-enable (disabled for dev to cut rebuild time)
 #sudo apt-get upgrade
 
-echo "deb http://ftp.debian.org/debian jessie-backports main" | sudo tee -a /etc/apt/sources.list
-sudo apt-get update
-
 ################################################
 # BASIC UTILS (Required for either target server or full environment)
 ###############################################
@@ -36,7 +33,7 @@ sudo apt-get update
 
 echo 'Installing basic system utils...'
 
-sudo apt-get install -y vim python-pip
+sudo apt-get install -y python-pip unzip gksudo
 
 ###Ruby/RVM
 
@@ -91,10 +88,14 @@ sudo apt-get install -y tint2 xcompmgr feh tilda
 echo 'Installing tools...'
 
 echo '...installing from debian repos...'
-sudo apt-get install -y firefox-esr leafpad
+sudo apt-get install -y sakura firefox-esr leafpad
 
 ###Nikto missing, along with SQL map, word lists, firefox plugins
-sudo apt-get install -y w3af w3af-console nmap zenmap unzip build-essentials #wireshark
+sudo apt-get install -y nmap zenmap unzip build-essential #wireshark
+
+#w3af w3af-console - need to be fetched from git repo https://github.com/andresriancho/w3af.git
+
+
 
 #Wireshark requires an input atm, probably need to deb-conf it
 #w3af_console tried to run /usr/bin/python2.5 (quick and dirty fix might be to create a symlink)
@@ -102,39 +103,6 @@ sudo apt-get install -y w3af w3af-console nmap zenmap unzip build-essentials #wi
 
 ###JRE
 sudo apt-get install -y  default-jre
-
-echo 'Installing Docker Community Edition...'
-
-echo "deb http://ftp.debian.org/debian jessie-backports main" | sudo tee -a /etc/apt/sources.list
-sudo apt-get update
-
-sudo apt-get install -y vim
-
-sudo apt-get install -y \
-     apt-transport-https \
-     ca-certificates \
-     curl \
-     gnupg2 \
-     software-properties-common
-
-echo "...getting key..."
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-echo "...got key, adding docker repo..."
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/debian \
-   $(lsb_release -cs) \
-   stable"
-echo "...updating apt cache..."
-sudo apt-get update
-echo "...installing docker-ce..."
-sudo apt-get install -y docker-ce
-echo "...Docker CE installed."
-
-echo 'Installing Docker Compose...'
-sudo curl -s -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-
-sudo chmod +x /usr/local/bin/docker-compose
-echo '...Docker Compose installed.'
 
 echo 'Setting up wpscan'
 sudo docker pull wpscanteam/wpscan
@@ -152,17 +120,17 @@ mkdir /opt/samurai/burpsuite
 wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
 # install Nikto from Git at https://github.com/sullo/nikto.git
-git clone https://github.com/sullo/nikto.git
+git clone --depth=1 https://github.com/sullo/nikto.git
 
 # install sqlmap from Git at https://github.com/sqlmapproject/sqlmap.git
-git clone https://github.com/sqlmapproject/sqlmap.git
+git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
 # install fuzzdb from Git at https://github.com/fuzzdb-project/fuzzdb.git
-git clone https://github.com/fuzzdb-project/fuzzdb.git
+git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
 
 # installing ZAP from the OWASP download site on Git
-wget -q -O https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip /tmp/installers/
-unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip 
+wget -q -O /tmp/installers/ZAP_2.6.0_Crossplatform.zip https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip
+unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip
 
 #Hack to fix w3af_console
 sudo ln -s /usr/bin/python /usr/bin/python2.5
@@ -171,7 +139,7 @@ echo 'copying launch scripts to /usr/bin'
 sudo cp /tmp/config/launcher/* /usr/bin/
 
 ###############################################
-# FIREFOX CONFIG 
+# FIREFOX CONFIG
 ###############################################
 
 echo 'installing and configuring plugins for Firefox'
@@ -179,11 +147,6 @@ echo 'installing and configuring plugins for Firefox'
 #install node.js because Mozilla hates people
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
-
-
-
-
-
 
 mkdir /tmp/extensions
 #sudo mkdir /usr/share/mozilla/extensions

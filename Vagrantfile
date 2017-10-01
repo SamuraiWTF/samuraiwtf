@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
 
 #shared settings
-  config.vm.box = "bento/debian-8.7"
+  config.vm.box = "bento/debian-9.1"
 
   config.vm.synced_folder "./config", "/tmp/config"
 
@@ -22,6 +22,7 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--vram", "16"]
     end
 
+    samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
     samuraiwtf.vm.provision :shell, path: "install/userenv_bootstrap.sh"
     samuraiwtf.vm.provision :shell, path: "install/target_bootstrap.sh"
 
@@ -41,6 +42,7 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--vram", "16"]
     end
 
+    samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
     userenv.vm.provision :shell, path: "install/userenv_bootstrap.sh"
   end
 
@@ -57,6 +59,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "2048"
     end
 
+    samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
     target.vm.provision :shell, path: "install/target_bootstrap.sh"
   end
 
