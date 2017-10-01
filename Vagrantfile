@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--vram", "16"]
     end
 
-    samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
+    userenv.vm.provision :shell, path: "install/shared_before.sh"
     userenv.vm.provision :shell, path: "install/userenv_bootstrap.sh"
   end
 
@@ -59,7 +59,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "2048"
     end
 
-    samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
+    target.vm.provision :shell, path: "install/shared_before.sh"
     target.vm.provision :shell, path: "install/target_bootstrap.sh"
   end
 
