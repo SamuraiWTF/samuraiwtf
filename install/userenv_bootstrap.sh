@@ -101,7 +101,17 @@ sudo apt-get install -y nmap zenmap unzip build-essential #wireshark
 #w3af_console tried to run /usr/bin/python2.5 (quick and dirty fix might be to create a symlink)
 #some zenmap features require sudo - need to add it to the ob menu a "gksudo zenmap"
 
+echo '...installing Google Chrome browser...'
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+sudo apt-get update
+sudo apt-get install -y google-chrome-stable
+
+sudo mkdir /opt/google/chrome/extensions
+sudo cp /tmp/config/crx/*.json /opt/google/chrome/extensions/
+
 ###JRE
+echo '...installing Java Runtime Environment...'
 sudo apt-get install -y  default-jre
 
 echo 'Setting up wpscan'

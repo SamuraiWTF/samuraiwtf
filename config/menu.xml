@@ -9,6 +9,9 @@
  	<item label="Firefox">
  		<action name="Execute"><execute>firefox</execute></action>
  	</item>
+	<item label="Chrome">
+		<action name="Execute"><execute>google-chrome</execute></action>
+	</item>
  	<separator label="--Tools--" />
 	<item label="Burp Suite">
 		<action name="Execute"><execute>burp</execute></action>
