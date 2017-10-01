@@ -25,6 +25,7 @@ Vagrant.configure("2") do |config|
     samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
     samuraiwtf.vm.provision :shell, path: "install/userenv_bootstrap.sh"
     samuraiwtf.vm.provision :shell, path: "install/target_bootstrap.sh"
+    samuraiwtf.vm.provision :shell, path: "install/local_targets.sh"
 
   end
 
