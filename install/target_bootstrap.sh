@@ -30,9 +30,14 @@ echo "?>" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic
 echo '...initializing services...'
 cd /opt/targets/samurai-dojo-docker
 sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/.htaccess
+sed "s/localhost/scavengerdb" /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php
+sudo cp /tmp/config/init_db.sh /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
 echo '...starting app...'
 sudo docker-compose up -d
 echo '...calling db init php script...'
+cd /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
+sudo bash init_db.sh
+cd /opt/targets/samurai-dojo-docker
 curl http://localhost:30080/reset-db.php #currently doesn't work. Might need a dependson directive in the compose yml
 echo '...stopping app...'
 sudo docker-compose down
