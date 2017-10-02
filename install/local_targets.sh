@@ -4,6 +4,7 @@ echo 'Setting hosts entries for local targets'
 
 echo '127.0.0.1   juice-shop.wtf' | sudo tee -a /etc/hosts
 echo '127.0.0.1   dojo-basic.wtf' | sudo tee -a /etc/hosts
+echo '127.0.0.1   dojo-scavenger.wtf' | sudo tee -a /etc/hosts
 
 sudo mkdir /home/samurai/.scripts
 sudo cp /tmp/config/startup_targets.sh /home/samurai/.scripts

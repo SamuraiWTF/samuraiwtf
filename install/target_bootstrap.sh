@@ -22,7 +22,7 @@ sudo git clone --recursive https://github.com/mgillam/samurai-dojo-docker.git /o
 echo '...rewriting db config...'
 sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
 echo "<?php" | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
-echo "\$dbhost = 'db';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+echo "\$dbhost = 'basicdb';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
 echo "\$dbuser = 'root';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
 echo "\$dbpass = 'samurai';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
 echo "\$dbname = 'samurai_dojo_basic';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
@@ -30,10 +30,11 @@ echo "?>" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic
 echo '...initializing services...'
 cd /opt/targets/samurai-dojo-docker
 sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/.htaccess
-sed "s/localhost/scavengerdb" /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php
+sed "s/localhost/scavengerdb/g" /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php
 sudo cp /tmp/config/init_db.sh /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
 echo '...starting app...'
 sudo docker-compose up -d
+sleep 15
 echo '...calling db init php script...'
 cd /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
 sudo bash init_db.sh
