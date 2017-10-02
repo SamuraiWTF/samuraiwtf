@@ -16,19 +16,20 @@ sudo docker pull bkimminich/juice-shop
 #BWAPP
 
 #DOJO BASIC
-echo 'Setting up dojo-basic...'
+echo 'Setting up Samurai Dojo...'
 echo '...cloning repo...'
-sudo git clone --recursive https://github.com/mgillam/dojo-basic-docker.git /opt/targets/dojo-basic-docker
+sudo git clone --recursive https://github.com/mgillam/samurai-dojo-docker.git /opt/targets/samurai-dojo-docker
 echo '...rewriting db config...'
-sudo rm /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
-echo "<?php" | sudo tee /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
-echo "\$dbhost = 'db';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
-echo "\$dbuser = 'root';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
-echo "\$dbpass = 'dojo';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
-echo "\$dbname = 'dojo_basic';" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
-echo "?>" | sudo tee -a /opt/targets/dojo-basic-docker/app/dojo-basic/config.inc
+sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+echo "<?php" | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+echo "\$dbhost = 'db';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+echo "\$dbuser = 'root';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+echo "\$dbpass = 'samurai';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+echo "\$dbname = 'samurai_dojo_basic';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+echo "?>" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
 echo '...initializing services...'
-cd /opt/targets/dojo-basic-docker
+cd /opt/targets/samurai-dojo-docker
+sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/.htaccess
 echo '...starting app...'
 sudo docker-compose up -d
 echo '...calling db init php script...'
