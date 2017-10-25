@@ -31,7 +31,8 @@ echo '...initializing services...'
 cd /opt/targets/samurai-dojo-docker
 sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/.htaccess
 sed "s/localhost/scavengerdb/g" /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php
-sudo cp /tmp/config/init_db.sh /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
+sudo tr '\r\n' '\n' < /tmp/config/init_db.sh > /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/init_db.sh
+sudo chmod 755 /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/init_db.sh
 echo '...starting app...'
 sudo docker-compose up -d
 sleep 15
@@ -54,7 +55,12 @@ echo 'Installing nginx'
 sudo apt-get install -y nginx
 
 echo 'Setting up reverse-proxy config'
-sudo cp /tmp/config/sites-enabled/* /etc/nginx/sites-enabled/
+pushd /tmp/config/sites-enabled
+for f in *.wtf
+do
+	sudo tr '\r\n' '\n' < "$f" > "/etc/nginx/sites-enabled/$f"
+done
+popd
 
 #Update hosts entries
 #TODO
