@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /opt/samurai/burpsuite/
-java -jar burp.jar
+/usr/bin/java -jar burp.jar
