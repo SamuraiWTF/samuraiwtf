@@ -7,7 +7,7 @@ echo '127.0.0.1   dojo-basic.wtf' | sudo tee -a /etc/hosts
 echo '127.0.0.1   dojo-scavenger.wtf' | sudo tee -a /etc/hosts
 
 sudo mkdir /home/samurai/.scripts
-sudo cp /tmp/config/startup_targets.sh /home/samurai/.scripts
+sudo tr '\r\n' '\n' < /tmp/config/startup_targets.sh > /home/samurai/.scripts/startup_targets.sh
 sudo chmod -R 755 /home/samurai/.scripts
 
 echo '@reboot root /home/samurai/.scripts/startup_targets.sh &' | sudo tee /etc/cron.d/targets
