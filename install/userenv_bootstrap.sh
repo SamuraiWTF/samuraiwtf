@@ -194,7 +194,7 @@ sudo cp /tmp/config/openbox_rc.xml /home/samurai/.config/openbox/rc.xml
 sudo mkdir /home/samurai/.config/tilda
 sudo cp /tmp/config/tilda_config_0 /home/samurai/.config/tilda/config_0
 
-sudo cp -r /vagrant/home/* ~/
+sudo cp -r /tmp/config/home/* ~/
 
 sudo chown -R samurai /home/samurai
 
