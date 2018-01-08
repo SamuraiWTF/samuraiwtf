@@ -146,7 +146,14 @@ unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip
 sudo ln -s /usr/bin/python /usr/bin/python2.5
 
 echo 'copying launch scripts to /usr/bin'
-sudo cp /tmp/config/launcher/* /usr/bin/
+
+pushd /tmp/config/launcher
+for f in ./*
+do
+	sudo tr '\r\n' '\n' < "$f" > "/usr/bin/$f"
+done
+popd
+
 
 ###############################################
 # FIREFOX CONFIG
