@@ -154,6 +154,10 @@ do
 done
 popd
 
+# Download burp plugins for offline installation
+curl https://portswigger.net/bappstore/bapps/download/c5071c7a7e004f72ae485e8a72911afc > ~/Downloads/co2.bapp
+curl https://portswigger.net/bappstore/bapps/download/0ac13c45adff4e31a3ca8dc76dd6286c > ~/Downloads/paramalyzer.bapp
+curl https://portswigger.net/bappstore/bapps/download/594a49bb233748f2bc80a9eb18a2e08f > ~/Downloads/wsdler.bapp
 
 ###############################################
 # FIREFOX CONFIG
