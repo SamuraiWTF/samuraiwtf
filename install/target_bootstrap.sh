@@ -53,14 +53,24 @@ echo 'Done.'
 
 echo 'Installing nginx'
 sudo apt-get install -y nginx
+sudo apt-get install php-fpm
 
 echo 'Setting up reverse-proxy config'
 pushd /tmp/config/sites-enabled
-for f in *.wtf
+for f in ./*
 do
 	sudo tr '\r\n' '\n' < "$f" > "/etc/nginx/sites-enabled/$f"
 done
 popd
+
+# Setting up default nginx site with vulnscripts (this is a temporary fix - ideally vulnscripts should be a separate docker target)
+echo 'setting up vulnscripts on localhost'
+pushd /var/www/html
+sudo mkdir vulnscripts
+cd vulnscripts/
+sudo tar xf /tmp/config/www/html/vulnscripts.tar
+popd
+
 
 #Update hosts entries
 #TODO
