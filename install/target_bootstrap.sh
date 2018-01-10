@@ -52,8 +52,7 @@ echo 'Done.'
 #Reverse Proxy
 
 echo 'Installing nginx'
-sudo apt-get install -y nginx
-sudo apt-get install php-fpm
+sudo apt-get install -y nginx php-fpm
 
 echo 'Setting up reverse-proxy config'
 pushd /tmp/config/sites-enabled
