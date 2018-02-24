@@ -1,6 +1,5 @@
 # samuraiwtf
 
-*NOTE: This project should currently be considered experimentation only, as it is not yet ready for release.*
 **Want to Contribute? See section at the end of this readme**
 
 The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
