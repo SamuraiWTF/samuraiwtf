@@ -1,0 +1,7 @@
+server {
+	listen 80;
+	server_name dvwa.wtf;
+	location / {
+		proxy_pass http://localhost:31000;
+	}
+}
