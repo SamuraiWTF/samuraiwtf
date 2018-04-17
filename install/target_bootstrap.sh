@@ -12,6 +12,8 @@ sudo mkdir /opt/targets
 echo 'Setting up Juice Shop app...'
 sudo docker pull bkimminich/juice-shop
 #sudo docker run -d -p 3000:3000 bkimminich/juice-shop
+echo 'Pulling DVWA docker image...'
+sudo docker pull bit0pus/docker-dvwa
 
 #BWAPP
 
