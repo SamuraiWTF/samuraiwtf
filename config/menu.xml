@@ -24,6 +24,9 @@
  		<!--item label="W3AF">
  			<action name="Execute"><execute>w3af</execute></action>
  		</item-->
+		<item label="Postman">
+ 			<action name="Execute"><command>postman</command></action>
+ 		</item> 
  		<item label="ZenMap">
  			<action name="Execute"><command>gksudo zenmap</command></action>
  		</item>
