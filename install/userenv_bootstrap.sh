@@ -164,7 +164,7 @@ curl https://dl.pstmn.io/download/latest/linux64 > ~/Downloads/postman.tgz
 cd Downloads
 tar -zxvf postman.tgz
 mv Postman /opt/samurai
-
+del postman.tgz
 
 ###############################################
 # FIREFOX CONFIG
