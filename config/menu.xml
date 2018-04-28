@@ -47,6 +47,11 @@
 		</item>
  	</menu>
  	<separator label="--System--" />
+    <item label="File Manager">
+       <action name="Execute">
+          <command>xfe</command>
+       </action>
+    </item> 
  	<item label="Logout">
        <action name="Execute">
           <command>openbox --exit</command>
