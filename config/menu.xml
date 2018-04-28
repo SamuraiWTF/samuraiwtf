@@ -51,7 +51,12 @@
        <action name="Execute">
           <command>xfe</command>
        </action>
-    </item> 
+    </item>
+     <item label="Network Manager">
+       <action name="Execute">
+          <command>nm-connection-editor</command>
+       </action>
+    </item>
  	<item label="Logout">
        <action name="Execute">
           <command>openbox --exit</command>

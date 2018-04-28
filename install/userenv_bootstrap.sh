@@ -79,7 +79,7 @@ sudo apt-get install -y xauth
 sudo apt-get install -y xorg
 sudo apt-get install -y openbox
 
-sudo apt-get install -y tint2 xcompmgr feh tilda xfe
+sudo apt-get install -y tint2 xcompmgr feh tilda xfe network-manager network-manager-gnome
 
 ################################################
 # TOOLS
