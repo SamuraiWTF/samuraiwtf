@@ -57,6 +57,11 @@
           <command>nm-connection-editor</command>
        </action>
     </item>
+     <item label="Display Manager">
+       <action name="Execute">
+          <command>arandr</command>
+       </action>
+    </item>
  	<item label="Logout">
        <action name="Execute">
           <command>openbox --exit</command>
