@@ -150,8 +150,9 @@ echo 'copying launch scripts to /usr/bin'
 pushd /tmp/config/launcher
 for f in ./*
 do
-	sudo tr '\r\n' '\n' < "$f" > "/usr/bin/$f"
-    sudo chmod 755 $f
+	sudo tr '\r\n' '\n' < "$f" > "/usr/bin/$f";
+    echo "Adding Execute to $f";
+    sudo chmod 755 "/usr/bin/$f";
 done
 popd
 
