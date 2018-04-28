@@ -151,6 +151,7 @@ pushd /tmp/config/launcher
 for f in ./*
 do
 	sudo tr '\r\n' '\n' < "$f" > "/usr/bin/$f"
+    sudo chmod 755 $f
 done
 popd
 
