@@ -52,11 +52,6 @@
           <command>xfe</command>
        </action>
     </item>
-     <item label="Network Manager">
-       <action name="Execute">
-          <command>nm-connection-editor</command>
-       </action>
-    </item>
      <item label="Display Manager">
        <action name="Execute">
           <command>arandr</command>
