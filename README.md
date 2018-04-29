@@ -4,6 +4,8 @@
 
 The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
 
+**To download an OVA to import a full virtual machine, visit https://
+
 ## Prerequisites
 - Vagrant - https://www.vagrantup.com/
 - Virtualization Software - The base vagrant box used supports virtualbox, vmware, and parallels, but testing at this time has been solely on virtualbox - https://www.virtualbox.org/
@@ -19,7 +21,22 @@ The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai
 The main Vagrant provisioning script for SamuraiWTF is *install/userenv_bootstrap.sh*.  A standalone targets provisioning script is in *install/target_bootstrap.sh*.  Changes for the system, targets, or tools installation or initialization for SamuraiWTF are all handled within these scripts.
 
 ## Production VM Notes:
-*TBD*
+Once you load the VM, the username and password are:
+
+- Username: samurai
+- Password: samurai
+
+The menus are available via a right click on the desktop.
+
+Once you log in the target systems need to be provisioned. (Working on doing this during the build!)
+
+First, load the Chrome bookmarks by starting *Chrome*.  Then select the *three dots* menu and select *Bookmarks*.
+From the sub menu, select *Import bookmarks and settings*.  In the window that opens, select *Bookmarks HTML File*.
+A file selector window will open.  Select the *chrome_bookmarks.html* file in the samurai home directory.
+
+Some of the target environments need to be initialized before use.  Use their setup or Reset DB links to do this.
+
+
 
 # Contributors
 Contributors are very welcome and the contribution process is standard:
