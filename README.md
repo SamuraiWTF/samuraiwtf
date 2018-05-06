@@ -12,7 +12,7 @@ The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai
 - vagrant-vbguest plugin for vagrant (virtualbox only) - this automatically installs guest extensions which provide support for higher display resolutions, as well as other conveniences like clipboard sharing - https://github.com/dotless-de/vagrant-vbguest
 
 ## Initial Install
-1. Make sure you have the prereqs listed above.
+1. Make sure you have the prereqs listed above. Webpwnized has made some helpful [YouTube video instructionals](https://www.youtube.com/watch?v=MCqpTpxNSlA&list=PLZOToVAK85Mru8ye3up3VR_jXms56OFE5) for getting Vagrant and VirtualBox  with vbguest plugin installed in case you have not done so before.
 2. Clone this repository.
 3. From a command-line terminal in the project directory, run the command `vagrant up`. Then sit back and wait for it to finish. Immediately after the first time start up it is recommend you do a restart using `vagrant reload`.  Just running the `vagrant up` will build the primary target, which is a single VM with both the user environment and the targets.  You can run `vagrant up userenv` and `vagrant up target` to build seperate virtual machines for those purposes.
 **NOTE: The Guest VM's window will open with the CLI while provisioning is still ongoing. It's best to leave it alone until the `vagrant up` command fully completes.**
