@@ -4,7 +4,9 @@
 
 The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
 
-**To download an OVA to import a full virtual machine, visit https://tiny.si/SamuraiWTF-4.0RC1.ova. A [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg) is available showing how to install from OVA.
+**To download an OVA to import a full virtual machine, visit https://tiny.si/SamuraiWTF-4.0RC1.ova. 
+
+A [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg) is available showing how to install from OVA.
 
 ## Prerequisites
 - Vagrant - https://www.vagrantup.com/
