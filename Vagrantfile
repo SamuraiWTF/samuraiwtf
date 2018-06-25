@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
 
 #shared settings
-  config.vm.box = "bento/debian-9.3"
+  config.vm.box = "bento/debian-9"
 
   config.vm.synced_folder "./config", "/tmp/config"
 
@@ -20,6 +20,7 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
       vb.memory = "4096"
       vb.customize ["modifyvm", :id, "--vram", "16"]
+      samuraiwtf.vm.provision :shell, path: "install/vbox_provisioning.sh"
     end
 
     samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"

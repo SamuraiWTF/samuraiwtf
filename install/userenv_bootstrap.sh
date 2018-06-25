@@ -33,7 +33,7 @@ done
 
 echo 'Installing basic system utils...'
 
-sudo apt-get install -y python-pip unzip gksudo
+apt-get install -y python-pip unzip gksudo
 
 ###Ruby/RVM
 
@@ -107,40 +107,45 @@ sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt
 apt-get update
 apt-get install -y google-chrome-stable
 
-sudo mkdir /opt/google/chrome/extensions
-sudo cp /tmp/config/crx/*.json /opt/google/chrome/extensions/
+echo '...installing Google Chrome extensions...'
+mkdir /opt/google/chrome/extensions
+cp /tmp/config/crx/*.json /opt/google/chrome/extensions/
 
 ###JRE
 echo '...installing Java Runtime Environment...'
-sudo apt-get install -y  default-jre
+apt-get install -y  default-jre
 
 echo 'Setting up wpscan'
-sudo docker pull wpscanteam/wpscan
+docker pull wpscanteam/wpscan
 
 
 echo '...fetching installers...'
-sudo mkdir /tmp/installers
-sudo mkdir /opt/samurai
-sudo chown samurai:samurai /opt/samurai
-sudo chmod 777 /tmp/installers
+mkdir /tmp/installers
+mkdir /opt/samurai
+chown samurai:samurai /opt/samurai
+chmod 777 /tmp/installers
 
 cd /opt/samurai
 
-mkdir /opt/samurai/burpsuite
-wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+sudo -u samurai mkdir /opt/samurai/burpsuite
+sudo -u samurai wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
 # install Nikto from Git at https://github.com/sullo/nikto.git
-git clone --depth=1 https://github.com/sullo/nikto.git
+echo '...fetching nikto from github...'
+sudo -u samurai git clone --depth=1 https://github.com/sullo/nikto.git
 
 # install sqlmap from Git at https://github.com/sqlmapproject/sqlmap.git
-git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
+echo '...fetching sqlmap from github...'
+sudo -u samurai git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
 # install fuzzdb from Git at https://github.com/fuzzdb-project/fuzzdb.git
-git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
+echo '...fetching fuzzdb from github...'
+sudo -u samurai git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
 
 # installing ZAP from the OWASP download site on Git
-wget -q -O /tmp/installers/ZAP_2.6.0_Crossplatform.zip https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip
-unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip
+echo '...fetching and unzipping ZAP from github...'
+sudo -u samurai wget -q -O /tmp/installers/ZAP_2.6.0_Crossplatform.zip https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip
+sudo -u samurai unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip
 
 #Hack to fix w3af_console
 ln -s /usr/bin/python /usr/bin/python2.5
@@ -157,11 +162,13 @@ done
 popd
 
 # Download burp plugins for offline installation
+echo '...downloading burp plugins to /home/samurai/Downloads folder...'
 sudo -u samurai curl https://portswigger.net/bappstore/bapps/download/c5071c7a7e004f72ae485e8a72911afc > /home/samurai/Downloads/co2.bapp
 sudo -u samurai curl https://portswigger.net/bappstore/bapps/download/0ac13c45adff4e31a3ca8dc76dd6286c > /home/samurai/Downloads/paramalyzer.bapp
 sudo -u samurai curl https://portswigger.net/bappstore/bapps/download/594a49bb233748f2bc80a9eb18a2e08f > /home/samurai/Downloads/wsdler.bapp
 
 # Add Postman
+echo '...downloading and unzipping latest postman tar...'
 curl https://dl.pstmn.io/download/latest/linux64 > /tmp/postman.tgz
 tar -zxvf /tmp/postman.tgz /opt/samurai/
 rm /tmp/postman.tgz
@@ -219,4 +226,4 @@ chown -R samurai /home/samurai
 #echo "xcompmgr -c &" >> /home/samurai/.config/openbox/autostart
 #echo "tint2 &" >> /home/samurai/.config/openbox/autostart
 
-echo 'All finished!'
+echo 'samurai user environment all finished!'
