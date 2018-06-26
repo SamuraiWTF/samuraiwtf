@@ -21,6 +21,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "4096"
       vb.customize ["modifyvm", :id, "--vram", "16"]
       samuraiwtf.vm.provision :shell, path: "install/vbox_provisioning.sh"
+      samuraiwtf.vm.provision :shell, inline: "shutdown -r +1"
     end
 
     samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
