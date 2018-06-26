@@ -33,7 +33,7 @@ done
 
 echo 'Installing basic system utils...'
 
-sudo apt-get install -y python-pip unzip gksudo
+apt-get install -y python-pip unzip gksudo
 
 ###Ruby/RVM
 
@@ -62,12 +62,11 @@ USERCOUNT=`cat /etc/passwd |grep "samurai:" | wc -l`
 if [ $USERCOUNT -eq 0 ]; then
   echo "It looks like the samurai user does not exist.  Creating..."
   useradd -d /home/samurai -U -m -s /bin/bash -G sudo -p b.jPTlW8tPfR6 samurai
+  sudo -u samurai mkdir /home/samurai/Downloads
 else
 	echo "Samurai user appears to already exist"
 fi
 
-#switch to the samurai user for permissions
-sudo su - samurai
 
 ################################################
 # GUI
@@ -75,12 +74,12 @@ sudo su - samurai
 
 echo 'Installing GUI packages...'
 
-sudo apt-get install -y xauth
-sudo apt-get install -y xorg
-sudo apt-get install -y openbox
+apt-get install -y xauth
+apt-get install -y xorg
+apt-get install -y openbox
 
 #sudo apt-get install -y tint2 xcompmgr feh tilda xfe network-manager network-manager-gnome arandr
-sudo apt-get install -y tint2 xcompmgr feh tilda xfe arandr
+apt-get install -y tint2 xcompmgr feh tilda xfe arandr
 
 ################################################
 # TOOLS
@@ -89,10 +88,10 @@ sudo apt-get install -y tint2 xcompmgr feh tilda xfe arandr
 echo 'Installing tools...'
 
 echo '...installing from debian repos...'
-sudo apt-get install -y sakura firefox-esr leafpad
+apt-get install -y sakura firefox-esr leafpad
 
 ###Nikto missing, along with SQL map, word lists, firefox plugins
-sudo apt-get install -y nmap zenmap unzip build-essential #wireshark
+apt-get install -y nmap zenmap unzip build-essential #wireshark
 
 #w3af w3af-console - need to be fetched from git repo https://github.com/andresriancho/w3af.git
 
@@ -104,47 +103,52 @@ sudo apt-get install -y nmap zenmap unzip build-essential #wireshark
 
 echo '...installing Google Chrome browser...'
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-sudo apt-get update
-sudo apt-get install -y google-chrome-stable
+sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+apt-get update
+apt-get install -y google-chrome-stable
 
-sudo mkdir /opt/google/chrome/extensions
-sudo cp /tmp/config/crx/*.json /opt/google/chrome/extensions/
+echo '...installing Google Chrome extensions...'
+mkdir /opt/google/chrome/extensions
+cp /tmp/config/crx/*.json /opt/google/chrome/extensions/
 
 ###JRE
 echo '...installing Java Runtime Environment...'
-sudo apt-get install -y  default-jre
+apt-get install -y  default-jre
 
 echo 'Setting up wpscan'
-sudo docker pull wpscanteam/wpscan
+docker pull wpscanteam/wpscan
 
 
 echo '...fetching installers...'
-sudo mkdir /tmp/installers
-sudo mkdir /opt/samurai
-sudo chown samurai:samurai /opt/samurai
-sudo chmod 777 /tmp/installers
+mkdir /tmp/installers
+mkdir /opt/samurai
+chown samurai:samurai /opt/samurai
+chmod 777 /tmp/installers
 
 cd /opt/samurai
 
-mkdir /opt/samurai/burpsuite
-wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+sudo -u samurai mkdir /opt/samurai/burpsuite
+sudo -u samurai wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
 
 # install Nikto from Git at https://github.com/sullo/nikto.git
-git clone --depth=1 https://github.com/sullo/nikto.git
+echo '...fetching nikto from github...'
+sudo -u samurai git clone --depth=1 https://github.com/sullo/nikto.git
 
 # install sqlmap from Git at https://github.com/sqlmapproject/sqlmap.git
-git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
+echo '...fetching sqlmap from github...'
+sudo -u samurai git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
 # install fuzzdb from Git at https://github.com/fuzzdb-project/fuzzdb.git
-git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
+echo '...fetching fuzzdb from github...'
+sudo -u samurai git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
 
 # installing ZAP from the OWASP download site on Git
-wget -q -O /tmp/installers/ZAP_2.6.0_Crossplatform.zip https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip
-unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip
+echo '...fetching and unzipping ZAP from github...'
+sudo -u samurai wget -q -O /tmp/installers/ZAP_2.6.0_Crossplatform.zip https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip
+sudo -u samurai unzip /tmp/installers/ZAP_2.6.0_Crossplatform.zip
 
 #Hack to fix w3af_console
-sudo ln -s /usr/bin/python /usr/bin/python2.5
+ln -s /usr/bin/python /usr/bin/python2.5
 
 echo 'copying launch scripts to /usr/bin'
 
@@ -158,16 +162,16 @@ done
 popd
 
 # Download burp plugins for offline installation
-curl https://portswigger.net/bappstore/bapps/download/c5071c7a7e004f72ae485e8a72911afc > ~/Downloads/co2.bapp
-curl https://portswigger.net/bappstore/bapps/download/0ac13c45adff4e31a3ca8dc76dd6286c > ~/Downloads/paramalyzer.bapp
-curl https://portswigger.net/bappstore/bapps/download/594a49bb233748f2bc80a9eb18a2e08f > ~/Downloads/wsdler.bapp
+echo '...downloading burp plugins to /home/samurai/Downloads folder...'
+sudo -u samurai curl https://portswigger.net/bappstore/bapps/download/c5071c7a7e004f72ae485e8a72911afc > /home/samurai/Downloads/co2.bapp
+sudo -u samurai curl https://portswigger.net/bappstore/bapps/download/0ac13c45adff4e31a3ca8dc76dd6286c > /home/samurai/Downloads/paramalyzer.bapp
+sudo -u samurai curl https://portswigger.net/bappstore/bapps/download/594a49bb233748f2bc80a9eb18a2e08f > /home/samurai/Downloads/wsdler.bapp
 
 # Add Postman
-curl https://dl.pstmn.io/download/latest/linux64 > ~/Downloads/postman.tgz
-cd Downloads
-tar -zxvf postman.tgz
-mv Postman /opt/samurai
-del postman.tgz
+echo '...downloading and unzipping latest postman tar...'
+curl https://dl.pstmn.io/download/latest/linux64 > /tmp/postman.tgz
+tar -zxvf /tmp/postman.tgz --directory=/opt/samurai/
+rm /tmp/postman.tgz
 
 ###############################################
 # FIREFOX CONFIG
@@ -177,7 +181,7 @@ echo 'installing and configuring plugins for Firefox'
 
 #install node.js because Mozilla hates people
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs
+apt-get install -y nodejs
 
 mkdir /tmp/extensions
 #sudo mkdir /usr/share/mozilla/extensions
@@ -192,34 +196,34 @@ mkdir /tmp/extensions
 
 echo 'Setting up user config...'
 
-sudo touch /var/log/vagrantup.log
-sudo chown vagrant /var/log/vagrantup.log
+touch /var/log/vagrantup.log
+chown vagrant /var/log/vagrantup.log
 
-sudo cp -v /tmp/config/xinitrc /home/samurai/.xinitrc
-sudo cp -v /tmp/config/bashprofile /home/samurai/.bash_profile
+cp -v /tmp/config/xinitrc /home/samurai/.xinitrc
+cp -v /tmp/config/bashprofile /home/samurai/.bash_profile
 
-sudo mkdir -v /home/samurai/.config >> /var/log/vagrantup.log
-sudo cp -v /tmp/config/tint2.conf /home/samurai/.config/
+mkdir -v /home/samurai/.config >> /var/log/vagrantup.log
+cp -v /tmp/config/tint2.conf /home/samurai/.config/
 
-sudo mkdir -v /home/samurai/.config/openbox >> /var/log/vagrantup.log
-sudo cp -v /tmp/config/openbox.autostart /home/samurai/.config/openbox/autostart
+mkdir -v /home/samurai/.config/openbox >> /var/log/vagrantup.log
+cp -v /tmp/config/openbox.autostart /home/samurai/.config/openbox/autostart
 
-sudo mkdir -v /home/samurai/.config/wallpaper >> /var/log/vagrantup.log
-sudo cp -v /tmp/config/samurai-background.png /home/samurai/.config/wallpaper
+mkdir -v /home/samurai/.config/wallpaper >> /var/log/vagrantup.log
+cp -v /tmp/config/samurai-background.png /home/samurai/.config/wallpaper
 
 echo "feh --bg-fill '/home/samurai/.config/wallpaper/samurai-background.png'" >> /home/samurai/.fehbg
 
-sudo cp /tmp/config/menu.xml /home/samurai/.config/openbox/
-sudo cp /tmp/config/openbox_rc.xml /home/samurai/.config/openbox/rc.xml
+cp /tmp/config/menu.xml /home/samurai/.config/openbox/
+cp /tmp/config/openbox_rc.xml /home/samurai/.config/openbox/rc.xml
 
-sudo mkdir /home/samurai/.config/tilda
-sudo cp /tmp/config/tilda_config_0 /home/samurai/.config/tilda/config_0
+mkdir /home/samurai/.config/tilda
+cp /tmp/config/tilda_config_0 /home/samurai/.config/tilda/config_0
 
-sudo cp -r /tmp/config/home/* /home/samurai/
+cp -r /tmp/config/home/* /home/samurai/
 
-sudo chown -R samurai /home/samurai
+chown -R samurai /home/samurai
 
 #echo "xcompmgr -c &" >> /home/samurai/.config/openbox/autostart
 #echo "tint2 &" >> /home/samurai/.config/openbox/autostart
 
-echo 'All finished!'
+echo 'samurai user environment all finished!'
