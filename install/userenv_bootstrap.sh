@@ -170,7 +170,7 @@ sudo -u samurai curl https://portswigger.net/bappstore/bapps/download/594a49bb23
 # Add Postman
 echo '...downloading and unzipping latest postman tar...'
 curl https://dl.pstmn.io/download/latest/linux64 > /tmp/postman.tgz
-tar -zxvf /tmp/postman.tgz /opt/samurai/
+tar -zxvf /tmp/postman.tgz --directory=/opt/samurai/
 rm /tmp/postman.tgz
 
 ###############################################
