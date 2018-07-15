@@ -32,7 +32,7 @@
  		</item>
  		<separator label="--Console--" />
  		<item label="nmap">
- 			<action name="Execute"><command>x-terminal-emulator -e "bash -c \"nmap -h;bash\""</command></action>
+ 			<action name="Execute"><command>xterm -e "bash -c \"nmap -h;bash\""</command></action>
  		</item>
  		<!--item label="w3af_console">
  			<action name="Execute"><command>x-terminal-emulator -e "w3af_console;bash"</command></action>
@@ -40,10 +40,10 @@
  	</menu>
  	<menu id="discovery" label="Discovery">
  		<item label="SqlMap">
- 			<action	name="Execute"><command>x-terminal-emulator -e "bash -c \"sqlmap --help;bash\""</command></action>
+ 			<action	name="Execute"><command>xterm -e "bash -c \"sqlmap --help;bash\""</command></action>
  		</item>
 		<item label="Nikto">
-			<action name="Execute"><command>x-terminal-emulator -e "bash -c \"nikto -Help;bash\""</command></action>
+			<action name="Execute"><command>xterm -e "bash -c \"nikto -Help;bash\""</command></action>
 		</item>
  	</menu>
  	<separator label="--System--" />

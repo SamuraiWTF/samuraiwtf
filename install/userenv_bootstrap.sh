@@ -88,7 +88,9 @@ apt-get install -y tint2 xcompmgr feh tilda xfe arandr
 echo 'Installing tools...'
 
 echo '...installing from debian repos...'
-apt-get install -y sakura firefox-esr leafpad
+apt-get install -y sakura 
+apt-get install -y firefox 
+apt-get install -y leafpad
 
 ###Nikto missing, along with SQL map, word lists, firefox plugins
 apt-get install -y nmap zenmap unzip build-essential #wireshark
@@ -113,7 +115,7 @@ cp /tmp/config/crx/*.json /opt/google/chrome/extensions/
 
 ###JRE
 echo '...installing Java Runtime Environment...'
-apt-get install -y  default-jre
+apt-get install -y default-jre
 
 echo 'Setting up wpscan'
 docker pull wpscanteam/wpscan
@@ -180,7 +182,8 @@ rm /tmp/postman.tgz
 echo 'installing and configuring plugins for Firefox'
 
 #install node.js because Mozilla hates people
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+#Rem'd next line because nodejs is vailable by default for ubuntu 18.04
+#curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 apt-get install -y nodejs
 
 mkdir /tmp/extensions
