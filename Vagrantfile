@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
 		 vss: true
 	  }
       samuraiwtf.vm.provision :shell, path: "install/hyper-v_provisioning_18.04.sh"
-      samuraiwtf.vm.provision :shell, inline: "shutdown -r +1"
+      samuraiwtf.vm.provision :shell, inline: "shutdown now"
     end
 
     #apply missing patches
