@@ -6,7 +6,8 @@ usermod -aG video samurai
 
 ###############################################################################
 # XRDP
-#
+# From https://github.com/Microsoft/linux-vm-tools
+
 export XRDP_PATH=~/git/src/github.com/neutrinolabs/xrdp
 
 # Install the xrdp service so we have the auto start behavior

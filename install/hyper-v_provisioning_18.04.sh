@@ -8,7 +8,7 @@ apt-get install -y sakura
 
 ###############################################################################
 # XRDP
-#
+# From https://github.com/Microsoft/linux-vm-tools
 
 # Install hv_kvp utils
 apt-get install -y linux-tools-virtual
