@@ -128,7 +128,7 @@ chmod 777 /tmp/installers
 cd /opt/samurai
 
 sudo -u samurai mkdir /opt/samurai/burpsuite
-sudo -u samurai wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?productid=100&type=jar
+sudo -u samurai wget -q -O /opt/samurai/burpsuite/burp.jar https://portswigger.net/burp/releases/download?product=community&type=jar
 
 # install Nikto from Git at https://github.com/sullo/nikto.git
 echo '...fetching nikto from github...'
