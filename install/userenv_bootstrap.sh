@@ -30,15 +30,6 @@ done
 # BASIC UTILS (Required for either target server or full environment)
 ###############################################
 
-
-echo 'Installing basic system utils...'
-
-apt-get install -y python-pip unzip gksudo
-
-###Ruby/RVM
-
-###Python/Pip?
-
 ################################################
 # TARGETS
 ################################################
@@ -78,6 +69,9 @@ apt-get install -y xauth
 apt-get install -y xorg
 apt-get install -y openbox
 
+# This is a deprecated package in ubuntu so might cause problems in future releases.
+apt-get install -y gksu
+
 #sudo apt-get install -y tint2 xcompmgr feh tilda xfe network-manager network-manager-gnome arandr
 apt-get install -y tint2 xcompmgr feh tilda xfe arandr
 
@@ -91,7 +85,7 @@ echo '...installing from debian repos...'
 apt-get install -y sakura firefox-esr leafpad
 
 ###Nikto missing, along with SQL map, word lists, firefox plugins
-apt-get install -y nmap zenmap unzip build-essential #wireshark
+apt-get install -y nmap zenmap unzip build-essential python-pip
 
 #w3af w3af-console - need to be fetched from git repo https://github.com/andresriancho/w3af.git
 
