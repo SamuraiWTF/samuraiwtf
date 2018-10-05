@@ -10,10 +10,16 @@ echo 'Constructing target apps...'
 sudo mkdir /opt/targets
 
 echo 'Setting up Juice Shop app...'
-sudo docker pull bkimminich/juice-shop
-#sudo docker run -d -p 3000:3000 bkimminich/juice-shop
+export JUICE_LINK=https://github.com$(curl -L -s https://github.com/bkimminich/juice-shop/releases/latest | grep node8_linux_x64.tgz | grep href | cut -d '"' -f 2)
+curl -s -L $JUICE_LINK -o /tmp/juiceshop.tgz
+tar xvfz /tmp/juiceshop.tgz -C /opt/targets 
+
+#sudo docker pull bkimminich/juice-shop
+#sudo docker run -d -p 3000:3000 bkimminich/juice-shop:snapshot
 echo 'Pulling DVWA docker image...'
 sudo docker pull bit0pus/docker-dvwa
+
+#MUTILLIDAE
 echo 'Pulling Mutillidae docker image...'
 sudo docker pull bit0pus/docker-mutillidae
 
@@ -50,8 +56,6 @@ sudo docker-compose down
 echo 'Done.'
 
 #DOJO SCAVENGER
-
-#MUTILLIDAE
 
 #Reverse Proxy
 
