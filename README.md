@@ -38,6 +38,9 @@ A file selector window will open.  Select the *chrome_bookmarks.html* file in th
 
 Some of the target environments need to be initialized before use.  Use their setup or Reset DB links to do this.
 
+# License
+The scripts and resources belonging to this project itself are licensed under the GNU Public License version 3 (GPL3).
+All software loaded into the VM, including the tools, targets, utilities, and operating system itself retain their original license agreements.
 
 
 # Contributors
