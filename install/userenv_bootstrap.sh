@@ -136,6 +136,9 @@ sudo -u samurai git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 echo '...fetching fuzzdb from github...'
 sudo -u samurai git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
 
+echo '...fetching seclists from github...'
+sudo -u samurai git clone --depth=1 https://github.com/danielmiessler/SecLists.git
+
 # installing ZAP from the OWASP download site on Git
 echo '...fetching and unzipping ZAP from github...'
 sudo -u samurai wget -q -O /tmp/installers/ZAP_2.6.0_Crossplatform.zip https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Crossplatform.zip

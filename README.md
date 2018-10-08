@@ -4,7 +4,7 @@
 
 The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
 
-**To download an OVA to import a full virtual machine, visit https://tiny.si/SamuraiWTF-4.0RC1.ova. 
+**To download an OVA to import a full virtual machine, visit https://tiny.si/samurai. 
 
 A [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg) is available showing how to install from OVA.
 
@@ -38,6 +38,9 @@ A file selector window will open.  Select the *chrome_bookmarks.html* file in th
 
 Some of the target environments need to be initialized before use.  Use their setup or Reset DB links to do this.
 
+# License
+The scripts and resources belonging to this project itself are licensed under the GNU Public License version 3 (GPL3).
+All software loaded into the VM, including the tools, targets, utilities, and operating system itself retain their original license agreements.
 
 
 # Contributors
