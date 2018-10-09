@@ -2,7 +2,7 @@
 
 if [[ -n $(find /home/samurai/ -name 'burpsuite_pro_*') ]]
 then
-	export BURP_PRO_PATH=$(find /home/samurai/ -name 'burpsuite_pro_*' | head -n 1)
+	export BURP_PRO_PATH=$(find /home/samurai/ -name 'burpsuite_pro_*.jar' | head -n 1)
 	/usr/bin/java -jar $BURP_PRO_PATH
 else
 	cd /opt/samurai/burpsuite/
