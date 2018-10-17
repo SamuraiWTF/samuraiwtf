@@ -78,6 +78,15 @@ cd vulnscripts/
 sudo tar xf /tmp/config/www/html/vulnscripts.tar
 popd
 
+echo 'setting up professionallyevil.wtf'
+pushd /var/www
+sudo mkdir professionallyevil
+chown samurai:samurai professionallyevil
+cd professionallyevil
+sudo echo 'It Works ;)' > index.html
+chown samurai:samurai index.html
+popd
+
 
 #Update hosts entries
 #TODO
