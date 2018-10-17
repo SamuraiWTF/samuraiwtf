@@ -81,10 +81,10 @@ popd
 echo 'setting up professionallyevil.wtf'
 pushd /var/www
 sudo mkdir professionallyevil
-chown samurai:samurai professionallyevil
+sudo chown samurai:samurai professionallyevil
 cd professionallyevil
 sudo echo 'It Works ;)' > index.html
-chown samurai:samurai index.html
+sudo chown samurai:samurai index.html
 popd
 
 
