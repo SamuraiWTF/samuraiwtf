@@ -8,7 +8,7 @@ echo '127.0.0.1   dojo-scavenger.wtf' | sudo tee -a /etc/hosts
 echo '127.0.0.1   dvwa.wtf' | sudo tee -a /etc/hosts
 echo '127.0.0.1   mutillidae.wtf' | sudo tee -a /etc/hosts
 echo '127.0.0.1   professionallyevil.wtf' | sudo tee -a /etc/hosts
-
+echo '127.0.0.1   amoksecurity.wtf' | sudo tee -a /etc/hosts
 
 sudo mkdir /home/samurai/.scripts
 sudo tr '\r\n' '\n' < /tmp/config/startup_targets.sh > /home/samurai/.scripts/startup_targets.sh
