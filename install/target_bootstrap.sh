@@ -78,11 +78,22 @@ cd vulnscripts/
 sudo tar xf /tmp/config/www/html/vulnscripts.tar
 popd
 
+# Setting up professionallyevil.wtf
 echo 'setting up professionallyevil.wtf'
 pushd /var/www
 sudo mkdir professionallyevil
 sudo chown samurai:samurai professionallyevil
 cd professionallyevil
+sudo echo 'It Works ;)' > index.html
+sudo chown samurai:samurai index.html
+popd
+
+# Setting up amoksecurity.wtf
+echo 'setting up amoksecurity.wtf'
+pushd /var/www
+sudo mkdir amoksecurity
+sudo chown samurai:samurai amoksecurity
+cd amoksecurity
 sudo echo 'It Works ;)' > index.html
 sudo chown samurai:samurai index.html
 popd
