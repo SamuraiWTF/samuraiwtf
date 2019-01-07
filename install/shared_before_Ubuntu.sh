@@ -30,7 +30,7 @@ sudo apt-get install -y docker-ce
 echo "...Docker CE installed."
 
 echo 'Installing Docker Compose...'
-sudo curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+sudo curl -sSL https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 #The above curl throws a bunch of output into stderr when working fine. Consider redirecting somewhere else.
 sudo chmod +x /usr/local/bin/docker-compose
 echo '...Docker Compose installed.'
