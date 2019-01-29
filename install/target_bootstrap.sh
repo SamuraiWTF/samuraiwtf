@@ -28,7 +28,7 @@ sudo docker pull bit0pus/docker-mutillidae
 #DOJO BASIC
 echo 'Setting up Samurai Dojo...'
 echo '...cloning repo...'
-sudo git clone --recursive https://github.com/mgillam/samurai-dojo-docker.git /opt/targets/samurai-dojo-docker
+sudo git clone --recursive https://github.com/SamuraiWTF/samurai-dojo-docker.git /opt/targets/samurai-dojo-docker
 echo '...rewriting db config...'
 sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
 echo "<?php" | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
