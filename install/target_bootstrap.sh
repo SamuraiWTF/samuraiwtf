@@ -25,7 +25,7 @@ sudo docker pull bit0pus/docker-mutillidae
 
 #BWAPP
 
-#DOJO BASIC
+#DOJO
 echo 'Setting up Samurai Dojo...'
 echo '...cloning repo...'
 sudo git clone --recursive https://github.com/SamuraiWTF/samurai-dojo-docker.git /opt/targets/samurai-dojo-docker
@@ -55,7 +55,13 @@ echo '...stopping app...'
 sudo docker-compose down
 echo 'Done.'
 
-#DOJO SCAVENGER
+#Client-Side Attack Lab
+echo "Setting up Mic_WG's Client-Side Attacks Lab"
+echo '...cloning repo...'
+sudo git clone https://github.com/ProfessionallyEvil/client-side-attacks-lab.git /opt/targets/client-side-attacks-lab
+echo '...fetching node dependencies for CORS Demonstrator...'
+cd /opt/targets/client-side-attacks-lab/targets/cors.dem
+npm install
 
 #Reverse Proxy
 
