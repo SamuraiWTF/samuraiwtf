@@ -1,0 +1,15 @@
+server {
+	listen 80;
+	server_name api.cors.dem;
+	location / {
+		proxy_pass http://localhost:3020;
+	}
+}
+
+server {
+	listen 80;
+	server_name client.cors.dem;
+	location / {
+		proxy_pass http://localhost:3021;
+	}
+}
