@@ -19,7 +19,8 @@ Vagrant.configure("2") do |config|
       vb.name = "SamuraiWTF-4.0.1"
     # Customize the amount of memory on the VM:
       vb.memory = "4096"
-      vb.customize ["modifyvm", :id, "--vram", "48"]
+      vb.customize ["modifyvm", :id, "--vram", "128"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
 
       samuraiwtf.vm.provision :shell, inline: "shutdown -r +1"
     end
