@@ -1,0 +1,47 @@
+
+- name: run the playbook tasks for SamuraiWTF provisioning
+  hosts: all
+  connection: local
+  tasks:
+
+  - name: apt upgrade (this may take a while)
+    apt:
+      upgrade: safe
+    become: true
+
+  - name: Create samurai user
+    user:
+      name: samurai
+      password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
+      groups: 'sudo'
+    become: true
+
+  - name: Install desktop environment (this may take a while)
+    apt:
+      name:
+        - mate-desktop-environment
+        - lightdm
+    become: true
+    notify:
+      - start lightdm
+
+  - name: Configure display manager
+    block:
+      - debconf:
+          name: lightdm
+        become: true
+      - lineinfile:
+          path: /etc/lightdm/lightdm.conf
+          line: 'autologin-user=samurai'
+        become: true
+      - lineinfile:
+          path: /etc/lightdm/lightdm.conf
+          line: 'autologin-user-timeout=0'
+        become: true  
+
+  handlers:
+    - name: start lightdm
+      shell: lightdm &
+      become: true
+# 
+# - import_playbook: test.yml
