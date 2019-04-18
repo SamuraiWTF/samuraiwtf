@@ -7,16 +7,4 @@
   - import_tasks: tools/burpsuite-tasks.yml
   - import_tasks: tools/nikto-tasks.yml
   - import_tasks: tools/sqlmap-tasks.yml
-
-
-
-
-
-
-
-# # install fuzzdb from Git at https://github.com/fuzzdb-project/fuzzdb.git
-# echo '...fetching fuzzdb from github...'
-# sudo -u samurai git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
-
-# echo '...fetching seclists from github...'
-# sudo -u samurai git clone --depth=1 https://github.com/danielmiessler/SecLists.git
+  - import_tasks: tools/wordlists-tasks.yml

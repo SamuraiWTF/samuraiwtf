@@ -1,8 +1,8 @@
 - name: fetch sqlmap from github
-   git:
-     repo: https://github.com/sqlmapproject/sqlmap.git
-     dest: /opt/samurai/sqlmap
-     depth: 1
+  git:
+    repo: https://github.com/sqlmapproject/sqlmap.git
+    dest: /opt/samurai/sqlmap
+    depth: 1
 
 
 - name: Create sqlmap launcher
