@@ -5,3 +5,24 @@
   tasks:
 
   - import_tasks: tools/burpsuite-tasks.yml
+  - import_tasks: tools/nikto-tasks.yml
+
+
+
+
+
+
+#   # install Nikto from Git at https://github.com/sullo/nikto.git
+# echo '...fetching nikto from github...'
+# sudo -u samurai git clone --depth=1 https://github.com/sullo/nikto.git
+
+# # install sqlmap from Git at https://github.com/sqlmapproject/sqlmap.git
+# echo '...fetching sqlmap from github...'
+# sudo -u samurai git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
+
+# # install fuzzdb from Git at https://github.com/fuzzdb-project/fuzzdb.git
+# echo '...fetching fuzzdb from github...'
+# sudo -u samurai git clone --depth=1 https://github.com/fuzzdb-project/fuzzdb.git
+
+# echo '...fetching seclists from github...'
+# sudo -u samurai git clone --depth=1 https://github.com/danielmiessler/SecLists.git
