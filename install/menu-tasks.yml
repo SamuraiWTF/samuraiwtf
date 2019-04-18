@@ -4,32 +4,40 @@
     state: directory
   become: yes
 
-- name: Copy in directory files
+- name: Create main samurai-wtf menu
   copy:
-    src: "{{ item }}"
-    dest: /etc/samurai.d/desktop-directories/
-    mode: 0644
+    dest: /etc/samurai.d/desktop-directories/samuraiwtf.directory
+    content: |
+      [Desktop Entry]
+      Type=Directory
+      Name=Samurai WTF
+      Icon=/opt/samurai/icons/samurai-icon.png
+    mode: 0744
   become: yes
-  with_fileglob:
-    - "xdg-menu/*.directory"
+
+- name: Create main samurai-wtf menu
+  copy:
+    dest: /etc/xdg/menus/applications-merged/samuraiwtf.menu
+    content: |
+      <!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+      "http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">
+      <Menu>
+        <Name>Applications</Name> <!-- This is necessary for your directory to appear in the applications drop down -->
+        <Menu> <!--app -->
+          <Name>Samurai</Name>
+          <AppDir>/etc/samurai.d/applications</AppDir>
+          <DirectoryDir>/etc/samurai.d/desktop-directories</DirectoryDir>
+          <Directory>samuraiwtf.directory</Directory>
+          <Include>
+            <Category>samuraiwtf</Category>
+          </Include>
+        </Menu> <!-- End app -->
+      </Menu> <!-- End Applications -->
+    mode: 0744
+  become: yes
 
 - name: Setup menu /etc/samurai.d/applications
   file:
     path: /etc/samurai.d/applications/
     state: directory
-  become: yes
-
-- name: Copy in application files
-  copy:
-    src: "{{ item }}"
-    dest: /etc/samurai.d/applications/
-    mode: 0644
-  become: yes
-  with_fileglob:
-    - "xdg-menu/*.desktop"
-
-- name: Setup samuraiwtf.menu
-  copy:
-    src: xdg-menu/samuraiwtf.menu
-    dest: /etc/xdg/menus/applications-merged/
   become: yes
