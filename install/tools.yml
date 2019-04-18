@@ -8,3 +8,4 @@
   - import_tasks: tools/nikto-tasks.yml
   - import_tasks: tools/sqlmap-tasks.yml
   - import_tasks: tools/wordlists-tasks.yml
+  - import_tasks: tools/zap-tasks.yml
