@@ -1,0 +1,7 @@
+- name: Install tools for SamuraiWTF
+  hosts: all
+  connection: local
+  become: yes
+  tasks:
+
+  - import_tasks: tools/burpsuite-tasks.yml

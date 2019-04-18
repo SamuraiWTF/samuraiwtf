@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/opt/samurai/zap/ZAP_2.6.0/zap.sh
+Name=ZAP
+Icon=/path/to/icon
+Categories=samuraiwtf
+Comment=OWASP Interception proxy
+Name[en_US]=ZAP

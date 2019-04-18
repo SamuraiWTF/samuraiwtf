@@ -1,0 +1,35 @@
+- name: Setup menu /etc/samurai.d/desktop-directories
+  file:
+    path: /etc/samurai.d/desktop-directories/
+    state: directory
+  become: yes
+
+- name: Copy in directory files
+  copy:
+    src: "{{ item }}"
+    dest: /etc/samurai.d/desktop-directories/
+    mode: 0644
+  become: yes
+  with_fileglob:
+    - "xdg-menu/*.directory"
+
+- name: Setup menu /etc/samurai.d/applications
+  file:
+    path: /etc/samurai.d/applications/
+    state: directory
+  become: yes
+
+- name: Copy in application files
+  copy:
+    src: "{{ item }}"
+    dest: /etc/samurai.d/applications/
+    mode: 0644
+  become: yes
+  with_fileglob:
+    - "xdg-menu/*.desktop"
+
+- name: Setup samuraiwtf.menu
+  copy:
+    src: xdg-menu/samuraiwtf.menu
+    dest: /etc/xdg/menus/applications-merged/
+  become: yes

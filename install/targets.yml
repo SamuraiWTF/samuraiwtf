@@ -1,0 +1,4 @@
+- name: Install targets for SamuraiWTF
+  hosts: all
+  connection: local
+  tasks:

@@ -1,5 +1,5 @@
 
-- name: run the playbook tasks for SamuraiWTF provisioning
+- name: The main SamuraiWTF provisioning playbook
   hosts: all
   connection: local
   tasks:
@@ -15,6 +15,13 @@
       password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
       groups: 'sudo'
     become: true
+
+  - name: Copy configuration files to opt/samurai
+    copy:
+      src: ../config/opt/
+      dest: /opt/
+      mode: 0744
+    become: yes
 
   - name: Install desktop environment (this may take a while)
     apt:
@@ -37,11 +44,21 @@
       - lineinfile:
           path: /etc/lightdm/lightdm.conf
           line: 'autologin-user-timeout=0'
-        become: true  
+        become: true
+
+  - import_tasks: menu-tasks.yml
+
 
   handlers:
     - name: start lightdm
       shell: lightdm &
       become: true
-# 
+
+- name: Install tools
+  import_playbook: tools.yml
+
+- name: Install targets
+  import_playbook: targets.yml
+
+#
 # - import_playbook: test.yml
