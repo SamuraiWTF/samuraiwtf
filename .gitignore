@@ -1,3 +1,4 @@
 .vagrant
 *.log
 .DS_Store
+config/home/Burp*
