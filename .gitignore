@@ -2,3 +2,4 @@
 *.log
 .DS_Store
 config/home/Burp*
+config/home/burp*
