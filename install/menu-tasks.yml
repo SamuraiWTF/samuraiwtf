@@ -15,6 +15,12 @@
     mode: 0744
   become: yes
 
+- name: Create applications-merged folder
+  file:
+    path: /etc/xdg/menus/applications-merged
+    state: directory
+  become: yes
+
 - name: Create main samurai-wtf menu
   copy:
     dest: /etc/xdg/menus/applications-merged/samuraiwtf.menu
