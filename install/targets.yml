@@ -1,4 +1,46 @@
 - name: Install targets for SamuraiWTF
   hosts: all
   connection: local
+  become: yes
   tasks:
+
+  - name: Create targets folder
+    file:
+      path: /opt/targets
+      state: directory
+
+  - name: Install nginx
+    apt:
+      name:
+        - nginx
+        - php-fpm
+
+  - name: Check if npm binary installed
+    stat:
+      path: /usr/bin/npm
+    register: stat_npm
+
+  - name: Download npm installer
+    get_url:
+      url: https://deb.nodesource.com/setup_11.x
+      dest: /tmp/npm_setup.sh
+      mode: 0744
+    when: stat_npm.stat.exists == False
+
+  - name: Install npm repo
+    shell: '/tmp/npm_setup.sh'
+    when: stat_npm.stat.exists == False
+
+  - name: Install nodejs
+    apt:
+      name: nodejs
+
+  - import_tasks: targets/juice-shop/juice-shop-tasks.yml
+
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+    
