@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
 # Single Machine
 # Primary build
   config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
-    samuraiwtf.vm.host_name = "SamuraiWTF"
+    samuraiwtf.vm.host_name = "SamuraiWTF"    
 
     samuraiwtf.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
@@ -20,15 +20,22 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
       vb.memory = "4096"
       vb.customize ["modifyvm", :id, "--vram", "128"]
-      vb.customize ["modifyvm", :id, "--cpus", "2"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]      
 
+      # samuraiwtf.vbguest.auto_update = false
       # samuraiwtf.vm.provision :shell, inline: "shutdown -r +1"
     end
 
-    samuraiwtf.vm.provision "ansible_local" do |ansible|
-      ansible.playbook = "install/samuraiwtf.yml"
-      ansible.version = "latest"
-      ansible.install_mode = "pip"
+    samuraiwtf.vm.provision "ansible_local" do |ansible1|      
+      ansible1.playbook = "install/bootstrap.yml"
+      ansible1.version = "latest"
+      ansible1.install_mode = "pip"
+    end
+
+    samuraiwtf.vm.provision :reload, run: "once" 
+
+    samuraiwtf.vm.provision "ansible_local" do |ansible2|      
+      ansible2.playbook = "install/samuraiwtf.yml"
     end
     # samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
     # samuraiwtf.vm.provision :shell, path: "install/userenv_bootstrap.sh"
