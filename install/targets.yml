@@ -15,6 +15,10 @@
         - nginx
         - php-fpm
 
+  - name: Install docker python lib
+    pip:
+      name: docker
+
   - name: Check if npm binary installed
     stat:
       path: /usr/bin/npm
@@ -36,6 +40,7 @@
       name: nodejs
 
   - import_tasks: targets/juice-shop/juice-shop-tasks.yml
+  - import_tasks: targets/dvwa/dvwa-tasks.yml 
 
 
   handlers:
@@ -43,4 +48,3 @@
       service:
         name: nginx
         state: restarted
-    
