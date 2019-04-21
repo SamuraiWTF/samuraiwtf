@@ -1,0 +1,154 @@
+- name: Install docker-compose
+  apt:
+    name: docker-compose
+
+- name: Check if docker daemon.json configuration file exists
+  stat:
+    path: /etc/docker/daemon.json
+  register: daemon_json
+
+- name: Turn off docker so we can update DNS if needed
+  service:
+    name: docker
+    state: stopped
+  when: daemon_json.stat.exists == False
+
+- name: Update docker DNS configuration
+  copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+      "dns": ["8.8.8.8", "8.8.4.4"]
+      }
+  when: daemon_json.stat.exists == False
+
+- name: Make sure docker service is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Fetch dojo-basic and dojo-scavenger docker containers
+  git:
+    repo: https://github.com/SamuraiWTF/Samurai-Dojo.git
+    dest: /opt/targets/samurai-dojo
+    depth: 1
+    force: yes
+
+
+- name: Setup dojo-basic database configuration
+  copy:
+    dest: /opt/targets/samurai-dojo/apps/Samurai-Dojo/basic/config.inc
+    content: |
+      <?php
+      $dbhost = 'basicdb';
+      $dbuser = 'root';
+      $dbpass = 'samurai';
+      $dbname = 'samurai_dojo_basic';
+      ?>
+    mode: 0744
+  become: yes
+
+- name: Remove .htaccess if present
+  file:
+    path: /opt/targets/samurai-dojo/apps/Samurai-Dojo/basic/.htaccess
+    state: absent
+  become: yes
+
+- name: Update dojo-scavenger partners.php links from localhost
+  replace:
+    path: /opt/targets/samurai-dojo/apps/Samurai-Dojo/scavenger/partners.php
+    regexp: 'localhost'
+    replace: 'scavengerdb'
+  become: yes
+
+- name: Copy scavenger init db script
+  copy:
+    dest: /opt/targets/samurai-dojo/apps/Samurai-Dojo/scavenger/init_db.sh
+    src: ../config/init_db.sh
+    mode: 0744
+  become: yes
+
+- name: Script to start samurai dojo targets
+  copy:
+    dest: /usr/local/bin/
+    src: ../../targets/samurai-dojo/start_samurai-dojo.sh
+    mode: 0744
+    force: no
+  become: yes
+
+- name: Create Samurai Dojo target service descriptor
+  copy:
+    dest: /etc/systemd/system/wtf-dojo.service
+    content: |
+      [Unit]
+      Description=dojo-basic and dojo-scavenger target service
+      After=docker.service
+      Requires=docker.service
+      [Service]
+      Type=forking
+      ExecStart=/usr/local/bin/start_samurai-dojo.sh
+      [Install]
+      WantedBy=multi-user.target
+    mode: 0744
+  become: yes
+
+- name: Create dojo-basic nginx config
+  copy:
+    dest: /etc/nginx/conf.d/dojo-basic.conf
+    content: |
+      server {
+        listen 80;
+        server_name dojo-basic.wtf;
+        location / {
+          proxy_pass http://localhost:30080;
+        }
+      }
+    mode: 0644
+  become: yes
+  notify:
+    - restart nginx
+
+- name: Create dojo-scavenger nginx config
+  copy:
+    dest: /etc/nginx/conf.d/dojo-scavenger.conf
+    content: |
+      server {
+        listen 80;
+        server_name dojo-scavenger.wtf;
+        location / {
+          proxy_pass http://localhost:31080;
+        }
+      }
+    mode: 0644
+  become: yes
+  notify:
+    - restart nginx
+
+
+- name: Start Samurai-Dojo targets
+  service:
+    name: wtf-dojo.service
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Initialize the scavenger DB
+  shell: ./init_db.sh
+  args:
+    chdir: /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
+    executable: /usr/bin/bash
+  become: yes
+
+- name: Reset dojo-basic DB
+  uri:
+    url: http://localhost:30080/reset-db.php
+
+- name: Setup hosts file entries
+  lineinfile:
+    dest: /etc/hosts
+    line: '{{ item }}'
+  with_items:
+    - '127.0.0.1   dojo-basic.wtf'
+    - '127.0.0.1   dojo-scavenger.wtf'
+  become: y
