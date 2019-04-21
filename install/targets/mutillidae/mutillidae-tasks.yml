@@ -1,0 +1,55 @@
+- name: Make sure docker service is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Install Mutilldae docker container
+  docker_container:
+    name: mutillidae
+    image: bit0pus/docker-mutillidae
+
+- name: Create service descriptor
+  copy:
+    dest: /etc/systemd/system/wtf-mutillidae.service
+    content: |
+      [Unit]
+      Description=Mutillidae SamuraiWTF Target
+      After=docker.service
+      Requires=docker.service
+      [Service]
+      TimeoutStartSec=0
+      Restart=always
+      ExecStartPre=-/usr/bin/docker stop -t 10 %n
+      ExecStart=/usr/bin/docker run --rm -p 33080:80 -p 22222:22 -p 33333:3306 --name %n bit0pus/docker-mutillidae
+      ExecStop=/usr/bin/docker stop -t 10 %n
+      ExecStopPost=/usr/bin/docker stop -t 10 mutillidae
+      [Install]
+      WantedBy=multi-user.target
+    mode: 0744
+
+- name: Start Mutillidae
+  service:
+    name: wtf-mutillidae.service
+    state: started
+    enabled: yes
+
+- name: Setup hosts file entries
+  lineinfile:
+    dest: /etc/hosts
+    line: '127.0.0.1   mutillidae.wtf'
+
+- name: Setup nginx reverse-proxy config
+  copy:
+    dest: /etc/nginx/sites-enabled/juice-shop.wtf
+    content: |
+      server {
+        listen 80;
+        server_name mutillidae.wtf;
+        location / {
+          proxy_pass http://localhost:33080;
+        }
+      }
+    mode: 0744
+  notify:
+    - restart nginx

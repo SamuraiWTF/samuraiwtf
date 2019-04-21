@@ -40,7 +40,8 @@
       name: nodejs
 
   - import_tasks: targets/juice-shop/juice-shop-tasks.yml
-  - import_tasks: targets/dvwa/dvwa-tasks.yml 
+  - import_tasks: targets/dvwa/dvwa-tasks.yml
+  - import_tasks: targets/mutillidae/mutillidae-tasks.yml
 
 
   handlers:
