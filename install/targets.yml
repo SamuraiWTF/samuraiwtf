@@ -19,6 +19,22 @@
     pip:
       name: docker
 
+  - name: Check if docker-compose is already installed
+    stat:
+      path: /usr/bin/docker-compose
+    register: stat_docker_compose
+
+  - name: install docker-compose
+    shell: 'curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose'
+    become: yes
+    when: stat_docker_compose.stat.exists == False
+
+  - name: set permissions for docker-compose
+    file:
+      path: /usr/bin/docker-compose
+      mode: "+x"
+    become: yes
+
   - name: Check if npm binary installed
     stat:
       path: /usr/bin/npm
@@ -42,6 +58,7 @@
   - import_tasks: targets/juice-shop/juice-shop-tasks.yml
   - import_tasks: targets/dvwa/dvwa-tasks.yml
   - import_tasks: targets/mutillidae/mutillidae-tasks.yml
+  - import_tasks: targets/samurai-dojo/samurai-dojo-tasks.yml
 
 
   handlers:

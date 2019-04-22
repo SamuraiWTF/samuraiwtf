@@ -1,6 +1,3 @@
-- name: Install docker-compose
-  apt:
-    name: docker-compose
 
 - name: Check if docker daemon.json configuration file exists
   stat:
@@ -38,7 +35,7 @@
 
 - name: Setup dojo-basic database configuration
   copy:
-    dest: /opt/targets/samurai-dojo/apps/Samurai-Dojo/basic/config.inc
+    dest: /opt/targets/samurai-dojo/src/basic/config.inc
     content: |
       <?php
       $dbhost = 'basicdb';
@@ -51,30 +48,22 @@
 
 - name: Remove .htaccess if present
   file:
-    path: /opt/targets/samurai-dojo/apps/Samurai-Dojo/basic/.htaccess
+    path: /opt/targets/samurai-dojo/src/basic/.htaccess
     state: absent
   become: yes
 
 - name: Update dojo-scavenger partners.php links from localhost
   replace:
-    path: /opt/targets/samurai-dojo/apps/Samurai-Dojo/scavenger/partners.php
+    path: /opt/targets/samurai-dojo/src/scavenger/partners.php
     regexp: 'localhost'
     replace: 'scavengerdb'
   become: yes
 
 - name: Copy scavenger init db script
   copy:
-    dest: /opt/targets/samurai-dojo/apps/Samurai-Dojo/scavenger/init_db.sh
+    dest: /opt/targets/samurai-dojo/src/scavenger/init_db.sh
     src: ../config/init_db.sh
     mode: 0744
-  become: yes
-
-- name: Script to start samurai dojo targets
-  copy:
-    dest: /usr/local/bin/
-    src: ../../targets/samurai-dojo/start_samurai-dojo.sh
-    mode: 0744
-    force: no
   become: yes
 
 - name: Create Samurai Dojo target service descriptor
@@ -85,9 +74,12 @@
       Description=dojo-basic and dojo-scavenger target service
       After=docker.service
       Requires=docker.service
+
       [Service]
-      Type=forking
-      ExecStart=/usr/local/bin/start_samurai-dojo.sh
+      Type=simple
+      WorkingDirectory=/opt/targets/samurai-dojo
+      ExecStart=/usr/bin/docker-compose up
+
       [Install]
       WantedBy=multi-user.target
     mode: 0744
@@ -133,11 +125,18 @@
     enabled: yes
   become: yes
 
+- name: Wait for dojo-basic to be available
+  wait_for:
+    port: 30080
+    sleep: 10
+    delay: 1
+    timeout: 120
+
 - name: Initialize the scavenger DB
   shell: ./init_db.sh
   args:
-    chdir: /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
-    executable: /usr/bin/bash
+    chdir: /opt/targets/samurai-dojo/src/scavenger
+    executable: /bin/bash
   become: yes
 
 - name: Reset dojo-basic DB
