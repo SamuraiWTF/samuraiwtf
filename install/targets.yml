@@ -35,6 +35,10 @@
       mode: "+x"
     become: yes
 
+  - name: Install docker-compose python lib
+    pip:
+      name: docker-compose
+
   - name: Check if npm binary installed
     stat:
       path: /usr/bin/npm

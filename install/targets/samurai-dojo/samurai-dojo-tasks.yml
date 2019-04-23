@@ -28,14 +28,14 @@
 - name: Fetch dojo-basic and dojo-scavenger docker containers
   git:
     repo: https://github.com/SamuraiWTF/Samurai-Dojo.git
-    dest: /opt/targets/samurai-dojo
+    dest: /opt/targets/samuraidojo
     depth: 1
     force: yes
 
 
 - name: Setup dojo-basic database configuration
   copy:
-    dest: /opt/targets/samurai-dojo/src/basic/config.inc
+    dest: /opt/targets/samuraidojo/src/basic/config.inc
     content: |
       <?php
       $dbhost = 'basicdb';
@@ -48,23 +48,47 @@
 
 - name: Remove .htaccess if present
   file:
-    path: /opt/targets/samurai-dojo/src/basic/.htaccess
+    path: /opt/targets/samuraidojo/src/basic/.htaccess
     state: absent
   become: yes
 
 - name: Update dojo-scavenger partners.php links from localhost
   replace:
-    path: /opt/targets/samurai-dojo/src/scavenger/partners.php
+    path: /opt/targets/samuraidojo/src/scavenger/partners.php
     regexp: 'localhost'
     replace: 'scavengerdb'
   become: yes
 
 - name: Copy scavenger init db script
   copy:
-    dest: /opt/targets/samurai-dojo/src/scavenger/init_db.sh
+    dest: /opt/targets/samuraidojo/src/scavenger/init_db.sh
     src: ../config/init_db.sh
     mode: 0744
   become: yes
+
+- name: Start samurai-dojo docker service
+  docker_service:
+    project_src: /opt/targets/samuraidojo
+    restarted: true
+  register: output
+
+- debug:
+    var: output
+
+- assert:
+    that:
+      - "basicdb.samuraidojo_basicdb_1.state.running"
+      - "basicphp.samuraidojo_basicphp_1.state.running"
+
+- name: Stop samurai-dojo docker service
+  docker_service:
+    project_src: /opt/targets/samuraidojo
+    stopped: true
+
+- assert:
+    that:
+      - "not basicdb.samuraidojo_basicdb_1.state.running"
+      - "not basicphp.samuraidojo_basicphp_1.state.running"
 
 - name: Create Samurai Dojo target service descriptor
   copy:
@@ -77,7 +101,7 @@
 
       [Service]
       Type=simple
-      WorkingDirectory=/opt/targets/samurai-dojo
+      WorkingDirectory=/opt/targets/samuraidojo
       ExecStart=/usr/bin/docker-compose up
 
       [Install]
@@ -135,7 +159,7 @@
 - name: Initialize the scavenger DB
   shell: ./init_db.sh
   args:
-    chdir: /opt/targets/samurai-dojo/src/scavenger
+    chdir: /opt/targets/samuraidojo/src/scavenger
     executable: /bin/bash
   become: yes
 
