@@ -28,32 +28,29 @@ sudo docker pull bit0pus/docker-mutillidae
 #DOJO
 echo 'Setting up Samurai Dojo...'
 echo '...cloning repo...'
-sudo git clone --recursive https://github.com/SamuraiWTF/samurai-dojo-docker.git /opt/targets/samurai-dojo-docker
+sudo git clone --recursive https://github.com/SamuraiWTF/Samurai-Dojo-legacy.git /opt/targets/samurai-dojo
 echo '...rewriting db config...'
-sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
-echo "<?php" | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
-echo "\$dbhost = 'basicdb';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
-echo "\$dbuser = 'root';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
-echo "\$dbpass = 'samurai';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
-echo "\$dbname = 'samurai_dojo_basic';" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
-echo "?>" | sudo tee -a /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/config.inc
+sudo rm /opt/targets/samurai-dojo/src/basic/config.inc
+echo "<?php" | sudo tee /opt/targets/samurai-dojo/src/basic/config.inc
+echo "\$dbhost = 'basicdb';" | sudo tee -a /opt/targets/samurai-dojo/src/basic/config.inc
+echo "\$dbuser = 'root';" | sudo tee -a /opt/targets/samurai-dojo/src/basic/config.inc
+echo "\$dbpass = 'samurai';" | sudo tee -a /opt/targets/samurai-dojo/src/basic/config.inc
+echo "\$dbname = 'samurai_dojo_basic';" | sudo tee -a /opt/targets/samurai-dojo/src/basic/config.inc
+echo "?>" | sudo tee -a /opt/targets/samurai-dojo/src/basic/config.inc
 echo '...initializing services...'
-cd /opt/targets/samurai-dojo-docker
-sudo rm /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/basic/.htaccess
-sed "s/localhost/scavengerdb/g" /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php | sudo tee /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/partners.php
-sudo tr '\r\n' '\n' < /tmp/config/init_db.sh > /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/init_db.sh
-sudo chmod 755 /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger/init_db.sh
+cd /opt/targets/samurai-dojo
+sudo rm /opt/targets/samurai-dojo/src/basic/.htaccess
+sed "s/localhost/scavengerdb/g" /opt/targets/samurai-dojo/src/scavenger/partners.php | sudo tee /opt/targets/samurai-dojo/src/scavenger/partners.php
+sudo tr '\r\n' '\n' < /tmp/config/init_db.sh > /opt/targets/samurai-dojo/src/scavenger/init_db.sh
+sudo chmod 755 /opt/targets/samurai-dojo/src/scavenger/init_db.sh
 echo '...starting app...'
 sudo docker-compose up -d
 sleep 15
 echo '...calling db init php script...'
-cd /opt/targets/samurai-dojo-docker/apps/Samurai-Dojo/scavenger
+cd /opt/targets/samurai-dojo/src/scavenger
 sudo bash init_db.sh
-cd /opt/targets/samurai-dojo-docker
+cd /opt/targets/samurai-dojo
 curl http://localhost:30080/reset-db.php #currently doesn't work. Might need a dependson directive in the compose yml
-echo '...stopping app...'
-sudo docker-compose down
-echo 'Done.'
 
 #Client-Side Attack Lab
 echo "Setting up Mic_WG's Client-Side Attacks Lab"
