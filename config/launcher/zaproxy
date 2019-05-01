@@ -1,3 +1,0 @@
-#!/bin/bash
-cd /opt/samurai/ZAP_2.6.0/
-/usr/bin/java -jar zap-2.6.0.jar

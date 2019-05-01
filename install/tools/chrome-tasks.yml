@@ -1,0 +1,11 @@
+- name: Install Chrome
+  apt:
+    name:
+      - chromium
+
+- name: Update Chromium menu category
+  ini_file:
+    path: /usr/share/applications/chromium.desktop
+    section: Desktop Entry
+    option: Categories
+    value: Network;WebBrowser;samuraiwtf

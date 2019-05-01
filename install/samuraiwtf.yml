@@ -1,0 +1,24 @@
+
+- name: The main SamuraiWTF provisioning playbook
+  hosts: all
+  connection: local
+  tasks:
+
+  - import_tasks: menu-tasks.yml
+
+
+
+
+  # handlers:
+  #   - name: start lightdm
+  #     shell: lightdm &
+  #     become: true
+
+- name: Install tools
+  import_playbook: tools.yml
+
+- name: Install targets
+  import_playbook: targets.yml
+
+- name: Configure samurai user
+  import_playbook: user.yml

@@ -1,0 +1,72 @@
+- name: Install targets for SamuraiWTF
+  hosts: all
+  connection: local
+  become: yes
+  tasks:
+
+  - name: Create targets folder
+    file:
+      path: /opt/targets
+      state: directory
+
+  - name: Install nginx
+    apt:
+      name:
+        - nginx
+        - php-fpm
+
+  - name: Install docker python lib
+    pip:
+      name: docker
+
+  - name: Check if docker-compose is already installed
+    stat:
+      path: /usr/bin/docker-compose
+    register: stat_docker_compose
+
+  - name: install docker-compose
+    shell: 'curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose'
+    become: yes
+    when: stat_docker_compose.stat.exists == False
+
+  - name: set permissions for docker-compose
+    file:
+      path: /usr/bin/docker-compose
+      mode: "+x"
+    become: yes
+
+  - name: Install docker-compose python lib
+    pip:
+      name: docker-compose
+
+  - name: Check if npm binary installed
+    stat:
+      path: /usr/bin/npm
+    register: stat_npm
+
+  - name: Download npm installer
+    get_url:
+      url: https://deb.nodesource.com/setup_11.x
+      dest: /tmp/npm_setup.sh
+      mode: 0744
+    when: stat_npm.stat.exists == False
+
+  - name: Install npm repo
+    shell: '/tmp/npm_setup.sh'
+    when: stat_npm.stat.exists == False
+
+  - name: Install nodejs
+    apt:
+      name: nodejs
+
+  - import_tasks: targets/juice-shop/juice-shop-tasks.yml
+  - import_tasks: targets/dvwa/dvwa-tasks.yml
+  - import_tasks: targets/mutillidae/mutillidae-tasks.yml
+  - import_tasks: targets/samurai-dojo/samurai-dojo-tasks.yml
+
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted

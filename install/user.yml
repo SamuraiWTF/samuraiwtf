@@ -1,0 +1,16 @@
+- name: Customizations for the samurai user.
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+
+
+  # - name: Setup file to run on startup
+  #   copy:
+  #     dest: /etc/rc.local
+  #     content: |
+  #       #!/bin/sh -e
+  #       /opt/samurai/set_background.sh || exit 1
+
+  #       exit 0
+  #     mode: 0755
