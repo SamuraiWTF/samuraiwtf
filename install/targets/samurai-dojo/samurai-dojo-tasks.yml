@@ -156,13 +156,6 @@
     delay: 1
     timeout: 120
 
-- name: Initialize the scavenger DB
-  shell: ./init_db.sh
-  args:
-    chdir: /opt/targets/samuraidojo/src/scavenger
-    executable: /bin/bash
-  become: yes
-
 - name: Reset dojo-basic DB
   uri:
     url: http://localhost:30080/reset-db.php
@@ -174,4 +167,4 @@
   with_items:
     - '127.0.0.1   dojo-basic.wtf'
     - '127.0.0.1   dojo-scavenger.wtf'
-  become: y
+  become: yes
