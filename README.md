@@ -4,7 +4,7 @@
 
 The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
 
-**To download an OVA to import a full virtual machine, visit https://tiny.si/samurai. 
+**To download an OVA to import a full virtual machine, visit https://tiny.si/samurai.**
 
 A [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg) is available showing how to install from OVA.
 
@@ -38,8 +38,13 @@ cd /vagrant
 ansible-playbook install/tools.yml
 ```
 
-Note that this is run as the vagrant (non-privileged) user, and does not require sudo.  Ansible will call sudo internally if needed.
+_Note that this is run as the vagrant (non-privileged) user, and does not require sudo.  Ansible will call sudo internally if needed._
 
+### Development Guidelines
+
+- Our integration branch is the one called `next`. That's where all new features and bug fixes go for testing before a release.  The `master` branch should be kept stable at all times.
+- Larger changes should be done in separate feature branches.  Make sure to merge `next` into your feature branch, then PR the feature branch to merge into `next`.
+- If you break `next` or `master`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
 
 ## Production VM Notes:
 Once you load the VM, the username and password are:
