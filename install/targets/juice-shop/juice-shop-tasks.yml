@@ -68,7 +68,7 @@
 
 - name: Setup nginx reverse-proxy config
   copy:
-    dest: /etc/nginx/sites-enabled/juice-shop.wtf
+    dest: /etc/nginx/conf.d/juice-shop.conf
     content: |
       server {
         listen 80;
@@ -77,7 +77,7 @@
           proxy_pass http://localhost:3000;
         }
       }
-    mode: 0744
+    mode: 0644
   notify:
     - restart nginx
 
