@@ -34,8 +34,6 @@ Vagrant.configure("2") do |config|
 
     samuraiwtf.vm.provision :reload, run: "once" 
 
-    samuraiwtf.vbguest.auto_update = false
-
     samuraiwtf.vm.provision "ansible_local" do |ansible2|      
       ansible2.playbook = "install/samuraiwtf.yml"
     end
