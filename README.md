@@ -46,6 +46,11 @@ _Note that this is run as the vagrant (non-privileged) user, and does not requir
 - Larger changes should be done in separate feature branches.  Make sure to merge `next` into your feature branch, then PR the feature branch to merge into `next`.
 - If you break `next` or `master`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
 
+### Expected Errors
+Sometimes there are some expected errors during the build process.  
+
+- There is one scary error in the _Install Docker_ task for VirtualBox provisioning that looks like it fails miserably.  At the bottom of that error output you will see the message `...ignoring` .  This is because our ansible playbook is expecting the error and moves on to the next task. Docker should still have installed but it had trouble getting to the right version of certain a kernel library due to an upgrade of guest additions. This should resolve itself once the system reboots (which should happen automatically).
+
 ## Production VM Notes:
 Once you load the VM, the username and password are:
 
