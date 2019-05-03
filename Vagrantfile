@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
 #shared settings
   config.vm.box = "bento/debian-9"
 
-  config.vm.synced_folder "./config", "/tmp/config"
+#  config.vm.synced_folder "./config", "/tmp/config"
 
 # Single Machine
 # Primary build
