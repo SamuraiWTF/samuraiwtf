@@ -79,6 +79,7 @@
       dest: /etc/ansible/hosts
       content: |
         samuraiwtf ansible_connection=local ansible_python_interpreter="{{ansible_playbook_python}}"
+        
   - name: Add Docker repo key
     apt_key:
       url: https://download.docker.com/linux/debian/gpg
