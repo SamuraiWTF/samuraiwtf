@@ -40,18 +40,18 @@
         - dconf-service
         - dconf-cli
 
-  - name: Configure auto login
-    block:
-      - ini_file:
-          path: /etc/lightdm/lightdm.conf
-          section: Seat:*
-          option: autologin-user
-          value: samurai
-      - ini_file:
-          path: /etc/lightdm/lightdm.conf
-          section: Seat:*
-          option: autologin-user-timeout
-          value: 0
+  # - name: Configure auto login
+  #   block:
+  #     - ini_file:
+  #         path: /etc/lightdm/lightdm.conf
+  #         section: Seat:*
+  #         option: autologin-user
+  #         value: samurai
+  #     - ini_file:
+  #         path: /etc/lightdm/lightdm.conf
+  #         section: Seat:*
+  #         option: autologin-user-timeout
+  #         value: 0
 
   - name: Set greeter screen background image
     ini_file:
