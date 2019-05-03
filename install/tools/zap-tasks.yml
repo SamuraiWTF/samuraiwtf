@@ -27,7 +27,7 @@
       Terminal=false
       Exec=/usr/bin/owasp-zap
       Name=ZAP
-      Icon=/path/to/icon
+      Icon=/opt/samurai/icons/zap.png
       Categories=samuraiwtf
       Comment=OWASP Interception proxy
       Name[en_US]=ZAP

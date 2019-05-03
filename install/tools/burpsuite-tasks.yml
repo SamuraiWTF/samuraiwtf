@@ -43,7 +43,7 @@
       Terminal=false
       Exec=burp
       Name=Burp Suite
-      Icon=/path/to/icon
+      Icon=/opt/samurai/icons/burpsuite.png
       Categories=samuraiwtf
       Comment=Interception proxy from Portswigger
       Name[en_US]=Burp Suite

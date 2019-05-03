@@ -25,7 +25,7 @@
       Terminal=false
       Exec=postman
       Name=Postman
-      Icon=/path/to/icon
+      Icon=/opt/samurai/icons/postman-logo.png
       Categories=samuraiwtf
       Comment=Web Services client
       Name[en_US]=Postman
