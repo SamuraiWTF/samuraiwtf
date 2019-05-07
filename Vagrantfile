@@ -26,21 +26,17 @@ Vagrant.configure("2") do |config|
       # samuraiwtf.vm.provision :shell, inline: "shutdown -r +1"
     end
 
+    # Make sure VBGuestAdditions is up-to-date and certain pre-requisite packages are installed.  Then restart (reload) so we are using the right
+    # version of VBGuestAdditions before continuing.
+    samuraiwtf.vm.provision :shell, inline: "apt-get update && apt-get -y install aufs-tools cgroupfs-mount mate-desktop-environment lightdm"
+    samuraiwtf.vm.provision :reload 
+
     samuraiwtf.vm.provision "ansible_local", run: "once" do |ansible1|      
-      ansible1.playbook = "install/bootstrap.yml"
+      ansible1.playbook = "install/samuraiwtf.yml"
       ansible1.version = "latest"
       ansible1.install_mode = "pip"
+      ansible1.compatibility_mode = "2.0"
     end
-
-    samuraiwtf.vm.provision :reload, run: "once" 
-
-    samuraiwtf.vm.provision "ansible_local" do |ansible2|      
-      ansible2.playbook = "install/samuraiwtf.yml"
-    end
-    # samuraiwtf.vm.provision :shell, path: "install/shared_before.sh"
-    # samuraiwtf.vm.provision :shell, path: "install/userenv_bootstrap.sh"
-    # samuraiwtf.vm.provision :shell, path: "install/target_bootstrap.sh"
-    # samuraiwtf.vm.provision :shell, path: "install/local_targets.sh"
 
   end
 

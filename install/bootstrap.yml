@@ -8,13 +8,18 @@
   become: true
   tasks:
 
-  - name: apt upgrade (this may take a while)
+  - name: Install some dependencies
     apt:
-      upgrade: safe
-
-  - name: Install apt https transport
-    apt:
-      name: apt-transport-https
+      name:
+        - aufs-tools
+        - cgroupfs-mount
+        - apt-transport-https
+        - pigz
+        - ca-certificates
+        - curl
+        - gnupg
+        - software-properties-common
+      update_cache: yes
 
   - name: Create samurai user
     user:
@@ -27,12 +32,6 @@
       src: ../config/opt/
       dest: /opt/
       mode: 0744
-
-  - name: Install desktop environment (this may take a while)
-    apt:
-      name:
-        - mate-desktop-environment
-        - lightdm
 
   - name: Install dconf
     apt:
@@ -90,9 +89,16 @@
       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
       state: present
 
+  - name: Install Docker CLI and containerd.io
+    apt:
+      name:
+        - docker-ce-cli
+        - containerd.io
+      update_cache: yes
+    ignore_errors: yes
+
   - name: Install Docker
     apt:
       name:
         - docker-ce
-      update_cache: yes
     ignore_errors: yes
