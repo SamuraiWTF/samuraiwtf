@@ -42,7 +42,7 @@
 
 - name: Setup nginx reverse-proxy config
   copy:
-    dest: /etc/nginx/sites-enabled/juice-shop.wtf
+    dest: /etc/nginx/conf.d/dvwa.conf
     content: |
       server {
         listen 80;
