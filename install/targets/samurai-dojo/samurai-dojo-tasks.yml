@@ -27,7 +27,7 @@
 
 - name: Fetch dojo-basic and dojo-scavenger docker containers
   git:
-    repo: https://github.com/SamuraiWTF/Samurai-Dojo.git
+    repo: https://github.com/SamuraiWTF/Samurai-Dojo-legacy.git
     dest: /opt/targets/samuraidojo
     depth: 1
     force: yes
