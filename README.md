@@ -1,22 +1,22 @@
 <p align="center">
-	<img alt="SamuraiWTF Logo" src="https://tiny.si/images/SamuraiWTFLogo.png"/>
+  <img alt="SamuraiWTF Logo" src="https://tiny.si/images/SamuraiWTFLogo.png"/>
 </p>
 
 <p align="center">
-<a href="https://professionallyevil.slack.com/messages/samuraiwtf"> <img alt="Slack" src="https://img.shields.io/badge/chat-ProfessionallyEvil-%238c0000.svg?logo=slack" /> </a>
-<a herf="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/> </a>
-<a href="https://github.com/SamuraiWTF/samuraiwtf"> <img alt="SourceForge" src="https://img.shields.io/sourceforge/dt/samurai.svg?label=%28Deprecated%29%20%20SourceForge%20Downloads"/> </a>
-<a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Latest version" src="https://img.shields.io/github/release/SamuraiWTF/samuraiwtf.svg" /> </a>
-<a href="https://github.com/SamuraiWTF/samuraiwtf/blob/master/LICENSE" > <img alt="License" src="https://img.shields.io/badge/license-GPLv3-blue.svg" /></a>
-	<a href="https://twitter.com/intent/tweet?via=secureideas&hashtags=SamuraiWTF%2CProfessionallyEvil&url=https%3A%2F%2Fsamurai.wtf"> <img alt="Twitter Hashtag" src="https://img.shields.io/badge/%23SamuraiWTF-tweet%20about%20us-lightgrey.svg?logo=twitter&style=social" /> </a>
-<a href="https://twitter.com/intent/follow?screen_name=secureideas" > <img alt="Twitter handle" src="https://img.shields.io/twitter/follow/secureideas.svg?style=social" /></a>
+  <a href="https://professionallyevil.slack.com/messages/samuraiwtf"> <img alt="Slack" src="https://img.shields.io/badge/chat-ProfessionallyEvil-%238c0000.svg?logo=slack" /> </a>
+  <a herf="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/> </a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf"> <img alt="SourceForge" src="https://img.shields.io/sourceforge/dt/samurai.svg?label=%28Deprecated%29%20%20SourceForge%20Downloads"/> </a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Latest version" src="https://img.shields.io/github/release/SamuraiWTF/samuraiwtf.svg" /> </a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf/blob/master/LICENSE" > <img alt="License" src="https://img.shields.io/badge/license-GPLv3-blue.svg" /></a>
+  <a href="https://twitter.com/intent/tweet?via=secureideas&hashtags=SamuraiWTF%2CProfessionallyEvil&url=https%3A%2F%2Fsamurai.wtf"> <img alt="Twitter Hashtag" src="https://img.shields.io/badge/%23SamuraiWTF-tweet%20about%20us-lightgrey.svg?logo=twitter&style=social" /> </a>
+  <a href="https://twitter.com/intent/follow?screen_name=secureideas" > <img alt="Twitter handle" src="https://img.shields.io/twitter/follow/secureideas.svg?style=social" /></a>
 </p>
 
 ----
 
 **Want to chat with us? Come message us in the [Professionally Evil slack][samurai-slack-url].**
 
-**Want to Contribute? See section at the end of this readme**
+**Want to Contribute? See [here](#Contributors)**
 
 The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
 
