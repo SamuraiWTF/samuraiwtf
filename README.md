@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="SamuraiWTF Logo" src="https://tiny.si/images/SamuraiWTFLogo.png"/>
+  <img alt="SamuraiWTF Logo" src="https://tiny.si/images/SamuraiWTFLogo.png" width="100%" height="auto"/>
 </p>
 
 <p align="center">
