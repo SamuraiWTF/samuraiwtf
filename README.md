@@ -1,4 +1,20 @@
-# samuraiwtf
+<p align="center">
+	<img alt="SamuraiWTF Logo" src="https://tiny.si/images/SamuraiWTFLogo.png"/>
+</p>
+
+<p align="center">
+<a href="https://professionallyevil.slack.com/messages/samuraiwtf"> <img alt="Slack" src="https://img.shields.io/badge/chat-ProfessionallyEvil-%238c0000.svg?logo=slack" /> </a>
+<a herf="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/> </a>
+<a href="https://github.com/SamuraiWTF/samuraiwtf"> <img alt="SourceForge" src="https://img.shields.io/sourceforge/dt/samurai.svg?label=%28Deprecated%29%20%20SourceForge%20Downloads"/> </a>
+<a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Latest version" src="https://img.shields.io/github/release/SamuraiWTF/samuraiwtf.svg" /> </a>
+<a href="https://github.com/SamuraiWTF/samuraiwtf/blob/master/LICENSE" > <img alt="License" src="https://img.shields.io/badge/license-GPLv3-blue.svg" /></a>
+	<a href="https://twitter.com/intent/tweet?via=secureideas&hashtags=SamuraiWTF%2CProfessionallyEvil&url=https%3A%2F%2Fsamurai.wtf"> <img alt="Twitter Hashtag" src="https://img.shields.io/badge/%23SamuraiWTF-tweet%20about%20us-lightgrey.svg?logo=twitter&style=social" /> </a>
+<a href="https://twitter.com/intent/follow?screen_name=secureideas" > <img alt="Twitter handle" src="https://img.shields.io/twitter/follow/secureideas.svg?style=social" /></a>
+</p>
+
+----
+
+**Want to chat with us? Come message us in the [Professionally Evil slack][samurai-slack-url].**
 
 **Want to Contribute? See section at the end of this readme**
 
@@ -84,3 +100,5 @@ Contributors are very welcome and the contribution process is standard:
   * submit a pull request
   
 Substantial or *Regular* contributors may also be brought in as full team members. This includes those who have made substantial contributions to previous versions of SamuraiWTF with the assumption they will continue to do so.
+
+[samurai-slack-url]: https://professionallyevil.slack.com/messages/samuraiwtf
