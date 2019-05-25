@@ -1,12 +1,26 @@
-# samuraiwtf
+<p align="center">
+  <img alt="SamuraiWTF Logo" src="https://tiny.si/images/SamuraiWTFLogo.png" height="200"/>
+</p>
 
-**Want to Contribute? See section at the end of this readme**
+<p align="center">
+  <a href="https://professionallyevil.slack.com/messages/samuraiwtf"> <img alt="Slack" src="https://img.shields.io/badge/chat-ProfessionallyEvil-%238c0000.svg?logo=slack" /></a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/></a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf"> <img alt="SourceForge" src="https://img.shields.io/sourceforge/dt/samurai.svg?label=%28Deprecated%29%20%20SourceForge%20Downloads"/></a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Latest version" src="https://img.shields.io/github/release/SamuraiWTF/samuraiwtf.svg" /></a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf/blob/master/LICENSE" > <img alt="License" src="https://img.shields.io/badge/license-GPLv3-blue.svg" /></a>
+  <a href="https://twitter.com/intent/tweet?via=secureideas&hashtags=SamuraiWTF%2CProfessionallyEvil&url=https%3A%2F%2Fsamurai.wtf"> <img alt="Twitter Hashtag" src="https://img.shields.io/badge/%23SamuraiWTF-tweet%20about%20us-lightgrey.svg?logo=twitter&style=social" /></a>
+  <a href="https://twitter.com/intent/follow?screen_name=secureideas" > <img alt="Twitter handle" src="https://img.shields.io/twitter/follow/secureideas.svg?label=Follow%20%40secureideas%20for%20updates&style=social" /></a>
+</p>
+
+----
+
+**Want to chat with us? Come message us in the [Professionally Evil slack][samurai-slack-url].**
+
+**Want to Contribute? See [here](#Contributors)**
 
 The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
 
-**To download an OVA to import a full virtual machine, visit https://tiny.si/samurai.**
-
-A [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg) is available showing how to install from OVA.
+**NOTE:** for getting started quickly you can follow the ova installation [here](#OVA)
 
 ## Prerequisites
 - Vagrant - https://www.vagrantup.com/
@@ -16,13 +30,20 @@ A [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg) is available sho
 - Disable Hyper-V (Windows and Virtualbox only) - follow the Resolution instructions provided by Microsoft to disable and enable Hyper-V (requires reboot) - https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g
 
 ## Initial Install
-1. Make sure you have the prereqs listed above. Webpwnized has made some helpful [YouTube video instructionals](https://www.youtube.com/watch?v=MCqpTpxNSlA&list=PLZOToVAK85Mru8ye3up3VR_jXms56OFE5) for getting Vagrant and VirtualBox  with vbguest plugin installed in case you have not done so before.
+### OVA
+1. Make sure you have the Virtualization Software and Disabled Hyper-V from the prereqs [above](#Prerequisites)
+2. Download the OVA to import a full virtual machine, here: https://tiny.si/samurai.
+3. Watch this [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg), made by [webpwnized](https://twitter.com/webpwnized), which shows you how to install SamuraiWTF using the OVA.
+
+### Vagrant
+1. Make sure you have the prereqs listed [above](#Prerequisites). Webpwnized has made some helpful [YouTube video instructionals](https://www.youtube.com/watch?v=MCqpTpxNSlA&list=PLZOToVAK85Mru8ye3up3VR_jXms56OFE5) for getting Vagrant and VirtualBox with vbguest plugin installed in case you have not done so before.
 2. Clone this repository.
 3. From a command-line terminal in the project directory, run the command `vagrant up`. Then sit back and wait for it to finish.
+4. (Optional) If you want to understand this process a little more, we have a video that discusses what is happening with more detail. It is listed as a free course on our training site: https://training.secureideas.com/course/foldingsteel/
 
 **NOTE: The Guest VM's window will open with the CLI while provisioning is still ongoing. It's best to leave it alone until the `vagrant up` command fully completes.**
 
-### Provisioning Scripts
+#### Provisioning Scripts
 SamuraiWTF is provisioned through the ansible-local Vagrant provisioner.  Provisioning is organized into the following playbooks, all found in the install folder:
 
 - bootstrap.yml: Prepare the environment to install tools and targets.  A reboot occurs after this playbook runs.
@@ -84,3 +105,5 @@ Contributors are very welcome and the contribution process is standard:
   * submit a pull request
   
 Substantial or *Regular* contributors may also be brought in as full team members. This includes those who have made substantial contributions to previous versions of SamuraiWTF with the assumption they will continue to do so.
+
+[samurai-slack-url]: https://professionallyevil.slack.com/messages/samuraiwtf
