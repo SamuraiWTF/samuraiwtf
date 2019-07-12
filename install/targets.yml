@@ -49,7 +49,7 @@
 
   - name: Download npm installer
     get_url:
-      url: https://deb.nodesource.com/setup_11.x
+      url: https://deb.nodesource.com/setup_10.x
       dest: /tmp/npm_setup.sh
       mode: 0744
     when: stat_npm.stat.exists == False
