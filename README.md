@@ -56,7 +56,7 @@ Once you have a running environment, use the ansible playbooks to define any cha
 
 ```
 cd /vagrant
-ansible-playbook install/tools.yml
+ansible-playbook -i /etc/ansible/hosts install/tools.yml
 ```
 
 _Note that this is run as the vagrant (non-privileged) user, and does not require sudo.  Ansible will call sudo internally if needed._
