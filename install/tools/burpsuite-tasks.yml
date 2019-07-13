@@ -12,6 +12,7 @@
   get_url:
     url: https://portswigger.net/burp/releases/download?product=community&type=jar
     dest: /opt/samurai/burpsuite/burp.jar
+    timeout: 30
 
 
 - name: Create burpsuite launcher
