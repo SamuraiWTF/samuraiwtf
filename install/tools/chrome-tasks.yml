@@ -7,6 +7,7 @@
   apt_repository:
     repo: deb http://dl.google.com/linux/chrome/deb/ stable main
     state: present
+    filename: google-chrome
 
 - name: Install Google Chrome
   apt:

@@ -88,6 +88,7 @@
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
       state: present
+      filename: download-docker
 
   - name: Install Docker CLI and containerd.io
     apt:
