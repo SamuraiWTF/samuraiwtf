@@ -34,6 +34,7 @@
     name: wtf-dvwa.service
     state: started
     enabled: yes
+  become: yes
 
 - name: Setup hosts file entries
   lineinfile:
