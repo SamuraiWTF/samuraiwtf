@@ -1,0 +1,121 @@
+
+- name: The main SamuraiWTF provisioning playbook
+  hosts: all
+  connection: local
+  become: yes
+  tasks:
+
+  - name: Install some dependencies
+    apt:
+      name:
+        - aufs-tools
+        - cgroupfs-mount
+        - apt-transport-https
+        - pigz
+        - ca-certificates
+        - curl
+        - gnupg
+        - software-properties-common
+      update_cache: yes
+
+  - name: Create samurai user
+    user:
+      name: samurai
+      password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
+      groups: 'sudo'
+
+  - name: Copy configuration files to opt/samurai
+    copy:
+      src: ../config/opt/
+      dest: /opt/
+      mode: 0744
+
+  - name: Install dconf
+    apt:
+      name: 
+        - dconf-service
+        - dconf-cli
+
+  # - name: Configure auto login
+  #   block:
+  #     - ini_file:
+  #         path: /etc/lightdm/lightdm.conf
+  #         section: Seat:*
+  #         option: autologin-user
+  #         value: samurai
+  #     - ini_file:
+  #         path: /etc/lightdm/lightdm.conf
+  #         section: Seat:*
+  #         option: autologin-user-timeout
+  #         value: 0
+
+  - name: Set greeter screen background image
+    ini_file:
+      path: /etc/lightdm/lightdm-gtk-greeter.conf
+      section: greeter
+      option: background
+      value: /opt/samurai/samurai-background.png
+
+  - name: Configure desktop environment
+    debconf:
+      name: lightdm
+
+  - name: Set default background
+    copy:
+      src: ../config/opt/samurai/samurai-background.png
+      dest: /etc/alternatives/desktop-background
+
+  - name: Make ansible configuration directory
+    file:
+      name: /etc/ansible
+      state: directory
+
+  - name: Create local ansible hosts file
+    copy:
+      dest: /etc/ansible/hosts
+      content: |
+        samuraiwtf ansible_connection=local ansible_python_interpreter="{{ansible_playbook_python}}"
+        
+  - name: Add Docker repo key
+    apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      state: present
+
+  - name: Add Docker repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+      state: present
+
+  - name: Install Docker CLI and containerd.io
+    apt:
+      name:
+        - docker-ce-cli
+        - containerd.io
+      update_cache: yes
+    ignore_errors: yes
+
+  - name: Install Docker
+    apt:
+      name:
+        - docker-ce
+    ignore_errors: yes
+
+
+  - import_tasks: menu-tasks.yml
+
+
+
+
+  # handlers:
+  #   - name: start lightdm
+  #     shell: lightdm &
+  #     become: true
+
+- name: Install tools
+  import_playbook: tools.yml
+
+- name: Install targets
+  import_playbook: targets.yml
+
+- name: Configure samurai user
+  import_playbook: user.yml

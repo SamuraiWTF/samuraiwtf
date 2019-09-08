@@ -1,0 +1,57 @@
+- name: Make sure docker service is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Install DVWA docker container
+  docker_container:
+    name: dvwa
+    image: bit0pus/docker-dvwa
+
+- name: Create service descriptor
+  copy:
+    dest: /etc/systemd/system/wtf-dvwa.service
+    content: |
+      [Unit]
+      Description=DVWA SamuraiWTF Target
+      After=docker.service
+      Requires=docker.service
+      [Service]
+      TimeoutStartSec=0
+      Restart=always
+      ExecStartPre=-/usr/bin/docker stop -t 10 %n
+      ExecStart=/usr/bin/docker run --rm -p 31000:80 -p 33006:3306 --name %n bit0pus/docker-dvwa
+      ExecStop=/usr/bin/docker stop -t 10 %n
+      ExecStopPost=/usr/bin/docker stop -t 10 dvwa
+      [Install]
+      WantedBy=multi-user.target
+    mode: 0744
+  become: yes
+
+- name: Start DVWA
+  service:
+    name: wtf-dvwa.service
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Setup hosts file entries
+  lineinfile:
+    dest: /etc/hosts
+    line: '127.0.0.1   dvwa.wtf'
+
+- name: Setup nginx reverse-proxy config
+  copy:
+    dest: /etc/nginx/conf.d/dvwa.conf
+    content: |
+      server {
+        listen 80;
+        server_name dvwa.wtf;
+        location / {
+          proxy_pass http://localhost:31000;
+        }
+      }
+    mode: 0744
+  notify:
+    - restart nginx

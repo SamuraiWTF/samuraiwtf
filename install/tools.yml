@@ -1,0 +1,13 @@
+- name: Install tools for SamuraiWTF
+  hosts: all
+  connection: local
+  become: yes
+  tasks:
+
+  - import_tasks: tools/chrome-tasks.yml
+  - import_tasks: tools/burpsuite-tasks.yml
+  - import_tasks: tools/nikto-tasks.yml
+  - import_tasks: tools/sqlmap-tasks.yml
+  - import_tasks: tools/wordlists-tasks.yml
+  - import_tasks: tools/zap-tasks.yml
+  - import_tasks: tools/postman-tasks.yml

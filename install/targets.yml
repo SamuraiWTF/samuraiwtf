@@ -1,0 +1,88 @@
+- name: Install targets for SamuraiWTF
+  hosts: all
+  connection: local
+  become: yes
+  tasks:
+
+  - name: Create targets folder
+    file:
+      path: /opt/targets
+      state: directory
+
+  - name: Install nginx
+    apt:
+      name:
+        - nginx
+        - php-fpm
+
+  - name: Install docker python lib
+    pip:
+      name: docker
+
+  - name: Check if docker-compose is already installed
+    stat:
+      path: /usr/bin/docker-compose
+    register: stat_docker_compose
+
+  - name: install docker-compose
+    get_url:
+      url: https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Linux-x86_64
+      dest: /usr/bin/docker-compose
+      mode: 0744
+    when: stat_docker_compose.stat.exists == False
+
+
+  - name: set permissions for docker-compose
+    file:
+      path: /usr/bin/docker-compose
+      mode: "+x"
+    become: yes
+
+  - name: Install docker-compose python lib
+    pip:
+      name: docker-compose
+
+  - name: Check if npm binary installed
+    stat:
+      path: /usr/bin/npm
+    register: stat_npm
+
+  - name: Download npm installer
+    get_url:
+      url: https://deb.nodesource.com/setup_10.x
+      dest: /tmp/npm_setup.sh
+      mode: 0744
+    when: stat_npm.stat.exists == False
+
+  - name: Install npm repo
+    shell: '/tmp/npm_setup.sh'
+    when: stat_npm.stat.exists == False
+
+  - name: Add yarn repo key
+    apt_key:
+      url: https://dl.yarnpkg.com/debian/pubkey.gpg
+      state: present
+
+  - name: Add yarn repository
+    apt_repository:
+      repo: deb https://dl.yarnpkg.com/debian/ stable main
+
+  - name: Install nodejs
+    apt:
+      name: 
+        - nodejs
+        - yarn
+      update_cache: yes
+
+  - import_tasks: targets/juice-shop/juice-shop-tasks.yml
+  - import_tasks: targets/dvwa/dvwa-tasks.yml
+  - import_tasks: targets/mutillidae/mutillidae-tasks.yml
+  - import_tasks: targets/samurai-dojo/samurai-dojo-tasks.yml
+  - import_tasks: targets/musashi/musashi-task.yml
+
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted

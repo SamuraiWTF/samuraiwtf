@@ -1,0 +1,33 @@
+- name: Download and install and Postman
+  unarchive:
+    src: https://dl.pstmn.io/download/latest/linux64
+    dest: /opt/samurai/
+    remote_src: yes
+
+- name: Create Postman launcher
+  copy:
+    dest: /usr/bin/postman
+    content: |
+      #!/bin/bash
+      cd /opt/samurai/Postman/app
+      ./Postman
+    mode: 0777
+
+- name: Create nikto menu item
+  copy:
+    dest: /etc/samurai.d/applications/postman.desktop
+    content: |
+      #!/usr/bin/env xdg-open
+      
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Terminal=false
+      Exec=postman
+      Name=Postman
+      Icon=/opt/samurai/icons/postman-logo.png
+      Categories=samuraiwtf
+      Comment=Web Services client
+      Name[en_US]=Postman
+    mode: 0744
+  become: yes
