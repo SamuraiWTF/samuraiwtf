@@ -1,0 +1,5 @@
+- name: Install Mozilla Firefox
+  apt:
+    name:
+      - firefox-esr
+    update_cache: yes
