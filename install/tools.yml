@@ -5,6 +5,7 @@
   tasks:
 
   - import_tasks: tools/chrome-tasks.yml
+  - import_tasks: tools/firefox-tasks.yml
   - import_tasks: tools/burpsuite-tasks.yml
   - import_tasks: tools/nikto-tasks.yml
   - import_tasks: tools/sqlmap-tasks.yml
