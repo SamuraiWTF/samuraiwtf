@@ -4,7 +4,7 @@
     state: started
     enabled: yes
 
-- name: Install Mutilldae docker container
+- name: Install Mutillidae docker container
   docker_container:
     name: mutillidae
     image: bit0pus/docker-mutillidae

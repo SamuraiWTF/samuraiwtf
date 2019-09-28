@@ -79,6 +79,7 @@
   - import_tasks: targets/mutillidae/mutillidae-tasks.yml
   - import_tasks: targets/samurai-dojo/samurai-dojo-tasks.yml
   - import_tasks: targets/musashi/musashi-task.yml
+  - import_tasks: targets/amoksecurity/amoksecurity-tasks.yml
 
 
   handlers:

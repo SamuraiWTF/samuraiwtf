@@ -1,0 +1,28 @@
+
+- name: Setup hosts file entries
+  lineinfile:
+    dest: /etc/hosts
+    line: '127.0.0.1   amoksecurity.wtf'
+
+- name: Create webroot for amoksecurity.wtf
+  file:
+    path: /var/www/amoksecurity
+    state: directory
+    owner: samurai
+    group: samurai
+  become: yes
+
+- name: Setup nginx reverse-proxy config for amoksecurity
+  copy:
+    dest: /etc/nginx/conf.d/amoksecurity.conf
+    content: |
+      server {
+        listen 80;
+        server_name amoksecurity.wtf;
+        location / {
+          root /var/www/amoksecurity;
+        }
+      }
+    mode: 0744
+  notify:
+    - restart nginx
