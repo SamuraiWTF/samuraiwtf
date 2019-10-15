@@ -66,30 +66,6 @@
     mode: 0744
   become: yes
 
-- name: Start samurai-dojo docker service
-  docker_service:
-    project_src: /opt/targets/samuraidojo
-    restarted: true
-  register: output
-
-- debug:
-    var: output
-
-- assert:
-    that:
-      - "basicdb.samuraidojo_basicdb_1.state.running"
-      - "basicphp.samuraidojo_basicphp_1.state.running"
-
-- name: Stop samurai-dojo docker service
-  docker_service:
-    project_src: /opt/targets/samuraidojo
-    stopped: true
-
-- assert:
-    that:
-      - "not basicdb.samuraidojo_basicdb_1.state.running"
-      - "not basicphp.samuraidojo_basicphp_1.state.running"
-
 - name: Create Samurai Dojo target service descriptor
   copy:
     dest: /etc/systemd/system/wtf-dojo.service
