@@ -1,0 +1,31 @@
+# install WitnessMe from Git at https://github.com/byt3bl33d3r/WitnessMe
+
+- name: Install WitnessMe
+  git:
+    repo: https://github.com/byt3bl33d3r/WitnessMe
+    dest: /opt/samurai/witnessme
+    depth: 1
+
+- name: Install WitnessMe Pieces
+  command: cd /opt/samurai/witnessme;pip3 install --user pipenv && pipenv install --three
+
+
+- name: Create WitnessMe menu item
+  copy:
+    dest: /etc/samurai.d/applications/WitnessMe.desktop
+    content: |
+      #!/usr/bin/env xdg-open
+
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Terminal=false
+      Exec=mate-terminal --command "bash -c \"cd /opt/samurai/witnessme;pipenv shell\""
+      Name=nikto
+      Icon=utilities-terminal
+      Categories=samuraiwtf
+      Comment=Python-Based Web Inventory Tool
+      Name[en_US]=WitnessMe
+    mode: 0744
+  become: yes
+

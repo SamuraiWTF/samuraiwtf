@@ -20,7 +20,7 @@
       [Service]
       TimeoutStartSec=0
       Restart=always
-      ExecStartPre=-/usr/bin/docker stop -t 10 %n
+      ExecStartPre=/usr/bin/docker stop -t 10 %n
       ExecStart=/usr/bin/docker run --rm -p 33080:80 -p 22222:22 -p 33333:3306 --name %n bit0pus/docker-mutillidae
       ExecStop=/usr/bin/docker stop -t 10 %n
       ExecStopPost=/usr/bin/docker stop -t 10 mutillidae
