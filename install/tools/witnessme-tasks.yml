@@ -3,11 +3,20 @@
 - name: Install WitnessMe
   git:
     repo: https://github.com/byt3bl33d3r/WitnessMe
-    dest: /opt/samurai/witnessme
+    dest: /opt/samurai/WitnessMe
     depth: 1
 
+- name: Install pip3
+  apt:
+    name:
+        - pip3
+      update_cache: yes
+
 - name: Install WitnessMe Pieces
-  command: cd /opt/samurai/witnessme;pip3 install --user pipenv && pipenv install --three
+  shell: |
+    cd /opt/samurai/WitnessMe
+    pip3 install --user pipenv 
+    /home/samurai/.local/bin/pipenv install --three
 
 
 - name: Create WitnessMe menu item
@@ -21,7 +30,7 @@
       Type=Application
       Terminal=false
       Exec=mate-terminal --command "bash -c \"cd /opt/samurai/witnessme;pipenv shell\""
-      Name=nikto
+      Name=WitnessMe
       Icon=utilities-terminal
       Categories=samuraiwtf
       Comment=Python-Based Web Inventory Tool

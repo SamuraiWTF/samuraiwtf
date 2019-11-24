@@ -104,13 +104,6 @@
   - import_tasks: menu-tasks.yml
 
 
-
-
-  # handlers:
-  #   - name: start lightdm
-  #     shell: lightdm &
-  #     become: true
-
 - name: Install tools
   import_playbook: tools.yml
 
