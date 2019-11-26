@@ -96,5 +96,11 @@
 - name: Configure samurai user
   import_playbook: user.yml
 
-- name: Reboot after installation
-  reboot:
+- name: Rebooting to finalize setup
+  hosts: all
+  connection: local
+  become: yes
+  tasks:
+
+  - name: Reboot after installation
+    reboot:
