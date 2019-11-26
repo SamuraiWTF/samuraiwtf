@@ -73,21 +73,16 @@
       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
       state: present
 
-  - name: Install Docker CLI and containerd.io
+  - name: Install Docker stuff 
     apt:
       name:
         - docker-ce-cli
         - containerd.io
+        - docker-ce
       update_cache: yes
     ignore_errors: yes
 
-  - name: Install Docker
-    apt:
-      name:
-        - docker-ce
-    ignore_errors: yes
-
-
+    
   - import_tasks: menu-tasks.yml
 
 
@@ -99,3 +94,6 @@
 
 - name: Configure samurai user
   import_playbook: user.yml
+
+- name: Reboot after installation
+  reboot:

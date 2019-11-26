@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     # Make sure VBGuestAdditions is up-to-date and certain pre-requisite packages are installed.  Then restart (reload) so we are using the right
     # version of VBGuestAdditions before continuing.
     samuraiwtf.vm.provision :shell, inline: "apt-get update && apt-get -y install aufs-tools cgroupfs-mount mate-desktop-environment lightdm python-pip ansible"
-    samuraiwtf.vm.provision :reload 
+    # samuraiwtf.vm.provision :reload 
 
     samuraiwtf.vm.provision "ansible_local", run: "once" do |ansible1|      
       ansible1.playbook = "install/samuraiwtf.yml"
