@@ -103,4 +103,6 @@
   tasks:
 
   - name: Reboot after installation
-    reboot:
+    shell: sleep 2 && /sbin/reboot
+    ignore_errors: true
+
