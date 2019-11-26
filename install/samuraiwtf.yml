@@ -16,6 +16,7 @@
         - curl
         - gnupg
         - software-properties-common
+        - python3-pip
       update_cache: yes
 
   - name: Create samurai user
