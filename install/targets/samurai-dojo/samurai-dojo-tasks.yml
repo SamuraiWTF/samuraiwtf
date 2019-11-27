@@ -125,17 +125,6 @@
     enabled: yes
   become: yes
 
-- name: Wait for dojo-basic to be available
-  wait_for:
-    port: 30080
-    sleep: 10
-    delay: 1
-    timeout: 120
-
-- name: Reset dojo-basic DB
-  uri:
-    url: http://localhost:30080/reset-db.php
-
 - name: Setup hosts file entries
   lineinfile:
     dest: /etc/hosts
@@ -144,3 +133,17 @@
     - '127.0.0.1   dojo-basic.wtf'
     - '127.0.0.1   dojo-scavenger.wtf'
   become: yes
+
+- name: Wait for dojo-basic to be available
+  wait_for:
+    port: 30080
+    sleep: 10
+    delay: 1
+    timeout: 120
+  ignore_errors: yes
+
+- name: Reset dojo-basic DB
+  uri:
+    url: http://localhost:30080/reset-db.php
+  ignore_errors: yes
+

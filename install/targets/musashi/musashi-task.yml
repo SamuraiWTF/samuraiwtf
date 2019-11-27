@@ -21,7 +21,7 @@
     mode: 0744
     force: no
 
-- name: Create service descriptor for wtf-juice-shop
+- name: Create service descriptor for wtf-musashi
   copy:
     dest: /etc/systemd/system/wtf-musashi.service
     content: |
