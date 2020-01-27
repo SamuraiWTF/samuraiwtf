@@ -96,6 +96,9 @@
 - name: Configure samurai user
   import_playbook: user.yml
 
+- name: Configure training materials
+  import_playbook: training.yml
+
 - name: Rebooting to finalize setup
   hosts: all
   connection: local
