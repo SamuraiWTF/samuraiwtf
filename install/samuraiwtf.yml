@@ -19,12 +19,6 @@
         - python3-pip
       update_cache: yes
 
-  - name: Create samurai user
-    user:
-      name: samurai
-      password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
-      groups: 'sudo'
-
   - name: Copy configuration files to opt/samurai
     copy:
       src: ../config/opt/
@@ -83,6 +77,12 @@
       update_cache: yes
     ignore_errors: yes
 
+  - name: Create samurai user
+    user:
+      name: samurai
+      password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
+      groups: 'sudo,docker'
+      shell: /usr/bin/bash
     
   - import_tasks: menu-tasks.yml
 
