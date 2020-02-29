@@ -80,23 +80,23 @@
   notify:
     - restart nginx
     
-  - name: Setup hosts file entries
-    lineinfile:
-      dest: /etc/hosts
-      line: '127.0.0.10   csp-dojo.wtf'
+- name: Setup hosts file entries
+  lineinfile:
+    dest: /etc/hosts
+    line: '127.0.0.10   csp-dojo.wtf'
      
-  - name: Setup nginx reverse-proxy config for CSP API
-    copy:
-      dest: /etc/nginx/conf.d/musashi-csp-api.conf
-      content: |
-        server {
-          listen 80;
-          server_name csp-dojo.wtf;
-          location / {
-            proxy_pass http://localhost:3041;
-          }
+- name: Setup nginx reverse-proxy config for CSP API
+  copy:
+    dest: /etc/nginx/conf.d/musashi-csp-api.conf
+    content: |
+      server {
+        listen 80;
+        server_name csp-dojo.wtf;
+        location / {
+          proxy_pass http://localhost:3041;
         }
-      mode: 0644
-    notify:
-      - restart nginx
+      }
+    mode: 0644
+  notify:
+    - restart nginx
 
