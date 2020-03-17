@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+puts ENV['WTF_CONF']
+
 Vagrant.configure("2") do |config|
 
 #shared settings
@@ -32,7 +34,10 @@ Vagrant.configure("2") do |config|
     samuraiwtf.vm.provision "ansible_local", run: "once" do |ansible1|      
       ansible1.playbook = "install/samuraiwtf.yml"
       ansible1.version = "latest"
-      ansible1.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
+      ansible1.extra_vars = { 
+        wtf_conf_path:ENV['WTF_CONF_PATH'],
+        ansible_python_interpreter:"/usr/bin/python3" 
+      }
       ansible1.install_mode = "pip3"
       ansible1.compatibility_mode = "2.0"
     end

@@ -1,0 +1,8 @@
+tools:
+  - chrome
+  - burpsuite
+  - mitmproxy
+targets:
+  - arrrspace
+  - mutillidae
+  - dojobasic
