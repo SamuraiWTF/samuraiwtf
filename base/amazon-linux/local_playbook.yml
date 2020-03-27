@@ -23,14 +23,15 @@
         - curl
         - docker
         - unzip
-        - python-pip
         - php-fpm
         - nano
+        - python3
     become: true
 
   - name: python prerequisite modules
     pip:
       name: "{{ modules }}"
+      executable: /usr/bin/pip3
     become: yes
     vars:
       modules:
