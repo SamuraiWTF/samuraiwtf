@@ -7,13 +7,14 @@
   * Debian / Ubuntu (?TBD), when using Vagrant or PackerIO
 
 
-## Installed Packages
+## Prerequisites
 
 * nginx
 * vim
 * curl
 * docker
 * unzip
-* python-pip
+* python3 (including pip3)
 * php-fpm
 * nano
+* npm (version 12)
