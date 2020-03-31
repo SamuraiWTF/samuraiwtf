@@ -19,3 +19,4 @@
     vars:
       modules:
       - ansible
+      - pyyaml

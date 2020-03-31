@@ -1,0 +1,7 @@
+---
+
+name: Nikto
+category: tools
+description: Automated web scanner for legacy web applications
+install:
+  playbook: nikto-install.yml
