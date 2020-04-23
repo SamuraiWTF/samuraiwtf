@@ -21,7 +21,7 @@
     mode: 0744
     force: no
 
-- name: Create service descriptor for wtf-juice-shop
+- name: Create service descriptor for wtf-musashi
   copy:
     dest: /etc/systemd/system/wtf-musashi.service
     content: |
@@ -74,6 +74,26 @@
         server_name api.cors.dem;
         location / {
           proxy_pass http://localhost:3020;
+        }
+      }
+    mode: 0644
+  notify:
+    - restart nginx
+    
+- name: Setup hosts file entries
+  lineinfile:
+    dest: /etc/hosts
+    line: '127.0.0.10   csp-dojo.wtf'
+     
+- name: Setup nginx reverse-proxy config for CSP API
+  copy:
+    dest: /etc/nginx/conf.d/musashi-csp-api.conf
+    content: |
+      server {
+        listen 80;
+        server_name csp-dojo.wtf;
+        location / {
+          proxy_pass http://localhost:3041;
         }
       }
     mode: 0644
