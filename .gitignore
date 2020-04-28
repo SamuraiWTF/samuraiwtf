@@ -5,3 +5,7 @@ config/home/Burp*
 *.retry
 
 **/__pycache__
+
+.idea/*
+**/.ansible
+**/~*
