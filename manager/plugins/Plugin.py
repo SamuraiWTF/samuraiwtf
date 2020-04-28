@@ -7,3 +7,7 @@ class Plugin(object):
         for key in required_params:
             if key not in params.keys():
                 raise wtferrors.MissingRequiredParam(key, plugin_name)
+
+    @classmethod
+    def get_aliases(cls):
+        return [cls.__name__]

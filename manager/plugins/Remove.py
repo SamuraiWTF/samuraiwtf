@@ -4,7 +4,11 @@ import os.path
 import shutil
 
 
-class rm(Plugin):
+class Remove(Plugin):
+
+    @classmethod
+    def get_aliases(cls):
+        return ["rm"]
 
     def _all(self, params):
         self._validate_params(params, ['path'], 'rm')

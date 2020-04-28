@@ -3,7 +3,11 @@ import os.path
 import os
 
 
-class copy(Plugin):
+class Copy(Plugin):
+
+    @classmethod
+    def get_aliases(cls):
+        return ["copy"]
 
     def _all(self, params):
         self._validate_params(params, ['dest', 'content'], 'copy')

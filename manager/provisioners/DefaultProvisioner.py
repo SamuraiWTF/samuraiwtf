@@ -32,12 +32,10 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
                 print("---> Running: {}".format(task_type))
                 break
 
-        mod = __import__("plugins.{}".format(task_type), fromlist=[task_type])
-        klass = getattr(mod, task_type)
-        runner = klass()
+        plugin = BaseProvisioner.BaseProvisioner.get_plugin(task_type)
 
-        if hasattr(runner, func) and callable(getattr(runner, func)):
-            method_to_call = getattr(runner, func)
+        if hasattr(plugin, func) and callable(getattr(plugin, func)):
+            method_to_call = getattr(plugin, func)
             result, msg = method_to_call(task.get(task_type))
             if result:
                 print("     + changed")

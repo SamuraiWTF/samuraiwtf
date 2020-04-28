@@ -1,7 +1,7 @@
 # __init__.py
 
 from .Plugin import Plugin
-from .copy import copy
-from .docker import docker
-from .git import git
-from .rm import rm
+from .Copy import Copy
+from .Docker import Docker
+from .Git import Git
+from .Remove import Remove

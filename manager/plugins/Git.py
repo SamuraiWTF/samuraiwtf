@@ -3,7 +3,11 @@ from git import Repo
 import os.path
 
 
-class git(Plugin):
+class Git(Plugin):
+
+    @classmethod
+    def get_aliases(cls):
+        return ["git"]
 
     def install(self, params):
         self._validate_params(params, ['repo', 'dest'], 'git')
