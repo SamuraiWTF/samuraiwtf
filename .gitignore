@@ -3,3 +3,5 @@
 .DS_Store
 config/home/Burp*
 *.retry
+
+**/__pycache__

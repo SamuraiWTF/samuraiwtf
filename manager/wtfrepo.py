@@ -13,7 +13,6 @@ def write_repo(data):
   with open("installed.yml", 'w') as stream:
     yaml.dump(data, stream)
 
-
 def set_installed(name, version):
   data = read_repo();
   data[name] = version

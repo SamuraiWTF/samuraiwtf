@@ -1,18 +1,36 @@
 from os import listdir
-from os.path import isdir, join, dirname
+from os.path import isdir, join, dirname, realpath, abspath
+import subprocess
 import yaml
-import play_runner
+import wtferrors
 
 module_dict = {}
 
 def load_module_info(path):
   with open(path, 'r') as stream:
-    module_info = yaml.load(stream)
+    module_info = yaml.load(stream, Loader=yaml.SafeLoader)
     module_info['path'] = dirname(path)
-    module_dict[module_info.get('name')] = module_info
-    return module_info
 
-def list_modules(path='../modules/', module_list=[]):
+    provisioner_class = module_info.get("class", "provisioners.DefaultProvisioner")
+    if "." in provisioner_class:
+      classname = provisioner_class[provisioner_class.rindex(".")+1:]
+    else:
+      classname = provisioner_class
+
+    mod = __import__(provisioner_class, fromlist=[classname])
+    klass = getattr(mod, classname)
+    
+    provisioner = klass(module_info)
+    module_dict[module_info.get('name').lower()] = provisioner
+
+    return provisioner
+
+def list_modules(path=None, module_list=[]):
+  if path is None:
+    my_path = abspath(dirname(__file__))
+    path = realpath(join(my_path, "../modules"))
+
+
   if len(module_list) == 0:
     module_dict.clear()
 
@@ -21,7 +39,7 @@ def list_modules(path='../modules/', module_list=[]):
     file_path = join(path, f)
     if isdir(file_path):
       list_modules(file_path, module_list)
-    elif f=='wtfmodule.yml':
+    elif f.endswith(".yml"):
       module_info = load_module_info(file_path)
       if module_info is not None:
         module_list.append(module_info)
@@ -30,21 +48,25 @@ def list_modules(path='../modules/', module_list=[]):
 def get_module_info(name):
   return module_dict.get(name)
 
-def install_module(name):
+def _run_function(module_name, function_name):
   if len(module_dict) == 0:
     list_modules()
-    print(module_dict)
-  module_info = module_dict.get(name)
-  print("found module info: {}".format(module_info))
-  if 'playbook' in module_info.get('install', {}):
-    playbook_path = join(module_info.get('path'), module_info.get('install', {}).get('playbook'))
-    with open(playbook_path, 'r') as stream:
-      playbook_tasks = yaml.load(stream)
-      print("Running playbook at: {}".format(playbook_path))
-      playbook_source = dict(name = name,
-        hosts = 'all',
-        connection = 'local',
-        become = 'yes',
-        tasks = playbook_tasks)
-      print("Playbook source: {}".format(playbook_source))
-      play_runner.run_play(playbook_source)
+
+  provisioner = module_dict.get(module_name.lower())
+  if provisioner is None:
+    raise wtferrors.ModuleNotFound(name)
+
+  if hasattr(provisioner, function_name) and callable(getattr(provisioner, function_name)):
+    function_to_call = getattr(provisioner, function_name)
+    function_to_call()    
+  else:
+    raise wtferrors.NotImplemented(function_name, type(provisioner).__name__)
+
+
+
+def install_module(name):
+  _run_function(name, "install")
+
+
+def remove_module(name):
+  _run_function(name, "remove")
