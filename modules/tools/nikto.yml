@@ -1,6 +1,6 @@
 ---
 
-name: Nikto
+name: nikto
 category: tools
 description: Automated web scanner for legacy web applications.
 
