@@ -12,6 +12,12 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
     def remove(self):
         self._run_function("remove")
 
+    def start(self):
+        self._run_function("start")
+
+    def stop(self):
+        self._run_function("stop")
+
     def _run_function(self, func_name):
         func = self.module_info.get(func_name, {})
         if func is None:
@@ -29,7 +35,7 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
                 print("Task Name: {}".format(task.get(key)))
             else:
                 task_type = key
-                print("---> Running: {}".format(task_type))
+                print("---> Running: {} {}".format(task_type, func))
                 break
 
         plugin = BaseProvisioner.BaseProvisioner.get_plugin(task_type)

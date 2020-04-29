@@ -22,3 +22,28 @@ class Docker(Plugin):
             container.logs()
             return True, None
 
+    def start(self, params):
+        self._validate_params(params, ['name'], 'docker')
+        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+        container_list = client.containers.list(filters={'name': params.get('name')}, all=True)
+
+        if len(container_list) == 0:
+            return False, "No container named '{}' was found. It will need to be installed before you can start it.".format(params.get('name'))
+        elif container_list[0].status=="running":
+            return False, "The '{}' container is already running.".format(params.get('name'))
+        else:
+            container_list[0].start()
+            return True, None
+
+    def stop(self, params):
+        self._validate_params(params, ['name'], 'docker')
+        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+        container_list = client.containers.list(filters={'name': params.get('name')}, all=True)
+
+        if len(container_list) == 0:
+            return False, "No container named '{}' was found. It will need to be installed before you can stop it.".format(params.get('name'))
+        elif container_list[0].status != "running":
+            return False, "The '{}' container is not running.".format(params.get('name'))
+        else:
+            container_list[0].stop()
+            return True, None

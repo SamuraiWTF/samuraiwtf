@@ -56,7 +56,7 @@ def _run_function(module_name, function_name):
 
     provisioner = module_dict.get(module_name.lower())
     if provisioner is None:
-        raise wtferrors.ModuleNotFound(name)
+        raise wtferrors.ModuleNotFound(module_name)
 
     if hasattr(provisioner, function_name) and callable(getattr(provisioner, function_name)):
         function_to_call = getattr(provisioner, function_name)
@@ -71,3 +71,11 @@ def install_module(name):
 
 def remove_module(name):
     _run_function(name, "remove")
+
+
+def start_module(name):
+    _run_function(name, "start")
+
+
+def stop_module(name):
+    _run_function(name, "stop")
