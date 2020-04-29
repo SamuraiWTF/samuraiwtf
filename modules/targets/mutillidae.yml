@@ -11,6 +11,10 @@ install:
   - docker:
       name: mutillidae
       image: bit0pus/docker-mutillidae
+  - name: Setup hosts file entry
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   mutillidae.wtf'
 
 remove:
   - service:
@@ -18,6 +22,11 @@ remove:
       state: running
   - docker:
       name: mutillidae
+  - name: Remove hosts file entry
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   mutillidae.wtf'
+      state: absent
 
 start:
   - service:

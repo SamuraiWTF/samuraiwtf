@@ -9,7 +9,7 @@ class Copy(Plugin):
     def get_aliases(cls):
         return ["copy"]
 
-    def _all(self, params):
+    def any(self, params):
         self._validate_params(params, ['dest', 'content'], 'copy')
         if os.path.exists(params.get("dest")):
             return False, "The specified destination path exists: {}".format(params.get("dest"))
@@ -21,5 +21,3 @@ class Copy(Plugin):
 
             return True, None
 
-    def install(self, params):
-        return self._all(params)
