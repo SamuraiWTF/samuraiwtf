@@ -26,6 +26,7 @@
         - php-fpm
         - nano
         - python3
+        - java-11-amazon-corretto
     become: true
 
   - name: python prerequisite modules
