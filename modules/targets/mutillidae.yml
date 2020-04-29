@@ -12,6 +12,13 @@ install:
       name: mutillidae
       image: bit0pus/docker-mutillidae
 
+remove:
+  - service:
+      name: docker
+      state: running
+  - docker:
+      name: mutillidae
+
 start:
   - service:
       name: docker

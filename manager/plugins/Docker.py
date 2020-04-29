@@ -1,6 +1,6 @@
 from plugins import Plugin
 import docker
-import os.path
+import wtferrors
 
 
 class Docker(Plugin):
@@ -21,6 +21,20 @@ class Docker(Plugin):
             container = client.containers.create(image=params.get('image'), name=params.get('name'), detach=True)
             container.logs()
             return True, None
+
+    def remove(self, params):
+        self._validate_params(params, ['name'], 'docker')
+        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+        container_list = client.containers.list(filters={'name': params.get('name')}, all=True)
+
+        if len(container_list) == 0:
+            return False, "No container named '{}' was found. It will need to be installed before you can remove it.".format(
+                params.get('name'))
+        elif container_list[0].status == "running":
+            raise wtferrors.CriticalFunctionFailure('docker', 'Cannot remove a running container.')
+        else:
+            container_list[0].remove(v=True)
+            return True, "Container removed: '{}".format(params.get('name'))
 
     def start(self, params):
         self._validate_params(params, ['name'], 'docker')

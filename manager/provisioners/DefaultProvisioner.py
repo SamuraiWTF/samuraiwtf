@@ -22,6 +22,8 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
         func = self.module_info.get(func_name, {})
         if func is None:
             raise wtferrors.NotImplemented(func_name, "DefaultProvisioner", self.get_name())
+        elif len(func) == 0:
+            print("There are no tasks defined in '{}.{}'".format(self.get_name(), func_name))
         else:
             print("Running '{}' tasks for module '{}'...".format(func_name, self.get_name()))
             for task in func:
