@@ -29,6 +29,11 @@
         - java-11-amazon-corretto
     become: true
 
+  - name: set up corretto as the preferred Java alternative
+    alternatives:
+      name: java
+      path: /usr/lib/jvm/java-11-amazon-corretto.x86_64/bin/java
+
   - name: python prerequisite modules
     pip:
       name: "{{ modules }}"
