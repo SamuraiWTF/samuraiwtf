@@ -15,10 +15,15 @@ class Docker(Plugin):
 
         container_list = client.containers.list(filters={'name': params.get('name')}, all=True)
 
+        port_mappings = {}
+        for container_port in params.get('ports').keys():
+            port_mappings[container_port] = ('127.0.0.1', params.get('ports').get(container_port))
+
         if len(container_list) > 0:
             return False, "A container named '{}' is already installed.".format(params.get('name'))
         else:
-            container = client.containers.create(image=params.get('image'), name=params.get('name'), detach=True)
+            container = client.containers.create(image=params.get('image'), name=params.get('name'), detach=True,
+                                                 ports=port_mappings)
             container.logs()
             return True, None
 
@@ -42,8 +47,9 @@ class Docker(Plugin):
         container_list = client.containers.list(filters={'name': params.get('name')}, all=True)
 
         if len(container_list) == 0:
-            return False, "No container named '{}' was found. It will need to be installed before you can start it.".format(params.get('name'))
-        elif container_list[0].status=="running":
+            return False, "No container named '{}' was found. It will need to be installed before you can start it.".format(
+                params.get('name'))
+        elif container_list[0].status == "running":
             return False, "The '{}' container is already running.".format(params.get('name'))
         else:
             container_list[0].start()
@@ -55,7 +61,8 @@ class Docker(Plugin):
         container_list = client.containers.list(filters={'name': params.get('name')}, all=True)
 
         if len(container_list) == 0:
-            return False, "No container named '{}' was found. It will need to be installed before you can stop it.".format(params.get('name'))
+            return False, "No container named '{}' was found. It will need to be installed before you can stop it.".format(
+                params.get('name'))
         elif container_list[0].status != "running":
             return False, "The '{}' container is not running.".format(params.get('name'))
         else:

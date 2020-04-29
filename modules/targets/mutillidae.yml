@@ -11,10 +11,29 @@ install:
   - docker:
       name: mutillidae
       image: bit0pus/docker-mutillidae
+      ports:
+        80/tcp: 33080
+        22/tcp: 22222
+        3306/tcp: 33333
   - name: Setup hosts file entry
     lineinfile:
       dest: /etc/hosts
       line: '127.0.0.1   mutillidae.wtf'
+  - name: Setup nginx reverse-proxy config
+    copy:
+      dest: /etc/nginx/conf.d/mutillidae.conf
+      content: |
+        server {
+          listen 80;
+          server_name mutillidae.wtf;
+          location / {
+            proxy_pass http://localhost:33080;
+          }
+        }
+      mode: 0744
+  - service:
+      name: nginx
+      state: restarted
 
 remove:
   - service:
@@ -27,6 +46,8 @@ remove:
       dest: /etc/hosts
       line: '127.0.0.1   mutillidae.wtf'
       state: absent
+  - rm:
+      path: /etc/nginx/conf.d/mutillidae.conf
 
 start:
   - service:
