@@ -1,0 +1,13 @@
+---
+
+name: mutilidae
+category: targets
+description: Test lab focused on OWASP top 10 vulnerabilities.
+
+install:
+  - service:
+      name: docker
+      state: running
+  - docker:
+      name: mutillidae
+      image: bit0pus/docker-mutillidae

@@ -14,7 +14,7 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
 
     def _run_function(self, func_name):
         func = self.module_info.get(func_name, {})
-        if func == None:
+        if func is None:
             raise wtferrors.NotImplemented(func_name, "DefaultProvisioner", self.get_name())
         else:
             print("Running '{}' tasks for module '{}'...".format(func_name, self.get_name()))
@@ -33,6 +33,9 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
                 break
 
         plugin = BaseProvisioner.BaseProvisioner.get_plugin(task_type)
+
+        if hasattr(plugin, 'any') and not hasattr(plugin, func):
+            func = 'any'
 
         if hasattr(plugin, func) and callable(getattr(plugin, func)):
             method_to_call = getattr(plugin, func)
