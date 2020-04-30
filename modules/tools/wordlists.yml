@@ -1,0 +1,25 @@
+---
+
+name: wordlists
+category: tools
+description: Word lists to be used in fuzzing attacks.
+
+install:
+  - name: Create wordlist folder
+    file:
+      path: /opt/samurai/wordlists
+      state: directory
+
+  - name: Install FuzzDB
+    git:
+      repo: https://github.com/fuzzdb-project/fuzzdb.git
+      dest: /opt/samurai/wordlists/fuzzdb
+
+  - name: Install SecLists
+    git:
+      repo: https://github.com/danielmiessler/SecLists.git
+      dest: /opt/samurai/wordlists/seclists
+
+remove:
+  - rm:
+      path: /opt/samurai/wordlists
