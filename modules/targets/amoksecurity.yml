@@ -1,0 +1,44 @@
+---
+
+name: amoksecurity
+category: targets
+description: Convenience domain for payload hosting.
+
+install:
+  - name: Setup hosts file entries
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   amoksecurity.wtf'
+
+  - name: Create webroot for amoksecurity.wtf
+    file:
+      path: /var/www/amoksecurity
+      state: directory
+
+  - name: Setup nginx reverse-proxy config for amoksecurity
+    copy:
+      dest: /etc/nginx/conf.d/amoksecurity.conf
+      content: |
+        server {
+          listen 80;
+          server_name amoksecurity.wtf;
+          location / {
+            root /var/www/amoksecurity;
+          }
+        }
+      mode: 0744
+
+  - service:
+      name: nginx
+      state: restarted
+
+remove:
+  - rm:
+      path: /var/www/amoksecurity
+  - rm:
+      path: /etc/nginx/conf.d/amoksecurity.conf
+  - name: Remove hosts file entry
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   amoksecurity.wtf'
+      state: absent
