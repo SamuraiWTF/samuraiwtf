@@ -30,7 +30,6 @@ class Unarchive(Plugin):
                 for chunk in r.iter_content(chunk_size=1024):
                     if chunk:
                         output.write(chunk)
-                        fragments = fragments + 1
 
             tar = tarfile.open(temp_file_name)
             tar.extractall(path=params.get('dest'))

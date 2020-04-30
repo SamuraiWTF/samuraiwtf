@@ -1,0 +1,30 @@
+---
+
+name: zap
+category: tools
+description: Open source interception proxy for web pentesting.
+
+install:
+  - unarchive:
+      url: https://github.com/zaproxy/zaproxy/releases/download/v2.9.0/ZAP_2.9.0_Linux.tar.gz
+      dest: /opt/samurai/
+
+  - name: Create zap menu item
+    copy:
+      dest: /etc/samurai.d/applications/zap.desktop
+      content: |
+        #!/usr/bin/env xdg-open
+
+        [Desktop Entry]
+        Version=1.0
+        Type=Application
+        Terminal=false
+        Exec=/opt/samurai/ZAP_2.9.0/zap.sh
+        Name=ZAP
+        Icon=/opt/samurai/icons/zap.png
+        Categories=samuraiwtf
+        Comment=OWASP Interception proxy
+        Name[en_US]=ZAP
+      mode: 0744
+    become: yes
+
