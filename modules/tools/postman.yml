@@ -1,0 +1,47 @@
+---
+
+name: postman
+category: tools
+description: Web API development and scripting tool.
+
+
+install:
+  - name: Download and install and Postman
+    unarchive:
+      url: https://dl.pstmn.io/download/latest/linux64
+      dest: /opt/samurai/
+
+  - name: Create Postman launcher
+    copy:
+      dest: /usr/bin/postman
+      content: |
+        #!/bin/bash
+        cd /opt/samurai/Postman/app
+        ./Postman
+      mode: 0777
+
+  - name: Create Postman menu item
+    copy:
+      dest: /etc/samurai.d/applications/postman.desktop
+      content: |
+        #!/usr/bin/env xdg-open
+
+        [Desktop Entry]
+        Version=1.0
+        Type=Application
+        Terminal=false
+        Exec=postman
+        Name=Postman
+        Icon=/opt/samurai/icons/postman-logo.png
+        Categories=samuraiwtf
+        Comment=Web Services client
+        Name[en_US]=Postman
+      mode: 0744
+
+remove:
+  - rm:
+      path: /opt/samurai/Postman
+  - rm:
+      path: /etc/samurai.d/applications/postman.desktop
+  - rm:
+      path: /usr/bin/postman
