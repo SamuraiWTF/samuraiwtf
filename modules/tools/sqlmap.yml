@@ -1,0 +1,47 @@
+---
+
+name: sqlmap
+category: tools
+description: Command line tool to discover and exploit SQLi flaws.
+
+install:
+  - name: fetch sqlmap from github
+    git:
+      repo: https://github.com/sqlmapproject/sqlmap.git
+      dest: /opt/samurai/sqlmap
+
+  - name: Create sqlmap launcher
+    copy:
+      dest: /usr/bin/sqlmap
+      content: |
+        #!/bin/bash
+        cd /opt/samurai/sqlmap
+        ./sqlmap.py "$@"
+      mode: 0777
+
+  - name: Create sqlmap menu item
+    copy:
+      dest: /etc/samurai.d/applications/sqlmap.desktop
+      content: |
+        #!/usr/bin/env xdg-open
+
+        [Desktop Entry]
+        Version=1.0
+        Type=Application
+        Terminal=false
+        Exec=mate-terminal --command "bash -c \"sqlmap -h;bash\""
+        Name=SQLMap
+        Icon=utilities-terminal
+        Categories=samuraiwtf
+        Comment=Open source SQLi discovery and exploitation tool
+        Name[en_US]=SQLMap
+      mode: 0744
+
+remove:
+  - rm:
+      path: /opt/samurai/sqlmap
+  - rm:
+      path: /usr/bin/sqlmap
+  - rm:
+      path: /etc/samurai.d/applications/sqlmap.desktop
+
