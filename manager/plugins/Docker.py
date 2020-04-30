@@ -22,6 +22,11 @@ class Docker(Plugin):
         if len(container_list) > 0:
             return False, "A container named '{}' is already installed.".format(params.get('name'))
         else:
+            images = client.images.list(name=params.get('image'))
+            if len(images) == 0:
+                print("       Image not available locally. Pulling from DockerHub.")
+                client.images.pull(params.get('image'))
+
             container = client.containers.create(image=params.get('image'), name=params.get('name'), detach=True,
                                                  ports=port_mappings)
             container.logs()
