@@ -29,7 +29,7 @@ def load_module_info(path):
 def list_modules(path=None, module_list=[]):
     if path is None:
         my_path = abspath(dirname(__file__))
-        path = realpath(join(my_path, "../modules"))
+        path = realpath(join(my_path, "modules"))
 
     if len(module_list) == 0:
         module_dict.clear()
