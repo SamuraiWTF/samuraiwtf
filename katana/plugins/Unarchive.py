@@ -12,7 +12,7 @@ class Unarchive(Plugin):
         return ["unarchive"]
 
     def any(self, params):
-        self._validate_params(params, ['url', 'dest'], 'get_url')
+        self._validate_params(params, ['url', 'dest'], 'unarchive')
 
         # if os.path.exists(params.get('dest')) and not params.get('overwrite', False):
         #     return False, 'The specified file already exists: {}'.format(params.get('dest'))

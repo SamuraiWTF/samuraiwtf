@@ -1,0 +1,93 @@
+---
+
+name: juice-shop
+category: targets
+description: A rich-featured modern vulnerable app from OWASP, featuring a built-in CTF.
+
+install:
+  - name: Get the latest release page of Juice Shop
+    get_url:
+      url: https://github.com/bkimminich/juice-shop/releases/latest
+      dest: /opt/targets/juice-shop
+      link_pattern: \/bkimminich\/juice-shop\/releases\/download\/.*_node10_linux_x64.tgz
+
+  - name: Script to start juice shop
+    copy:
+      dest: /usr/local/bin/start_juice-shop.sh
+      content: |
+        #!/bin/bash
+
+        export JUICE_SHOP_PATH=$(find /opt/targets/juice-shop/ -name 'juice-shop_*')
+        cd $JUICE_SHOP_PATH
+        npm start &
+      mode: 0744
+
+  - name: Create service descriptor for wtf-juice-shop
+    copy:
+      dest: /etc/systemd/system/wtf-juice-shop.service
+      content: |
+        [Unit]
+        Description=Juice Shop Target service
+        [Service]
+        Type=forking
+        ExecStart=/usr/local/bin/start_juice-shop.sh
+        [Install]
+        WantedBy=multi-user.target
+      mode: 0744
+
+  - name: Setup hosts file entries
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   juice-shop.wtf'
+
+  - name: Setup nginx reverse-proxy config
+    copy:
+      dest: /etc/nginx/conf.d/juice-shop.conf
+      content: |
+        server {
+          listen 80;
+          server_name juice-shop.wtf;
+          location / {
+            proxy_pass http://localhost:3000;
+          }
+        }
+      mode: 0644
+
+  - service:
+      name: nginx
+      state: restarted
+  - command:
+      cmd: systemctl daemon-reload
+
+remove:
+  - service:
+      name: wtf-juice-shop
+      state: stopped
+  - rm:
+      path: /opt/targets/juice-shop
+  - rm:
+      path: /usr/local/bin/start_juice-shop.sh
+  - rm:
+      path: /etc/systemd/system/wtf-juice-shop.service
+  - rm:
+      path: /etc/nginx/conf.d/juice-shop.conf
+  - name: Setup hosts file entries
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   juice-shop.wtf'
+      state: absent
+  - service:
+      name: nginx
+      state: restarted
+  - command:
+      cmd: systemctl daemon-reload
+
+start:
+  - service:
+      name: wtf-juice-shop
+      state: running
+
+stop:
+  - service:
+      name: wtf-juice-shop
+      state: stopped
