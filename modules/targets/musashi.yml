@@ -1,0 +1,120 @@
+---
+
+name: musashi
+category: targets
+description: A set of labs for understanding modern application features.
+
+install:
+  - name: Get the latest release of musashi
+    git:
+      repo: https://github.com/SamuraiWTF/musashi-js.git
+      dest: /opt/targets/musashi
+
+  - name: Install musashi with yarn
+    yarn:
+      path: /opt/targets/musashi
+
+  - name: Script to start Musashi
+    copy:
+      dest: /usr/local/bin/start_musashi.sh
+      content: |
+        #!/bin/bash
+
+        cd /opt/targets/musashi
+        yarn start &
+      mode: 0744
+
+  - name: Create service descriptor for wtf-musashi.service
+    copy:
+      dest: /etc/systemd/system/wtf-musashi.service
+      content: |
+        [Unit]
+        Description=Musashi Target service
+        [Service]
+        Type=forking
+        ExecStart=/usr/local/bin/start_musashi.sh
+        [Install]
+        WantedBy=multi-user.target
+      mode: 0744
+
+  - name: Setup hosts file entries
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.8   cors-dojo.wtf'
+
+  - name: Setup nginx reverse-proxy config for CORS client
+    copy:
+      dest: /etc/nginx/conf.d/musashi-cors-client.conf
+      content: |
+        server {
+          listen 80;
+          server_name cors-dojo.wtf;
+          location / {
+            proxy_pass http://localhost:3021;
+          }
+        }
+      mode: 0644
+
+  - name: Setup hosts file entries for api
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.9   api.cors.dem'
+
+  - name: Setup nginx reverse-proxy config for CORS API
+    copy:
+      dest: /etc/nginx/conf.d/musashi-cors-api.conf
+      content: |
+        server {
+          listen 80;
+          server_name api.cors.dem;
+          location / {
+            proxy_pass http://localhost:3020;
+          }
+        }
+      mode: 0644
+
+  - service:
+      name: nginx
+      state: restarted
+  - command:
+      cmd: systemctl daemon-reload
+
+remove:
+  - service:
+      name: wtf-musashi
+      state: stopped
+  - rm:
+      path: /opt/targets/musashi
+  - rm:
+      path: /usr/local/bin/start_musashi.sh
+  - rm:
+      path: /etc/systemd/system/wtf-musashi.service
+  - rm:
+      path: /etc/nginx/conf.d/musashi-cors-client.conf
+  - rm:
+      path: /etc/nginx/conf.d/musashi-cors-api.conf
+
+  - lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.8   cors-dojo.wtf'
+      state: absent
+  - lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.8   api.cors.dem'
+      state: absent
+  - service:
+      name: nginx
+      state: restarted
+  - command:
+      cmd: systemctl daemon-reload
+
+
+start:
+  - service:
+      name: wtf-musashi
+      state: running
+
+stop:
+  - service:
+      name: wtf-musashi
+      state: stopped

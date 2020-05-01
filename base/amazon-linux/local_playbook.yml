@@ -211,18 +211,18 @@
     become: yes
 
 
-  - name: Create service descriptor
-    copy:
-      dest: /etc/systemd/system/wtftargets.service
-      content: |
-        [Unit]
-        Description=WTF Targets service
-        After=systemd-user-sessions.service
-        [Service]
-        Type=forking
-        ExecStart=/usr/local/bin/startup_targets.sh
-      mode: 0744
-    become: yes
+#  - name: Create service descriptor
+#    copy:
+#      dest: /etc/systemd/system/wtftargets.service
+#      content: |
+#        [Unit]
+#        Description=WTF Targets service
+#        After=systemd-user-sessions.service
+#        [Service]
+#        Type=forking
+#        ExecStart=/usr/local/bin/startup_targets.sh
+#      mode: 0744
+#    become: yes
 
   - name: Start nginx
     service:
@@ -248,7 +248,7 @@
     become: yes
 #    when: stat_npm_setup.stat.exists == False
 
-  - name: Install nodejs
+  - name: Add nodejs repo
     yum:
       name: nodejs
       enablerepo: nodesource
@@ -269,3 +269,18 @@
         - yarn
       update_cache: yes
     become: yes
+
+  - name: Install management app
+    copy:
+      src: ../../katana/
+      dest: /opt/samurai/katana/
+      force: yes
+
+  - name: Setup launcher
+    copy:
+      dest: /usr/bin/katana
+      content: |
+        #!/bin/bash
+        cd /opt/samurai/katana
+        sudo python3 ./katanacli.py "$@"
+      mode: 0777
