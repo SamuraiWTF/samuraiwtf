@@ -8,8 +8,7 @@ import os
 def list_modules(args):
     results = katanacore.list_modules()
     for mod in results:
-        print("{} - {}".format(mod.get_name(), mod.get_description()))
-    print(results)  # TODO: Pretty-print this
+        print("{} - {}".format(mod.get_name(), mod.get_description()))  # TODO: Pretty-print this
 
 
 def install_module(args):
