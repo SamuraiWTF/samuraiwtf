@@ -4,9 +4,12 @@ sudo amazon-linux-extras install ansible2
 
 pushd ~
 
-# git clone --depth=1 --single-branch --branch amazon-linux https://github.com/SamuraiWTF/samuraiwtf.git
+git clone --depth=1 --single-branch --branch amazon-linux https://github.com/SamuraiWTF/samuraiwtf.git
+
 cd samuraiwtf
 
 sudo ansible-playbook -K base/amazon-linux/local_playbook.yml
+
+sudo ln -s $(pwd)/katana/ /opt/samurai/katana
 
 popd

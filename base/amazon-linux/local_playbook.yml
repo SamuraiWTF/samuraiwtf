@@ -270,13 +270,7 @@
       update_cache: yes
     become: yes
 
-  - name: Install management app
-    copy:
-      src: ../../katana/
-      dest: /opt/samurai/katana/
-      force: yes
-
-  - name: Setup launcher
+  - name: Setup katana launcher
     copy:
       dest: /usr/bin/katana
       content: |
