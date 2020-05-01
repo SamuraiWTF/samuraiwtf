@@ -1,5 +1,5 @@
 from provisioners import BaseProvisioner
-import wtferrors
+import katanaerrors
 
 
 class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
@@ -21,7 +21,7 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
     def _run_function(self, func_name):
         func = self.module_info.get(func_name, {})
         if func is None:
-            raise wtferrors.NotImplemented(func_name, "DefaultProvisioner", self.get_name())
+            raise katanaerrors.NotImplemented(func_name, "DefaultProvisioner", self.get_name())
         elif len(func) == 0:
             print("There are no tasks defined in '{}.{}'".format(self.get_name(), func_name))
         else:
@@ -56,4 +56,4 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
                 print("       {}".format(msg))
 
         else:
-            raise wtferrors.MissingFunction(func, task_type)
+            raise katanaerrors.MissingFunction(func, task_type)

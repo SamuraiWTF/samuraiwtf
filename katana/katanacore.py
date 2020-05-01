@@ -1,7 +1,7 @@
 from os import listdir
 from os.path import isdir, join, dirname, realpath, abspath
 import yaml
-import wtferrors
+import katanaerrors
 
 module_dict = {}
 
@@ -56,13 +56,13 @@ def _run_function(module_name, function_name):
 
     provisioner = module_dict.get(module_name.lower())
     if provisioner is None:
-        raise wtferrors.ModuleNotFound(module_name)
+        raise katanaerrors.ModuleNotFound(module_name)
 
     if hasattr(provisioner, function_name) and callable(getattr(provisioner, function_name)):
         function_to_call = getattr(provisioner, function_name)
         function_to_call()
     else:
-        raise wtferrors.NotImplemented(function_name, type(provisioner).__name__)
+        raise katanaerrors.NotImplemented(function_name, type(provisioner).__name__)
 
 
 def install_module(name):

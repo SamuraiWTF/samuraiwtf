@@ -1,6 +1,6 @@
 from plugins import Plugin
 import os
-import wtferrors
+import katanaerrors
 
 
 class File(Plugin):
@@ -14,7 +14,7 @@ class File(Plugin):
 
         state = params.get('state')
         if state not in ['directory']:
-            raise wtferrors.UnrecognizedParamValue('state', state, 'file', 'directory')
+            raise katanaerrors.UnrecognizedParamValue('state', state, 'file', 'directory')
 
         if state == 'directory':
             try:

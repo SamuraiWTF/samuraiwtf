@@ -1,4 +1,4 @@
-import wtferrors
+import katanaerrors
 
 
 class Plugin(object):
@@ -6,7 +6,7 @@ class Plugin(object):
     def _validate_params(self, params, required_params, plugin_name):
         for key in required_params:
             if params is None or key not in params.keys():
-                raise wtferrors.MissingRequiredParam(key, plugin_name)
+                raise katanaerrors.MissingRequiredParam(key, plugin_name)
 
     @classmethod
     def get_aliases(cls):

@@ -1,6 +1,6 @@
 from plugins import Plugin
 import docker
-import wtferrors
+import katanaerrors
 
 
 class Docker(Plugin):
@@ -41,7 +41,7 @@ class Docker(Plugin):
             return False, "No container named '{}' was found. It will need to be installed before you can remove it.".format(
                 params.get('name'))
         elif container_list[0].status == "running":
-            raise wtferrors.CriticalFunctionFailure('docker', 'Cannot remove a running container.')
+            raise katanaerrors.CriticalFunctionFailure('docker', 'Cannot remove a running container.')
         else:
             container_list[0].remove(v=True)
             return True, "Container removed: '{}".format(params.get('name'))

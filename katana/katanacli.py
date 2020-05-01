@@ -1,31 +1,31 @@
 #! /usr/bin/python3
-import wtfcore
+import katanacore
 import argparse
-import wtferrors
+import katanaerrors
 import os
 
 
 def list_modules(args):
-    results = wtfcore.list_modules()
+    results = katanacore.list_modules()
     for mod in results:
         print("{} - {}".format(mod.get_name(), mod.get_description()))
     print(results)  # TODO: Pretty-print this
 
 
 def install_module(args):
-    wtfcore.install_module(args.name)
+    katanacore.install_module(args.name)
 
 
 def remove_module(args):
-    wtfcore.remove_module(args.name)
+    katanacore.remove_module(args.name)
 
 
 def start_module(args):
-    wtfcore.start_module(args.name)
+    katanacore.start_module(args.name)
 
 
 def stop_module(args):
-    wtfcore.stop_module(args.name)
+    katanacore.stop_module(args.name)
 
 
 if __name__ == "__main__":
@@ -63,6 +63,6 @@ if __name__ == "__main__":
             args.func(args)
         else:
             parser.print_usage()
-    except wtferrors.WTFError as err:
+    except katanaerrors.WTFError as err:
         print("ERROR {}".format(err.message))
         parser.print_usage()

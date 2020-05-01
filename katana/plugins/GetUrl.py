@@ -2,7 +2,7 @@ from plugins import Plugin
 import requests
 import os
 import os.path
-import wtferrors
+import katanaerrors
 
 
 class GetUrl(Plugin):

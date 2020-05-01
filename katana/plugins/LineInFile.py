@@ -1,7 +1,7 @@
 from plugins import Plugin
 import os.path
 import os
-import wtferrors
+import katanaerrors
 
 
 class LineInFile(Plugin):
@@ -14,7 +14,7 @@ class LineInFile(Plugin):
         self._validate_params(params, ['dest', 'line'], 'lineinfile')
         state = params.get('state', 'present')
         if state not in ['present', 'absent']:
-            raise wtferrors.UnrecognizedParamValue('state', state, 'lineinfile', 'present, absent')
+            raise katanaerrors.UnrecognizedParamValue('state', state, 'lineinfile', 'present, absent')
 
         lines = []
         if os.path.exists(params.get("dest")):
