@@ -45,3 +45,7 @@ remove:
   - rm:
       path: /etc/samurai.d/applications/sqlmap.desktop
 
+status:
+  installed:
+    exists:
+      path: /opt/samurai/sqlmap

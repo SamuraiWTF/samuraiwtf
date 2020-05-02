@@ -45,3 +45,8 @@ remove:
 
   - rm:
       path: /etc/samurai.d/applications/nikto.desktop
+
+status:
+  installed:
+    exists:
+      path: /opt/samurai/nikto

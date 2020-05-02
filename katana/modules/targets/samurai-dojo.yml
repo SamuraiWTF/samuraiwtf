@@ -168,6 +168,13 @@ stop:
       name: wtf-dojo
       state: stopped
 
+status:
+  running:
+    started:
+      docker: samuraidojo_basicphp
+  installed:
+    exists:
+      docker: samuraidojo_basicphp
 
 #- name: Start Samurai-Dojo targets
 #  service:

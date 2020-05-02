@@ -23,3 +23,8 @@ install:
 remove:
   - rm:
       path: /opt/samurai/wordlists
+
+status:
+  installed:
+    exists:
+      path: /opt/samurai/wordlists

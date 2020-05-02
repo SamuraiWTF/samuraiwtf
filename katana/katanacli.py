@@ -27,6 +27,10 @@ def stop_module(args):
     katanacore.stop_module(args.name)
 
 
+def status_module(args):
+    print("Status: {}".format(katanacore.status_module(args.name)))
+
+
 if __name__ == "__main__":
     if not os.geteuid() == 0:
         print("\nWARNING: This script must be run as root. Please type 'sudo' before the command.\n")
@@ -54,6 +58,10 @@ if __name__ == "__main__":
     stop = subparsers.add_parser('stop')
     stop.add_argument('name')
     stop.set_defaults(func=stop_module)
+
+    status = subparsers.add_parser('status')
+    status.add_argument('name')
+    status.set_defaults(func=status_module)
 
     args = parser.parse_args()
 

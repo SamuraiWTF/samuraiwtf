@@ -28,3 +28,13 @@ install:
       mode: 0744
     become: yes
 
+remove:
+  - rm:
+      path: /opt/samurai/ZAP_2.9.0
+  - rm:
+      path: /etc/samurai.d/applications/zap.desktop
+
+status:
+  installed:
+    exists:
+      path: /opt/samurai/ZAP_2.9.0

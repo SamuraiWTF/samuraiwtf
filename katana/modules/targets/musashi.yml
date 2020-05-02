@@ -118,3 +118,11 @@ stop:
   - service:
       name: wtf-musashi
       state: stopped
+
+status:
+  running:
+    started:
+      service: wtf-musashi
+  installed:
+    exists:
+      pat: /opt/targets/musashi

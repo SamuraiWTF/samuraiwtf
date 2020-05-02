@@ -45,3 +45,8 @@ remove:
       path: /etc/samurai.d/applications/postman.desktop
   - rm:
       path: /usr/bin/postman
+
+status:
+  installed:
+    exists:
+      path: /opt/samurai/Postman

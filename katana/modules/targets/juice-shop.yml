@@ -91,3 +91,11 @@ stop:
   - service:
       name: wtf-juice-shop
       state: stopped
+
+status:
+  running:
+    started:
+      service: wtf-juice-shop
+  installed:
+    exists:
+      path: /opt/targets/juice-shop

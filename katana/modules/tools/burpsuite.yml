@@ -48,3 +48,8 @@ install:
         Comment=Interception proxy from Portswigger
         Name[en_US]=Burp Suite
       mode: 0744
+
+status:
+  installed:
+    exists:
+      path: /opt/samurai/burpsuite/burp.jar

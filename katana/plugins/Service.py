@@ -16,6 +16,9 @@ class Service(Plugin):
 
         status_code = subprocess.call(['systemctl', 'status', params.get('name')])
 
+        if status_code == 4:
+            raise katanaerrors.CriticalFunctionFailure('service', 'The specified service could not be found: {}'.format(params.get('name')))
+
         if params.get('state') == 'running':
             if status_code == 3:
                 start_status_code = subprocess.call(['systemctl', 'start', params.get('name')])

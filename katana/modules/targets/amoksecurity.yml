@@ -42,3 +42,11 @@ remove:
       dest: /etc/hosts
       line: '127.0.0.1   amoksecurity.wtf'
       state: absent
+
+status:
+  running:
+    started:
+      service: nginx
+  installed:
+    exists:
+      path: /var/www/amoksecurity

@@ -67,3 +67,11 @@ stop:
       state: running
   - docker:
       name: dvwa
+
+status:
+  running:
+    started:
+      docker: dvwa
+  installed:
+    exists:
+      docker: dvwa

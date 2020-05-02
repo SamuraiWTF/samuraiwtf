@@ -63,3 +63,12 @@ stop:
       state: running
   - docker:
       name: mutillidae
+
+status:
+  running:
+    started:
+      docker: mutillidae
+  installed:
+    exists:
+      docker: mutillidae
+
