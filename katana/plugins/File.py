@@ -1,4 +1,5 @@
 from plugins import Plugin
+from plugins import Remove
 import os
 import katanaerrors
 
@@ -13,7 +14,7 @@ class File(Plugin):
         self._validate_params(params, ['path', 'state'], 'file')
 
         state = params.get('state')
-        if state not in ['directory']:
+        if state not in ['directory', 'absent']:
             raise katanaerrors.UnrecognizedParamValue('state', state, 'file', 'directory')
 
         if state == 'directory':
@@ -26,3 +27,7 @@ class File(Plugin):
                     return True, None
             except FileExistsError as err:
                 return False, 'Specified path exists.'
+        elif state == 'absent':
+            remove = Remove()
+            remove_params = {'path': params.get('path')}
+            return remove.any(remove_params)
