@@ -15,10 +15,13 @@ class KatanaServer(object):
 
         all_columns = ''.join(columns)
         all_links = self.list_external_links()
-        return f'<html><head>{all_links}</head>' \
-               f'<body><section class="section"><div class="container">' \
-               f'<h1 class="title is-1">Katana</h1><div class="columns">{all_columns}</div>' \
-               f'</div></section></body></html>'
+        return f'<html><head>{all_links}</head><body>' \
+               f'<div id="header-section" class="level"><div class="level-left"><h1 id="title-header" class="title is-1 level-item">Samurai Katana</h1></div><div class="level-right">' \
+               f'<figure class="image level-item"><img id="header-image" src="/images/samurai-2258604_320.jpg"></figure></div></div>' \
+               f'<section class="section"><div class="container">' \
+               f'<div class="columns">{all_columns}</div>' \
+               f'</div></section>' \
+               f'<footer class="footer"><div class="content has-text-centered">Katana is part of the open source <a href="https://github.com/SamuraiWTF/samuraiwtf">Samurai WTF Project on GitHub</a>.</div></footer></body></html>'
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
@@ -99,6 +102,7 @@ class KatanaServer(object):
         links = [
             '<link rel="stylesheet" href="/css/bulma.min.css">',
             '<link rel="stylesheet" href="/css/all.css">',
+            '<link rel="stylesheet" href="/css/katana.css">',
             '<script src="/js/axios.min.js"></script>',
             '<script src="/js/katana.js"></script>'
         ]

@@ -1,0 +1,15 @@
+#header-image {
+    height: 140px;
+    width: auto;
+}
+
+#header-section {
+    font-color: white;
+    background-color: black;
+
+}
+
+#title-header {
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+}
