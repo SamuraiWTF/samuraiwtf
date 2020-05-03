@@ -1,0 +1,101 @@
+---
+
+name: katana
+category: management
+description: A web UI for this application.
+href: http://katana.wtf
+
+install:
+
+  - name: Create service descriptor for samurai-katana
+    copy:
+      dest: /etc/systemd/system/samurai-katana.service
+      content: |
+        [Unit]
+        Description=Katana service
+
+        [Service]
+        Type=simple
+        WorkingDirectory=/opt/samurai/katana/
+        ExecStart=/usr/bin/python3 ./katanaserve.py
+
+        [Install]
+        WantedBy=multi-user.target
+      mode: 0744
+
+#  - name: Create service socket for samurai-katana
+#    copy:
+#      dest: /etc/systemd/system/samurai-katana.socket
+#      content: |
+#        [Socket]
+#        ListenStream=127.0.0.1:8087
+#        NoDelay=true
+#
+#        [Install]
+#        WantedBy=sockets.target
+#      mode: 0744
+
+  - name: Setup hosts file entries
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   katana.wtf'
+
+  - name: Setup nginx reverse-proxy config
+    copy:
+      dest: /etc/nginx/conf.d/katana.conf
+      content: |
+        server {
+          listen 80;
+          server_name katana.wtf;
+          location / {
+            proxy_pass http://localhost:8087;
+          }
+        }
+      mode: 0644
+
+  - service:
+      name: nginx
+      state: restarted
+  - command:
+      cmd: systemctl daemon-reload
+
+remove:
+  - service:
+      name: samurai-katana
+      state: stopped
+  - rm:
+      path: /usr/local/bin/start_katana.sh
+  - rm:
+      path: /etc/systemd/system/samurai-katana.service
+  - rm:
+      path: /etc/systemd/system/samurai-katana.socket
+  - rm:
+      path: /etc/nginx/conf.d/katana.conf
+  - name: Setup hosts file entries
+    lineinfile:
+      dest: /etc/hosts
+      line: '127.0.0.1   katana.wtf'
+      state: absent
+  - service:
+      name: nginx
+      state: restarted
+  - command:
+      cmd: systemctl daemon-reload
+
+start:
+  - service:
+      name: samurai-katana
+      state: running
+
+stop:
+  - service:
+      name: samurai-katana
+      state: stopped
+
+status:
+  running:
+    started:
+      service: samurai-katana
+  installed:
+    exists:
+      path: /opt/samurai/katana

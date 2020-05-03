@@ -3,6 +3,7 @@
 name: musashi
 category: targets
 description: A set of labs for understanding modern application features.
+href: http://cors-dojo.wtf
 
 install:
   - name: Get the latest release of musashi
@@ -125,4 +126,4 @@ status:
       service: wtf-musashi
   installed:
     exists:
-      pat: /opt/targets/musashi
+      path: /opt/targets/musashi

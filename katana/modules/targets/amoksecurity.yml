@@ -3,6 +3,7 @@
 name: amoksecurity
 category: targets
 description: Convenience domain for payload hosting.
+href: http://amoksecurity.wtf
 
 install:
   - name: Setup hosts file entries

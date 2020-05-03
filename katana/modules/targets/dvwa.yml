@@ -3,6 +3,7 @@
 name: dvwa
 category: targets
 description: A classic test lab focused on OWASP top 10 vulnerabilities.
+href: http://dvwa.wtf
 
 install:
   - name: Make sure docker service is running

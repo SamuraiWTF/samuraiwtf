@@ -26,7 +26,9 @@ def load_module_info(path):
         return provisioner
 
 
-def list_modules(path=None, module_list=[]):
+def list_modules(path=None, module_list=None):
+    if module_list is None:
+        module_list = []
     if path is None:
         my_path = abspath(dirname(__file__))
         path = realpath(join(my_path, "modules"))

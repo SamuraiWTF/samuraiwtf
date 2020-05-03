@@ -3,6 +3,7 @@
 name: mutillidae
 category: targets
 description: Test lab focused on OWASP top 10 vulnerabilities.
+href: http://mutillidae.wtf
 
 install:
   - service:

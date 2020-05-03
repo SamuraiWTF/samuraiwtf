@@ -18,6 +18,12 @@ class BaseProvisioner(object):
     def get_description(self):
         return self.module_info.get("description", "(Not specified)")
 
+    def get_category(self):
+        return self.module_info.get("category", "(none)")
+
+    def get_href(self):
+        return self.module_info.get("href", None)
+
     @classmethod
     def _load_plugins(cls):
         if len(BaseProvisioner.plugins) == 0:

@@ -3,6 +3,7 @@
 name: juice-shop
 category: targets
 description: A rich-featured modern vulnerable app from OWASP, featuring a built-in CTF.
+href: http://juice-shop.wtf
 
 install:
   - name: Get the latest release page of Juice Shop
