@@ -1,6 +1,6 @@
 
 function startModule(event, name) {
-    console.log("Starting module: " + name);
+    setNotification("Starting module: " + name);
     axios.get('/start/'+name).then(function (response) {
         console.log("Success!");
         location.reload();  // TODO: change this to dynamically update status
@@ -11,7 +11,7 @@ function startModule(event, name) {
 }
 
 function stopModule(event, name) {
-    console.log("Stopping module: " + name);
+    setNotification("Stopping module: " + name);
     axios.get('/stop/'+name).then(function (response) {
         console.log("Success!");
         location.reload();  // TODO: change this to dynamically update status
@@ -22,7 +22,7 @@ function stopModule(event, name) {
 }
 
 function installModule(event, name) {
-    console.log("Installing module: " + name);
+    setNotification("Installing module: " + name + ". This may take a few moments...");
     axios.get('/install/'+name).then(function (response) {
         console.log("Success!");
         location.reload();  // TODO: change this to dynamically update status
@@ -33,7 +33,7 @@ function installModule(event, name) {
 }
 
 function removeModule(event, name) {
-    console.log("Removing module: " + name);
+    setNotification("Removing module: " + name + ".  This may take a few moments...");
     axios.get('/remove/'+name).then(function (response) {
         console.log("Success!");
         location.reload();  // TODO: change this to dynamically update status
@@ -42,6 +42,15 @@ function removeModule(event, name) {
         console.log(error);
     });
 }
+
+function setNotification(message) {
+    console.log("Notification: " + message);
+    let spinner = '<span class="icon"><i class="fas fa-sun fa-spin"></i></span>'
+    let fullMessage = spinner + " " + spinner + " " + spinner + message + spinner + " " + spinner + " " + spinner;
+    document.getElementById("notifications").innerHTML = fullMessage;
+    document.getElementById("notifications").classList.remove('is-hidden');
+}
+
 
 
 console.log("katana.js loaded.");
