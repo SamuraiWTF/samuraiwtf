@@ -16,7 +16,7 @@ install:
 
         [Service]
         Type=simple
-        WorkingDirectory=/opt/samurai/katana/
+        WorkingDirectory=/opt/katana/
         ExecStart=/usr/bin/python3 ./katanaserve.py
 
         [Install]

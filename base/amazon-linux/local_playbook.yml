@@ -275,6 +275,16 @@
       dest: /usr/bin/katana
       content: |
         #!/bin/bash
-        cd /opt/samurai/katana
-        sudo python3 ./katanacli.py "$@"
+        if [ $1 = "--update" ]; then
+          sudo rm -rf /tmp/samuraiwtf
+          pushd /tmp
+          sudo git clone --depth=1 --single-branch --branch "5.0-dev" https://github.com/SamuraiWTF/samuraiwtf.git || exit
+          sudo mkdir -p /opt/katana
+          sudo cp -R /tmp/samuraiwtf/katana/* /opt/katana/
+          popd
+        else
+          cd /opt/katana
+          sudo python3 ./katanacli.py "$@"
+        fi
       mode: 0777
+    become: yes
