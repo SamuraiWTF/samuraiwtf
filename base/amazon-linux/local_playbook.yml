@@ -288,3 +288,9 @@
         fi
       mode: 0777
     become: yes
+
+  - name: Install Katana requirements
+    pip:
+      requirements: /opt/katana/requirements.txt
+      executable: /usr/bin/pip3
+      become: yes
