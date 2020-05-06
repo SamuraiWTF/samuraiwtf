@@ -275,7 +275,7 @@
       dest: /usr/bin/katana
       content: |
         #!/bin/bash
-        if [ $1 = "--update" ]; then
+        if [[ "$1" = "--update" ]]; then
           sudo rm -rf /tmp/samuraiwtf
           pushd /tmp
           sudo git clone --depth=1 --single-branch --branch "5.0-dev" https://github.com/SamuraiWTF/samuraiwtf.git || exit
