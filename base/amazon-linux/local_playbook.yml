@@ -293,4 +293,4 @@
     pip:
       requirements: /opt/katana/requirements.txt
       executable: /usr/bin/pip3
-      become: yes
+    become: yes
