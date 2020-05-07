@@ -294,3 +294,16 @@
       requirements: /opt/katana/requirements.txt
       executable: /usr/bin/pip3
     become: yes
+
+  - name: Create add-ons folder
+    file:
+      path: /opt/samurai/add-ons/firefox
+      state: directory
+      owner: "{{ lookup('env','USER') }}"
+      group: "CORP\\domain users"
+    become: yes
+
+  - name: Download Foxy Proxy add-on for Firefox
+    get_url:
+      url: https://addons.mozilla.org/firefox/downloads/file/3476518/
+      dest: /opt/samurai/add-ons/firefox/
