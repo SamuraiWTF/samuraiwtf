@@ -6,6 +6,11 @@
   tasks:
 ### Prerequisites
 
+  - name: Allow local passwordless access for root user
+    lineinfile:
+      path: /etc/security/access.conf
+      line: +:root:ALL
+
   - name: Check if nginx is already installed
     stat:
       path: /etc/nginx/nginx.conf
