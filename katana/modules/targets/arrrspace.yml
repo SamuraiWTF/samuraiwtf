@@ -1,0 +1,140 @@
+---
+
+    name: arrrspace
+    category: targets
+    description: A *very* insecure faux social media platform deployed to a Kuberenetes cluster.
+    href: http://arrrspace.wtf
+    
+    install:
+      - name: Get the arrrspace repo
+        git:
+          repo: https://github.com/ProfessionallyEvil/arrrspace.git
+          dest: /opt/targets/arrrspace
+    
+      - name: Download minikube bin
+        get_url:
+          url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          dest: /usr/bin/minikube
+    
+      - name: Make minikube executable
+        command:
+          cmd: chmod +x /usr/bin/minikube
+    
+      - name: Download kubectl bin
+        command:
+          cwd: /usr/bin/
+          unsafe: True
+          shell: True
+          cmd: "curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl"
+    
+      - name: Make kubectl executable
+        command:
+          cmd: chmod +x /usr/bin/kubectl
+    
+      - name: Build Arrrspace cluster 
+        command: 
+          cwd: /opt/targets/arrrspace
+          cmd: /opt/targets/arrrspace/setup.sh createcluster
+    
+      - name: Build Arrrspace images
+        command:
+          cwd: /opt/targets/arrrspace
+          cmd: /opt/targets/arrrspace/setup.sh buildimages
+    
+      - name: Deploy resources to cluster
+        command:
+          cwd: /opt/targets/arrrspace
+          cmd: /opt/targets/arrrspace/setup.sh deployservices
+    
+      - name: Setup web app hosts file entry
+        lineinfile:
+          dest: /etc/hosts
+          line: '127.0.0.1  arrrspace.wtf'
+    
+      - name: Set api hosts file entry
+        lineinfile:
+          dest: /etc/hosts
+          line: '127.0.0.1  api.arrrspace.wtf'
+    
+      - name: Set up web app nginx reverse-proxy config
+        copy:
+          dest: /etc/nginx/conf.d/arrrspace.conf
+          content: |
+            server {
+              listen 80;
+              server_name arrrspace.wtf;
+              location / {
+                proxy_pass http://172.17.0.2:31380;
+              }
+            }
+          mode: 0644
+    
+      - name: Set up api nginx reverse-proxy config
+        copy:
+          dest: /etc/nginx/conf.d/api.arrrspace.conf
+          content: |
+            server {
+              listen 80;
+              server_name api.arrrspace.wtf;
+              location / {
+                proxy_pass http://172.17.0.2:31337;
+              }
+            }
+          mode: 0644
+    
+      - service:
+          name: nginx
+          state: restarted
+    
+    remove:
+      - name: Remove Arrrspace repo
+        rm:
+          path: /opt/targets/arrrspace
+      - name: Delete cluster
+        command:
+          cmd: minikube delete
+      - name: Remove images
+        command:
+          unsafe: True
+          shell: True
+          cmd: docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | grep 'arrrspace')
+      - name: Cleanup .kube dir
+        rm:
+          path: /root/.kube 
+      - name: Cleanup .minikube dir
+        rm:
+          path: /root/.minikube
+      - name: Remove minikube
+        rm:
+          path: /usr/bin/minikube
+      - name: Remove kubectl
+        rm:
+          path: /usr/bin/kubectl
+      - name: Remove arrrspace nginx conf
+        rm:
+          path: /etc/nginx/conf.d/arrrspace.conf
+      - name: Remove api.arrrspace nginx conf
+        rm:
+          path: /etc/nginx/conf.d/api.arrrspace.conf
+    
+    start:
+      - service:
+          name: docker
+          state: running
+      - command:
+          cmd: minikube start --force 
+    
+    stop:
+      - service:
+          name: docker
+          state: running
+      - command:
+          cmd: minikube stop
+    
+    status:
+      running:
+        started:
+          docker: minikube 
+      installed:
+        exists:
+          docker: minikube 
