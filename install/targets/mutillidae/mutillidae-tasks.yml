@@ -4,10 +4,9 @@
     state: started
     enabled: yes
 
-- name: Install Mutillidae docker container
-  docker_container:
-    name: mutillidae
-    image: bit0pus/docker-mutillidae
+- name: Pulling Mutillidae docker container
+  docker_image:
+    name: bit0pus/docker-mutillidae
 
 - name: Create service descriptor
   copy:
@@ -20,10 +19,8 @@
       [Service]
       TimeoutStartSec=0
       Restart=always
-      ExecStartPre=-/usr/bin/docker stop -t 10 %n
-      ExecStart=/usr/bin/docker run --rm -p 33080:80 -p 22222:22 -p 33333:3306 --name %n bit0pus/docker-mutillidae
-      ExecStop=/usr/bin/docker stop -t 10 %n
-      ExecStopPost=/usr/bin/docker stop -t 10 mutillidae
+      ExecStart=/usr/bin/docker run --rm -p 33080:80 -p 22222:22 -p 33333:3306 --name %N bit0pus/docker-mutillidae
+      ExecStop=/usr/bin/docker stop -t 10 %N
       [Install]
       WantedBy=multi-user.target
     mode: 0744
