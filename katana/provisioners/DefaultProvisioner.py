@@ -67,24 +67,27 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
 
         print("checking status for {}".format(status_checks))
 
-        has_run_check = False
-        if 'running' in status_checks:
-            has_run_check = True
-            print("doing running check...")
-            if self._do_checks(status_checks.get('running')) == 0:
-                return 'running'
+        try:
+            has_run_check = False
+            if 'running' in status_checks:
+                has_run_check = True
+                print("doing running check...")
+                if self._do_checks(status_checks.get('running')) == 0:
+                    return 'running'
 
-        if 'installed' in status_checks:
-            print("doing installed check...")
-            if self._do_checks(status_checks.get('installed')) == 0:
-                if has_run_check:
-                    return "stopped"
+            if 'installed' in status_checks:
+                print("doing installed check...")
+                if self._do_checks(status_checks.get('installed')) == 0:
+                    if has_run_check:
+                        return "stopped"
+                    else:
+                        return "installed"
                 else:
-                    return "installed"
+                    return "not installed"
             else:
-                return "not installed"
-        else:
-            return "unknown"
+                return "unknown"
+        except katanaerrors.BlockedByDependencyException:
+            return "blocked"
 
     def _do_checks(self, checks):
         failed_checks = 0

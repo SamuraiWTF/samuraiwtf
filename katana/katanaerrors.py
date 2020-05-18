@@ -42,3 +42,9 @@ class CriticalFunctionFailure(WTFError):
 
     def __init__(self, plugin_name, message="Unknown error"):
         self.message = "Plugin '{}' suffered a critical failure: {}".format(plugin_name, message)
+
+
+class BlockedByDependencyException(WTFError):
+
+    def __init__(self, dependency):
+        self.message = f"The status of the '{dependency}' dependency could not be determined."

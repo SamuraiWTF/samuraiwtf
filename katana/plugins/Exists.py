@@ -2,6 +2,7 @@ from plugins import Plugin
 import os.path
 import subprocess
 import docker
+import katanaerrors
 
 
 class Exists(Plugin):
@@ -24,4 +25,4 @@ class Exists(Plugin):
 
             return len(container_list) > 0
         else:
-            return False  # TODO: handle error states
+            raise katanaerrors.BlockedByDependencyException('docker')
