@@ -3,7 +3,6 @@ import os
 import sys
 import katanacore
 
-
 class KatanaServer(object):
 
     @cherrypy.expose
@@ -52,7 +51,6 @@ class KatanaServer(object):
         katanacore.remove_module(module)
         return {'name': module}
 
-
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def list(self):
@@ -63,7 +61,7 @@ class KatanaServer(object):
         rows = []
         for module in target_list:
             status = self.render_actions_for_status(module.get('status', 'unknown'), module.get('name'))
-            name = self.render_target_name(module.get('status','unknown'), module.get('name'), module.get('href'))
+            name = self.render_target_name(module.get('status', 'unknown'), module.get('name'), module.get('href'))
             rows.append(
                 f'<tr><td>{name}</td><td>{module["description"]}</td><td>{status}</td></tr>')
         all_rows = ''.join(rows)
@@ -89,7 +87,8 @@ class KatanaServer(object):
 
             status = katanacore.status_module(module.get_name())
             results[module.get_category()].append(
-                {'name': module.get_name(), 'description': module.get_description(), 'status': status, 'href': module.get_href()})
+                {'name': module.get_name(), 'description': module.get_description(), 'status': status,
+                 'href': module.get_href()})
         for category in results:
             sorted_list = sorted(results[category], key=lambda i: i['name'])
             results[category] = sorted_list
@@ -108,13 +107,17 @@ class KatanaServer(object):
     def render_actions_for_status(self, status, module):
         action_icons = []
         if status == 'not installed':
-            action_icons.append(f'<a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>')
+            action_icons.append(
+                f'<a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>')
         if status == 'stopped':
-            action_icons.append(f'<a onclick="startModule(this, \'{module}\')" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>')
+            action_icons.append(
+                f'<a onclick="startModule(this, \'{module}\')" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>')
         if status == 'running':
-            action_icons.append(f'<a onclick="stopModule(this, \'{module}\')" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>')
+            action_icons.append(
+                f'<a onclick="stopModule(this, \'{module}\')" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>')
         if status == 'installed' or status == 'stopped':
-            action_icons.append(f'<a onclick="removeModule(this, \'{module}\')" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>')
+            action_icons.append(
+                f'<a onclick="removeModule(this, \'{module}\')" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>')
         all_actions = ''.join(action_icons)
         return f'<p class="control">{all_actions}</p>'
 
