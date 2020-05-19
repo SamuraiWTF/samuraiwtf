@@ -1,48 +1,40 @@
-
-function startModule(event, name) {
-    setNotification("Starting module: " + name);
-    axios.get('/start/'+name).then(function (response) {
+function runAndWaitForAction(action, module, href, message) {
+    axios.get('/'+action+'/'+module).then(function (response) {
         console.log("Success!");
         console.log(response);
-        renderActionsForStatus(response.data.name, response.data.status, "Starting...");
-//        location.reload();  // TODO: change this to dynamically update status
-    })
+        renderActionsForStatus(response.data.name, response.data.status, href, message);
+        pollForStatus(() => {
+            return axios.get('/status/' + module);
+            }).then(data => {
+                renderActionsForStatus(data.name, data.status, href);
+                renderName(data.name, data.status, href);
+                document.getElementById("notifications").classList.add('is-hidden');
+            }).catch(() => console.log('Polling failed.'));
+     })
     .catch(function (error) {
         console.log(error);
     });
 }
 
-function stopModule(event, name) {
+
+function startModule(event, name, href='') {
+    setNotification("Starting module: " + name);
+    runAndWaitForAction('start', name, href, 'Starting...');
+}
+
+function stopModule(event, name, href='') {
     setNotification("Stopping module: " + name);
-    axios.get('/stop/'+name).then(function (response) {
-        console.log("Success!");
-        location.reload();  // TODO: change this to dynamically update status
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+    runAndWaitForAction('stop', name, href, 'Stopping...');
 }
 
-function installModule(event, name) {
-    setNotification("Installing module: " + name + ". This may take a few moments...");
-    axios.get('/install/'+name).then(function (response) {
-        console.log("Success!");
-        location.reload();  // TODO: change this to dynamically update status
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+function installModule(event, name, href='') {
+    setNotification("Installing module: " + name);
+    runAndWaitForAction('install', name, href, 'Installing...');
 }
 
-function removeModule(event, name) {
-    setNotification("Removing module: " + name + ".  This may take a few moments...");
-    axios.get('/remove/'+name).then(function (response) {
-        console.log("Success!");
-        location.reload();  // TODO: change this to dynamically update status
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+function removeModule(event, name, href='') {
+    setNotification("Removing module: " + name);
+    runAndWaitForAction('remove', name, href, 'Removing...');
 }
 
 function setNotification(message) {
@@ -53,53 +45,92 @@ function setNotification(message) {
     document.getElementById("notifications").classList.remove('is-hidden');
 }
 
-function renderActionsForStatus(module, status, changeText="Busy...") {
+// The polling status check
+function pollForStatus(fn, timeout, interval) {
+    var endTime = Number(new Date()) + (timeout || 120000);
+    interval = interval || 3000;
+
+    var checkCondition = function(resolve, reject) {
+        var ajax = fn();
+        // dive into the ajax promise
+        ajax.then( function(response){
+            // If the condition is met, we're done!
+            if(response.data.status !== 'changing') {
+                resolve(response.data);
+            }
+            // If the condition isn't met but the timeout hasn't elapsed, go again
+            else if (Number(new Date()) < endTime) {
+                setTimeout(checkCondition, interval, resolve, reject);
+            }
+            // Didn't match and too much time, reject!
+            else {
+                reject(new Error('timed out for ' + fn + ': ' + arguments));
+            }
+        });
+    };
+
+    return new Promise(checkCondition);
+}
+
+
+function renderActionsForStatus(module, status, href='', changeText="Busy...") {
     let action_icons = [];
+    let params = 'this, \''+module+'\'';
+    if (href !== '') {
+        params = 'this, \''+module+'\', \''+href+'\'';
+    }
+
     if (status === 'not installed') {
-        action_icons.push('<a onclick="installModule(this, \''+module+'\')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>');
+        action_icons.push('<a onclick="installModule('+params+')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>');
     }
     if (status === 'stopped') {
-        action_icons.push('<a onclick="startModule(this, \''+module+'\')" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>');
+        action_icons.push('<a onclick="startModule('+params+')" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>');
     }
     if (status === 'running') {
-        action_icons.push('<a onclick="stopModule(this, \''+module+'\')" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>');
+        action_icons.push('<a onclick="stopModule('+params+')" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>');
     }
     if (status === 'installed' || status === 'stopped') {
-        action_icons.push('<a onclick="removeModule(this, \''+module+'\')" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>');
+        action_icons.push('<a onclick="removeModule('+params+')" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>');
     }
     if (status === 'changing') {
-        action_icons.push('<span class="icon"><i class="fas fa-sun fa-spin" title='+changeText+'></i></span>');
+        action_icons.push('<span class="icon"><i class="fas fa-sun fa-spin fa-lg" title='+changeText+'></i></span>');
     }
 
     document.getElementById(module+"-actions").innerHTML = action_icons.join('');
 
 }
 
-//  def render_actions_for_status(self, status, module):
-//        action_icons = []
-//        if status == 'not installed':
-//            action_icons.append(
-//                f'<a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>')
-//        if status == 'stopped':
-//            action_icons.append(
-//                f'<a onclick="startModule(this, \'{module}\')" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>')
-//        if status == 'running':
-//            action_icons.append(
-//                f'<a onclick="stopModule(this, \'{module}\')" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>')
-//        if status == 'installed' or status == 'stopped':
-//            action_icons.append(
-//                f'<a onclick="removeModule(this, \'{module}\')" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>')
-//        all_actions = ''.join(action_icons)
-//        return f'<p class="control">{all_actions}</p>'
-//
-//    def render_target_name(self, status, module, href=None):
-//        if status == 'not installed':
-//            return f'<button class="button is-link" title="{status}" disabled>Open {module}</button> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-light">{status} <a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download" title="install"></i></a></span></div>'
-//        elif status == 'running':
-//            return f'<a class="button is-link" href="{href}" target="_blank" title="{status}">Open {module}</a> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-success">{status}</span></i></a></span></div>'
-//        elif status == 'stopped':
-//            return f'<button class="button is-link" title="{status}" disabled>Open {module}</button> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}<a class="has-text-light" onclick="startModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-running" title="run"></i></a></span></div>'
-//        else:
-//            return module
+function renderName(module, status, href='') {
+    let name_parts = [];
+
+    if (href == '') {
+        console.log("Href passed in was empty: "+ href);
+        name_parts.push(module);
+    } else {
+        console.log("Href passed in was not empty: '"+ href + "'.");
+        if (status === 'running') {
+            name_parts.push('<a class="button is-link" href="'+href+'" target="_blank" title="'+status+'">Open '+module+'</a> <br />');
+        } else {
+            name_parts.push('<button class="button is-link" title="'+status+'" disabled>Open '+module+'</button> <br /> ')
+        }
+
+        name_parts.push('<div class="tags has-addons status-bar">');
+
+        if (status === 'not installed') {
+            name_parts.push('<span class="tag is-dark">Status</span><span class="tag is-light">'+status+' <a onclick="installModule(this, \''+module+'\', \''+href+'\')" style="margin-left: 5px;"><i class="fas fa-download" title="install"></i></a></span>');
+        } else if (status === 'stopped') {
+            name_parts.push('<span class="tag is-dark">Status</span><span class="tag is-danger">'+status+'<a class="has-text-light" onclick="startModule(this, \''+module+'\', \''+href+'\')" style="margin-left: 5px;"><i class="fas fa-running" title="run"></i></a></span></div>');
+        } else if (status == 'running') {
+            name_parts.push('<span class="tag is-dark">Status</span><span class="tag is-success">'+status+'</span></i></a></span></div>');
+        } else {
+            name_parts.push('<span class="tag is-dark">Status</span><span class="tag is-light">'+status+'</span>');
+        }
+
+        name_parts.push('</div>');
+    }
+
+    document.getElementById(module+"-name").innerHTML = name_parts.join('');
+
+}
 
 console.log("katana.js loaded.");

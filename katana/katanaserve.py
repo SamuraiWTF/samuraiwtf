@@ -43,14 +43,16 @@ class KatanaServer(object):
             t = threading.Thread(target=katanacore.start_module, args=(module,))
             self.threads[module] = t
             t.start()
-            katanacore.start_module(module)
         return {'name': module, 'status': 'changing'}
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def stop(self, module):
-        katanacore.stop_module(module)
-        return {'name': module}
+        if not self.module_is_busy(module):
+            t = threading.Thread(target=katanacore.stop_module, args=(module,))
+            self.threads[module] = t
+            t.start()
+        return {'name': module, 'status': 'changing'}
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
@@ -85,7 +87,7 @@ class KatanaServer(object):
         rows = []
         for module in target_list:
             name = module.get('name')
-            actions = self.render_actions_for_status(module.get('status', 'unknown'), name)
+            actions = self.render_actions_for_status(module.get('status', 'unknown'), name, module.get('href'))
             rendered_name = self.render_target_name(module.get('status', 'unknown'), name, module.get('href'))
             rows.append(
                 f'<tr><td id="{name}-name">{rendered_name}</td><td>{module["description"]}</td><td id="{name}-actions">{actions}</td></tr>')
@@ -129,20 +131,25 @@ class KatanaServer(object):
         ]
         return ''.join(links)
 
-    def render_actions_for_status(self, status, module):
+    def render_actions_for_status(self, status, module, href=''):
         action_icons = []
+        if href is None or len(href) == 0:
+            params = f'this, \'{module}\''
+        else:
+            params = f'this, \'{module}\',\'{href}\''
+
         if status == 'not installed':
             action_icons.append(
-                f'<a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>')
+                f'<a onclick="installModule({params})" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>')
         if status == 'stopped':
             action_icons.append(
-                f'<a onclick="startModule(this, \'{module}\')" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>')
+                f'<a onclick="startModule({params})" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>')
         if status == 'running':
             action_icons.append(
-                f'<a onclick="stopModule(this, \'{module}\')" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>')
+                f'<a onclick="stopModule({params})" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>')
         if status == 'installed' or status == 'stopped':
             action_icons.append(
-                f'<a onclick="removeModule(this, \'{module}\')" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>')
+                f'<a onclick="removeModule({params})" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>')
         all_actions = ''.join(action_icons)
         return f'<p class="control">{all_actions}</p>'
 
@@ -154,7 +161,7 @@ class KatanaServer(object):
         elif status == 'stopped':
             return f'<button class="button is-link" title="{status}" disabled>Open {module}</button> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}<a class="has-text-light" onclick="startModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-running" title="run"></i></a></span></div>'
         else:
-            return module
+            return f'<button class="button is-link" title="{status}" disabled>Open {module}</button> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}</span></div>'
 
 
 if __name__ == '__main__':
