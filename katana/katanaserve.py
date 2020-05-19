@@ -2,8 +2,14 @@ import cherrypy
 import os
 import sys
 import katanacore
+import threading
+
 
 class KatanaServer(object):
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.threads = {}
 
     @cherrypy.expose
     def index(self):
@@ -25,13 +31,20 @@ class KatanaServer(object):
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def status(self, module):
-        return {'name': module, 'status': katanacore.status_module(module)}
+        if self.module_is_busy(module):
+            return {'name': module, 'status': 'changing'}
+        else:
+            return {'name': module, 'status': katanacore.status_module(module)}
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def start(self, module):
-        katanacore.start_module(module)
-        return {'name': module}
+        if not self.module_is_busy(module):
+            t = threading.Thread(target=katanacore.start_module, args=(module,))
+            self.threads[module] = t
+            t.start()
+            katanacore.start_module(module)
+        return {'name': module, 'status': 'changing'}
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
@@ -57,24 +70,36 @@ class KatanaServer(object):
         results = self.list_modules()
         return {'results': results}
 
+    def module_is_busy(self, module):
+        if module in self.threads:
+            t = self.threads.get(module)
+            if t.is_alive():
+                return True
+            else:
+                self.threads.pop(module, None)
+                return False
+        else:
+            return False
+
     def build_targets_table(self, target_list):
         rows = []
         for module in target_list:
-            status = self.render_actions_for_status(module.get('status', 'unknown'), module.get('name'))
-            name = self.render_target_name(module.get('status', 'unknown'), module.get('name'), module.get('href'))
+            name = module.get('name')
+            actions = self.render_actions_for_status(module.get('status', 'unknown'), name)
+            rendered_name = self.render_target_name(module.get('status', 'unknown'), name, module.get('href'))
             rows.append(
-                f'<tr><td>{name}</td><td>{module["description"]}</td><td>{status}</td></tr>')
+                f'<tr><td id="{name}-name">{rendered_name}</td><td>{module["description"]}</td><td id="{name}-actions">{actions}</td></tr>')
         all_rows = ''.join(rows)
         return f'<table class="table"><tr><th>Name</th><th>Description</th><th>Actions</th></tr>{all_rows}</table>'
 
     def build_tools_table(self, tool_list):
         rows = []
         for module in tool_list:
-            status = self.render_actions_for_status(module.get('status', 'unknown'), module.get('name'))
+            actions = self.render_actions_for_status(module.get('status', 'unknown'), module.get('name'))
             name = module["name"]
 
             rows.append(
-                f'<tr><td>{name}</td><td>{module["description"]}</td><td>{status}</td></tr>')
+                f'<tr><td id="{name}-name">{name}</td><td>{module["description"]}</td><td id="{name}-actions">{actions}</td></tr>')
         all_rows = ''.join(rows)
         return f'<table class="table"><tr><th>Name</th><th>Description</th><th>Actions</th></tr>{all_rows}</table>'
 

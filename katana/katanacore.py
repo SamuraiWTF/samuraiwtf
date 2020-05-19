@@ -2,6 +2,7 @@ from os import listdir
 from os.path import isdir, join, dirname, realpath, abspath
 import yaml
 import katanaerrors
+import re
 
 module_dict = {}
 
@@ -11,19 +12,22 @@ def load_module_info(path):
         module_info = yaml.load(stream, Loader=yaml.SafeLoader)
         module_info['path'] = dirname(path)
 
-        provisioner_class = module_info.get("class", "provisioners.DefaultProvisioner")
-        if "." in provisioner_class:
-            class_name = provisioner_class[provisioner_class.rindex(".") + 1:]
+        if re.fullmatch('[a-zA-Z][a-zA-Z0-9\-_]+', module_info['name']):
+            provisioner_class = module_info.get("class", "provisioners.DefaultProvisioner")
+            if "." in provisioner_class:
+                class_name = provisioner_class[provisioner_class.rindex(".") + 1:]
+            else:
+                class_name = provisioner_class
+
+            mod = __import__(provisioner_class, fromlist=[class_name])
+            klass = getattr(mod, class_name)
+
+            provisioner = klass(module_info)
+            module_dict[module_info.get('name').lower()] = provisioner
+
+            return provisioner
         else:
-            class_name = provisioner_class
-
-        mod = __import__(provisioner_class, fromlist=[class_name])
-        klass = getattr(mod, class_name)
-
-        provisioner = klass(module_info)
-        module_dict[module_info.get('name').lower()] = provisioner
-
-        return provisioner
+            print(f"ERROR: Module name is invalid. It must be a valid css id: {module_info['name']}")
 
 
 def list_modules(path=None, module_list=None):
