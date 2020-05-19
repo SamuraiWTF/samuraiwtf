@@ -57,14 +57,20 @@ class KatanaServer(object):
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def install(self, module):
-        katanacore.install_module(module)
-        return {'name': module}
+        if not self.module_is_busy(module):
+            t = threading.Thread(target=katanacore.install_module, args=(module,))
+            self.threads[module] = t
+            t.start()
+        return {'name': module, 'status': 'changing'}
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def remove(self, module):
-        katanacore.remove_module(module)
-        return {'name': module}
+        if not self.module_is_busy(module):
+            t = threading.Thread(target=katanacore.remove_module, args=(module,))
+            self.threads[module] = t
+            t.start()
+        return {'name': module, 'status': 'changing'}
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
