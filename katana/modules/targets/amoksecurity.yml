@@ -48,6 +48,8 @@ status:
   running:
     started:
       service: nginx
+    exists:
+      path: /var/www/amoksecurity
   installed:
     exists:
       path: /var/www/amoksecurity
