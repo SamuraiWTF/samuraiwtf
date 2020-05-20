@@ -8,13 +8,16 @@ A Katana module is any target, or tool, or supporting service that is under the 
 - category
 - provisioner
 - href
-- is_runnable
+- is-runnable
+- depends-on
 
 ## Dependencies
 A module may be dependent on other modules. In this case, the following rules apply:
 
 1. Installing a dependent module will first install its dependencies.
 2. Starting a dependent module will first start its dependencies.
+
+Dependencies are listed under the _depends-on_ attribute.
 
 ## Actions
 - Install

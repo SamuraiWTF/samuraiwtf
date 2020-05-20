@@ -1,4 +1,5 @@
 from provisioners import BaseProvisioner
+import katanacore
 import katanaerrors
 
 
@@ -7,12 +8,18 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
         super(DefaultProvisioner, self).__init__(module_info)
 
     def install(self):
+        for dependency in self.get_dependencies():
+            if katanacore.status_module(dependency) == 'not installed':
+                katanacore.install_module(dependency)
         self._run_function("install")
 
     def remove(self):
         self._run_function("remove")
 
     def start(self):
+        for dependency in self.get_dependencies():
+            if katanacore.status_module(dependency) != 'running':
+                katanacore.start_module(dependency)
         self._run_function("start")
 
     def stop(self):

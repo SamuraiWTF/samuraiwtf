@@ -24,6 +24,9 @@ class BaseProvisioner(object):
     def get_href(self):
         return self.module_info.get("href", None)
 
+    def get_dependencies(self):
+        return self.module_info.get("depends-on", [])
+
     @classmethod
     def _load_plugins(cls):
         if len(BaseProvisioner.plugins) == 0:
