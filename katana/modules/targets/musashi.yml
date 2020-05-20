@@ -85,15 +85,12 @@ remove:
       name: wtf-musashi
       state: stopped
   - rm:
-      path: /opt/targets/musashi
-  - rm:
-      path: /usr/local/bin/start_musashi.sh
-  - rm:
-      path: /etc/systemd/system/wtf-musashi.service
-  - rm:
-      path: /etc/nginx/conf.d/musashi-cors-client.conf
-  - rm:
-      path: /etc/nginx/conf.d/musashi-cors-api.conf
+      path:
+        - /opt/targets/musashi
+        - /usr/local/bin/start_musashi.sh
+        - /etc/systemd/system/wtf-musashi.service
+        - /etc/nginx/conf.d/musashi-cors-client.conf
+        - /etc/nginx/conf.d/musashi-cors-api.conf
 
   - lineinfile:
       dest: /etc/hosts
