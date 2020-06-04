@@ -15,14 +15,13 @@ class KatanaServer(object):
     def index(self):
         modules = self.list_modules()
         columns = [
-            f'<div class="column"><h2 class="subtitle is-2"><span class="icon"><i class="fas fa-bullseye"></i></span> Targets</h2>{self.build_targets_table(modules.get("targets", []))}</div>',
-            f'<div class="column"><h2 class="subtitle is-2"><span class="icon"><i class="fas fa-hammer"></i></span> Tools</h2>{self.build_tools_table(modules.get("tools", []))}</div>']
+            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/targets.svg"></img> Targets</h2>{self.build_targets_table(modules.get("targets", []))}</div>',
+            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/tools.svg"></img> Tools</h2>{self.build_tools_table(modules.get("tools", []))}</div>']
 
         all_columns = ''.join(columns)
         all_links = self.list_external_links()
         return f'<html><head>{all_links}</head><body>' \
-               f'<div id="header-section" class="level"><div class="level-left"><h1 id="title-header" class="title is-1 level-item">Samurai Katana</h1></div><div class="level-right">' \
-               f'<figure class="image level-item"><img id="header-image" src="/images/samurai-2258604_320.jpg"></figure></div></div>' \
+               f'<div id="header-section"><div id="header-img-wrap"><img id="header-image" src="/images/katana-logo.svg"></div></div>' \
                f'<section class="section"><div class="container">' \
                f'<div class="columns">{all_columns}</div>' \
                f'</div></section><section><div id="notifications" class="is-hidden notification"></div></section>' \

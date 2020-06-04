@@ -1,13 +1,26 @@
 #header-image {
-    height: 140px;
-    width: auto;
+    height: auto;
+    width: 380px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header-image-wrap {
+	width: 380px;
+	background-color: #AAA;
+	margin: auto;
 }
 
 #header-section {
-    font-color: white;
-    background-color: black;
-
+	background-color: #AAA;
 }
+
+.cat-header {
+	height: 1.6em;
+	vertical-align: middle;
+}
+
 
 #title-header {
     padding-left: 1.2em;
