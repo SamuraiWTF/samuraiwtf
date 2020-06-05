@@ -24,7 +24,9 @@ class KatanaServer(object):
                f'<div id="header-section"><div id="header-img-wrap"><img id="header-image" src="/images/katana-logo.svg"></div></div>' \
                f'<section class="section"><div class="container">' \
                f'<div class="columns">{all_columns}</div>' \
-               f'</div></section><section><div id="notifications" class="is-hidden notification"></div></section>' \
+               f'<div class="columns"><div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/base-services.svg"></img> Base Services</h2>{self.build_targets_table(modules.get("base", []))}</div></div>' \
+               f'</div></section>' \
+               f'<section><div id="notifications" class="is-hidden notification"></div></section>' \
                f'<footer class="footer"><div class="content has-text-centered">Katana is part of the open source <a href="https://github.com/SamuraiWTF/samuraiwtf">Samurai WTF Project on GitHub</a>.</div></footer></body></html>'
 
     @cherrypy.expose
@@ -158,15 +160,31 @@ class KatanaServer(object):
         all_actions = ''.join(action_icons)
         return f'<p class="control">{all_actions}</p>'
 
-    def render_target_name(self, status, module, href=None):
+    def render_status(self, status, module):
         if status == 'not installed':
-            return f'<button class="button is-link" title="{status}" disabled>Open {module}</button> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-light">{status} <a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download" title="install"></i></a></span></div>'
+            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-light">{status} <a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download" title="install"></i></a></span></div>'
         elif status == 'running':
-            return f'<a class="button is-link" href="{href}" target="_blank" title="{status}">Open {module}</a> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-success">{status}</span></i></a></span></div>'
+            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-success">{status}</span></i></a></span></div>'
         elif status == 'stopped':
-            return f'<button class="button is-link" title="{status}" disabled>Open {module}</button> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}<a class="has-text-light" onclick="startModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-running" title="run"></i></a></span></div>'
+            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}<a class="has-text-light" onclick="startModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-running" title="run"></i></a></span></div>'
         else:
-            return f'<button class="button is-link" title="{status}" disabled>Open {module}</button> <br /> <div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}</span></div>'
+            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}</span></div>'
+
+    def render_target_name(self, status, module, href=None):
+        name = "unknown"
+
+        if href is None or len(href) == 0:
+            name = module
+        elif status == 'not installed':
+            name = f'<button class="button is-link" title="{status}" disabled>Open {module}</button>'
+        elif status == 'running':
+            name = f'<a class="button is-link" href="{href}" target="_blank" title="{status}">Open {module}</a>'
+        elif status == 'stopped':
+            name = f'<button class="button is-link" title="{status}" disabled>Open {module}</button>'
+        else:
+            name = f'<button class="button is-link" title="{status}" disabled>Open {module}</button>'
+
+        return f'{name} <br/> {self.render_status(status, module)}'
 
 
 if __name__ == '__main__':
