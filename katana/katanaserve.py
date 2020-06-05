@@ -15,8 +15,8 @@ class KatanaServer(object):
     def index(self):
         modules = self.list_modules()
         columns = [
-            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/targets.svg"></img> Targets</h2>{self.build_targets_table(modules.get("targets", []))}</div>',
-            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/tools.svg"></img> Tools</h2>{self.build_tools_table(modules.get("tools", []))}</div>']
+            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/targets.svg"></img> Targets</h2>{self.build_module_list(modules.get("targets", []))}</div>',
+            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/tools.svg"></img> Tools</h2>{self.build_module_list(modules.get("tools", []))}</div>']
 
         all_columns = ''.join(columns)
         all_links = self.list_external_links()
@@ -24,7 +24,7 @@ class KatanaServer(object):
                f'<div id="header-section"><div id="header-img-wrap"><img id="header-image" src="/images/katana-logo.svg"></div></div>' \
                f'<section class="section"><div class="container">' \
                f'<div class="columns">{all_columns}</div>' \
-               f'<div class="columns"><div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/base-services.svg"></img> Base Services</h2>{self.build_targets_table(modules.get("base", []))}</div></div>' \
+               f'<div class="columns"><div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/base-services.svg"></img> Base Services</h2>{self.build_module_list(modules.get("base", []))}</div></div>' \
                f'</div></section>' \
                f'<section><div id="notifications" class="is-hidden notification"></div></section>' \
                f'<footer class="footer"><div class="content has-text-centered">Katana is part of the open source <a href="https://github.com/SamuraiWTF/samuraiwtf">Samurai WTF Project on GitHub</a>.</div></footer></body></html>'
@@ -90,7 +90,7 @@ class KatanaServer(object):
         else:
             return False
 
-    def build_targets_table(self, target_list):
+    def build_module_list(self, target_list):
         rows = []
         for module in target_list:
             name = module.get('name')
@@ -98,17 +98,6 @@ class KatanaServer(object):
             rendered_name = self.render_target_name(module.get('status', 'unknown'), name, module.get('href'))
             rows.append(
                 f'<tr><td id="{name}-name">{rendered_name}</td><td>{module["description"]}</td><td id="{name}-actions">{actions}</td></tr>')
-        all_rows = ''.join(rows)
-        return f'<table class="table"><tr><th>Name</th><th>Description</th><th>Actions</th></tr>{all_rows}</table>'
-
-    def build_tools_table(self, tool_list):
-        rows = []
-        for module in tool_list:
-            actions = self.render_actions_for_status(module.get('status', 'unknown'), module.get('name'))
-            name = module["name"]
-
-            rows.append(
-                f'<tr><td id="{name}-name">{name}</td><td>{module["description"]}</td><td id="{name}-actions">{actions}</td></tr>')
         all_rows = ''.join(rows)
         return f'<table class="table"><tr><th>Name</th><th>Description</th><th>Actions</th></tr>{all_rows}</table>'
 
@@ -164,9 +153,9 @@ class KatanaServer(object):
 
     def render_status(self, status, module):
         if status == 'not installed':
-            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-light">{status} <a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download" title="install"></i></a></span></div>'
+            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-light">{status}<a onclick="installModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-download" title="install"></i></a></span></div>'
         elif status == 'running':
-            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-success">{status}</span></i></a></span></div>'
+            return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-success">{status}</span></div>'
         elif status == 'stopped':
             return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}<a class="has-text-light" onclick="startModule(this, \'{module}\')" style="margin-left: 5px;"><i class="fas fa-running" title="run"></i></a></span></div>'
         else:
