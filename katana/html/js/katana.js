@@ -6,7 +6,9 @@ function runAndWaitForAction(action, module, href, message) {
         pollForStatus(() => {
             return axios.get('/status/' + module);
             }).then(data => {
-                renderActionsForStatus(data.name, data.status, href);
+                console.log("data actions: "+data.actions);
+                console.log("Calling renderActionsForStatus...");
+                renderActionsForStatus(data.name, data.status, href, "", data.actions);
                 renderName(data.name, data.status, href);
                 document.getElementById("notifications").classList.add('is-hidden');
             }).catch(() => console.log('Polling failed.'));
@@ -73,23 +75,25 @@ function pollForStatus(fn, timeout, interval) {
 }
 
 
-function renderActionsForStatus(module, status, href='', changeText="Busy...") {
+function renderActionsForStatus(module, status, href='', changeText="Busy...", actions) {
     let action_icons = [];
     let params = 'this, \''+module+'\'';
     if (href !== '') {
         params = 'this, \''+module+'\', \''+href+'\'';
     }
 
-    if (status === 'not installed') {
+    console.log("Processing actions for status with actions: "+actions);
+
+    if (status === 'not installed' && actions.includes('install')) {
         action_icons.push('<a onclick="installModule('+params+')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>');
     }
-    if (status === 'stopped') {
+    if (status === 'stopped' && actions.includes('start')) {
         action_icons.push('<a onclick="startModule('+params+')" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>');
     }
-    if (status === 'running') {
+    if (status === 'running' && actions.includes('stop')) {
         action_icons.push('<a onclick="stopModule('+params+')" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>');
     }
-    if (status === 'installed' || status === 'stopped') {
+    if ((status === 'installed' || status === 'stopped') && actions.includes('remove')) {
         action_icons.push('<a onclick="removeModule('+params+')" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>');
     }
     if (status === 'changing') {
