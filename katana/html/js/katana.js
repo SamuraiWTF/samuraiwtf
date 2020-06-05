@@ -6,8 +6,6 @@ function runAndWaitForAction(action, module, href, message) {
         pollForStatus(() => {
             return axios.get('/status/' + module);
             }).then(data => {
-                console.log("data actions: "+data.actions);
-                console.log("Calling renderActionsForStatus...");
                 renderActionsForStatus(data.name, data.status, href, "", data.actions);
                 renderName(data.name, data.status, href);
                 document.getElementById("notifications").classList.add('is-hidden');
@@ -82,8 +80,6 @@ function renderActionsForStatus(module, status, href='', changeText="Busy...", a
         params = 'this, \''+module+'\', \''+href+'\'';
     }
 
-    console.log("Processing actions for status with actions: "+actions);
-
     if (status === 'not installed' && actions.includes('install')) {
         action_icons.push('<a onclick="installModule('+params+')" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>');
     }
@@ -108,10 +104,8 @@ function renderName(module, status, href='') {
     let name_parts = [];
 
     if (href == '') {
-        console.log("Href passed in was empty: "+ href);
         name_parts.push(module);
     } else {
-        console.log("Href passed in was not empty: '"+ href + "'.");
         if (status === 'running') {
             name_parts.push('<a class="button is-link" href="'+href+'" target="_blank" title="'+status+'">Open '+module+'</a> <br />');
         } else {
