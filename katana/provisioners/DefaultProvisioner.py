@@ -6,6 +6,11 @@ import katanaerrors
 class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
     def __init__(self, module_info):
         super(DefaultProvisioner, self).__init__(module_info)
+        possible_actions = ['stop', 'start', 'install', 'remove']
+        self.action_list = []
+        for a in possible_actions:
+            if a in module_info:
+                self.action_list.append(a)
 
     def install(self):
         for dependency in self.get_dependencies():
@@ -24,6 +29,9 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
 
     def stop(self):
         self._run_function("stop")
+
+    def has_actions(self):
+        return self.action_list
 
     def _run_function(self, func_name):
         func = self.module_info.get(func_name)

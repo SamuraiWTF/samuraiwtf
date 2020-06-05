@@ -89,3 +89,10 @@ def stop_module(name):
 
 def status_module(name):
     return _run_function(name, "status")
+
+
+def get_available_actions(module_name):
+    provisioner = module_dict.get(module_name.lower())
+    if provisioner is None:
+        raise katanaerrors.ModuleNotFound(module_name)
+    return provisioner.has_actions()

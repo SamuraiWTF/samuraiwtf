@@ -27,6 +27,9 @@ class BaseProvisioner(object):
     def get_dependencies(self):
         return self.module_info.get("depends-on", [])
 
+    def has_actions(self):
+        return []
+
     @classmethod
     def _load_plugins(cls):
         if len(BaseProvisioner.plugins) == 0:
@@ -49,3 +52,5 @@ class BaseProvisioner(object):
     @classmethod
     def get_plugin(cls, alias):
         return BaseProvisioner.plugins.get(alias)
+
+

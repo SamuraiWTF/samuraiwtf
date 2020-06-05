@@ -35,7 +35,7 @@ class KatanaServer(object):
         if self.module_is_busy(module):
             return {'name': module, 'status': 'changing'}
         else:
-            return {'name': module, 'status': katanacore.status_module(module)}
+            return {'name': module, 'status': katanacore.status_module(module), 'actions': katanacore.get_available_actions(module)}
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
@@ -94,7 +94,7 @@ class KatanaServer(object):
         rows = []
         for module in target_list:
             name = module.get('name')
-            actions = self.render_actions_for_status(module.get('status', 'unknown'), name, module.get('href'))
+            actions = self.render_actions_for_status(module.get('status', 'unknown'), name, module.get('href'), module.get('actions'))
             rendered_name = self.render_target_name(module.get('status', 'unknown'), name, module.get('href'))
             rows.append(
                 f'<tr><td id="{name}-name">{rendered_name}</td><td>{module["description"]}</td><td id="{name}-actions">{actions}</td></tr>')
@@ -122,7 +122,7 @@ class KatanaServer(object):
             status = katanacore.status_module(module.get_name())
             results[module.get_category()].append(
                 {'name': module.get_name(), 'description': module.get_description(), 'status': status,
-                 'href': module.get_href()})
+                 'href': module.get_href(), 'actions': module.has_actions()})
         for category in results:
             sorted_list = sorted(results[category], key=lambda i: i['name'])
             results[category] = sorted_list
@@ -138,23 +138,25 @@ class KatanaServer(object):
         ]
         return ''.join(links)
 
-    def render_actions_for_status(self, status, module, href=''):
+    def render_actions_for_status(self, status, module_name, href='', actions=None):
+        if actions is None:
+            actions = []
         action_icons = []
         if href is None or len(href) == 0:
-            params = f'this, \'{module}\''
+            params = f'this, \'{module_name}\''
         else:
-            params = f'this, \'{module}\',\'{href}\''
+            params = f'this, \'{module_name}\',\'{href}\''
 
-        if status == 'not installed':
+        if status == 'not installed' and 'install' in actions:
             action_icons.append(
                 f'<a onclick="installModule({params})" style="margin-left: 5px;"><i class="fas fa-download fa-lg" title="install"></i></a>')
-        if status == 'stopped':
+        if status == 'stopped' and 'start' in actions:
             action_icons.append(
                 f'<a onclick="startModule({params})" class="has-text-link" style="margin-left: 5px;"><i class="fas fa-running fa-lg" title="start"></i></a>')
-        if status == 'running':
+        if status == 'running' and 'stop' in actions:
             action_icons.append(
                 f'<a onclick="stopModule({params})" class="has-text-danger" style="margin-left: 5px;"><i class="fas fa-hand-paper fa-lg" title="stop"></i></a></span>')
-        if status == 'installed' or status == 'stopped':
+        if 'remove' in actions and (status == 'installed' or status == 'stopped'):
             action_icons.append(
                 f'<a onclick="removeModule({params})" class="has-text-grey" style="margin-left: 5px;"><i class="fas fa-minus-circle fa-lg" title="uninstall"></i></a>')
         all_actions = ''.join(action_icons)
