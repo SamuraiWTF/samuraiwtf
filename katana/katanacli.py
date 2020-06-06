@@ -30,6 +30,10 @@ def stop_module(args):
 def status_module(args):
     print("Status: {}".format(katanacore.status_module(args.name)))
 
+def lock_modules(args):
+    katanacore.lock_modules()
+    print("Modules are locked. Check katana.lock file to verify list.")
+
 
 if __name__ == "__main__":
     if not os.geteuid() == 0:
@@ -62,6 +66,9 @@ if __name__ == "__main__":
     status = subparsers.add_parser('status')
     status.add_argument('name')
     status.set_defaults(func=status_module)
+
+    lock = subparsers.add_parser('lock')
+    lock.set_defaults(func=lock_modules)
 
     args = parser.parse_args()
 

@@ -27,7 +27,7 @@ class BaseProvisioner(object):
     def get_dependencies(self):
         return self.module_info.get("depends-on", [])
 
-    def has_actions(self):
+    def has_actions(self, is_locked=False):
         return []
 
     @classmethod

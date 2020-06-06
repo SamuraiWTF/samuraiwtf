@@ -15,16 +15,16 @@ class KatanaServer(object):
     def index(self):
         modules = self.list_modules()
         columns = [
-            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/targets.svg"></img> Targets</h2>{self.build_module_list(modules.get("targets", []))}</div>',
-            f'<div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/tools.svg"></img> Tools</h2>{self.build_module_list(modules.get("tools", []))}</div>']
-
+            self.render_category("Targets", "/images/targets.svg", self.build_module_list(modules.get("targets", []))),
+            self.render_category("Tools", "/images/tools.svg", self.build_module_list(modules.get("tools", []))),
+            self.render_category("Base Services", "/images/base-services.svg", self.build_module_list(modules.get("base", [])))
+        ]
         all_columns = ''.join(columns)
         all_links = self.list_external_links()
         return f'<html><head>{all_links}</head><body>' \
                f'<div id="header-section"><div id="header-img-wrap"><img id="header-image" src="/images/katana-logo.svg"></div></div>' \
                f'<section class="section"><div class="container">' \
-               f'<div class="columns">{all_columns}</div>' \
-               f'<div class="columns"><div class="column"><h2 class="subtitle is-2"><img class="cat-header" src="/images/base-services.svg"></img> Base Services</h2>{self.build_module_list(modules.get("base", []))}</div></div>' \
+               f'{all_columns}' \
                f'</div></section>' \
                f'<section><div id="notifications" class="is-hidden notification"></div></section>' \
                f'<footer class="footer"><div class="content has-text-centered">Katana is part of the open source <a href="https://github.com/SamuraiWTF/samuraiwtf">Samurai WTF Project on GitHub</a>.</div></footer></body></html>'
@@ -90,12 +90,17 @@ class KatanaServer(object):
         else:
             return False
 
+    def render_category(self, title, image_url, module_list):
+        return f'<div class="columns is-centered"><div class="column is-three-quarters">' \
+               f'<h2 class="subtitle is-2"><img class="cat-header" src="{image_url}"></img> {title}</h2>' \
+               f'{module_list}</div></div>'
+
     def build_module_list(self, target_list):
         rows = []
         for module in target_list:
             name = module.get('name')
             actions = self.render_actions_for_status(module.get('status', 'unknown'), name, module.get('href'), module.get('actions'))
-            rendered_name = self.render_target_name(module.get('status', 'unknown'), name, module.get('href'))
+            rendered_name = self.render_module_name(module.get('status', 'unknown'), name, module.get('href'))
             rows.append(
                 f'<tr><td id="{name}-name">{rendered_name}</td><td>{module["description"]}</td><td id="{name}-actions">{actions}</td></tr>')
         all_rows = ''.join(rows)
@@ -104,14 +109,16 @@ class KatanaServer(object):
     def list_modules(self):
         module_list = katanacore.list_modules()
         results = {}
+        locked_modules = katanacore.load_locked_modules()
         for module in module_list:
-            if module.get_category() not in results:
-                results[module.get_category()] = []
+            if len(locked_modules) > 0 and module.get_name() in locked_modules:
+                if module.get_category() not in results:
+                    results[module.get_category()] = []
+                status = katanacore.status_module(module.get_name())
 
-            status = katanacore.status_module(module.get_name())
-            results[module.get_category()].append(
-                {'name': module.get_name(), 'description': module.get_description(), 'status': status,
-                 'href': module.get_href(), 'actions': module.has_actions()})
+                results[module.get_category()].append(
+                    {'name': module.get_name(), 'description': module.get_description(), 'status': status,
+                     'href': module.get_href(), 'actions': katanacore.get_available_actions(module.get_name())})
         for category in results:
             sorted_list = sorted(results[category], key=lambda i: i['name'])
             results[category] = sorted_list
@@ -161,7 +168,7 @@ class KatanaServer(object):
         else:
             return f'<div class="tags has-addons status-bar"><span class="tag is-dark">Status</span><span class="tag is-danger">{status}</span></div>'
 
-    def render_target_name(self, status, module, href=None):
+    def render_module_name(self, status, module, href=None):
         name = "unknown"
 
         if href is None or len(href) == 0:

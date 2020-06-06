@@ -30,8 +30,12 @@ class DefaultProvisioner(BaseProvisioner.BaseProvisioner):
     def stop(self):
         self._run_function("stop")
 
-    def has_actions(self):
-        return self.action_list
+    def has_actions(self, is_locked=False):
+        if is_locked:
+            locked_actions = {'start', 'stop'}
+            return list(set(self.action_list) & locked_actions)
+        else:
+            return self.action_list
 
     def _run_function(self, func_name):
         func = self.module_info.get(func_name)

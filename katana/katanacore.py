@@ -1,10 +1,12 @@
-from os import listdir
+from os import listdir, path
 from os.path import isdir, join, dirname, realpath, abspath
 import yaml
 import katanaerrors
 import re
 
 module_dict = {}
+locked_modules = []
+lock_file_read = False
 
 
 def load_module_info(path):
@@ -95,4 +97,46 @@ def get_available_actions(module_name):
     provisioner = module_dict.get(module_name.lower())
     if provisioner is None:
         raise katanaerrors.ModuleNotFound(module_name)
-    return provisioner.has_actions()
+
+    return provisioner.has_actions(module_name in load_locked_modules())
+
+
+def lock_modules():
+    global lock_file_read
+    locked_modules.clear()
+
+    if len(module_dict) == 0:
+        list_modules()
+
+    for module_name in module_dict.keys():
+        status = status_module(module_name)
+        if status in ['running', 'installed', 'stopped']:
+            locked_modules.append(module_name)
+
+    my_path = abspath(dirname(__file__))
+    lock_file = join(my_path, "katana.lock")
+
+    with open(lock_file, 'w') as lf:
+        lf.write("\n".join(locked_modules))
+    lock_file_read = False
+
+
+def load_locked_modules():
+    global lock_file_read
+    if lock_file_read:
+        return locked_modules
+    else:
+        my_path = abspath(dirname(__file__))
+        lock_file = join(my_path, "katana.lock")
+
+        if path.exists(lock_file):
+            locked_modules.clear()
+            with open(lock_file, 'r') as lf:
+                for module in lf.readlines():
+                    locked_modules.append(module.strip())
+        else:
+            locked_modules.clear()
+        lock_file_read = True
+        return locked_modules
+
+
