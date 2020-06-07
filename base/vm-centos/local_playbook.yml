@@ -48,7 +48,7 @@
     user:
       name: samurai
       password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
-      groups: 'sudo,docker'
+      groups: 'dockerroot'
       shell: /usr/bin/bash
 
   - name: create the main Samurai program folder
@@ -264,7 +264,7 @@
 
   - name: Install Katana requirements
     pip:
-      requirements: /opt/katana/requirements.txt
+      requirements: /tmp/samuraiwtf/katana/requirements.txt
       executable: /usr/bin/pip3
     become: yes
 
