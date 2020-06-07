@@ -9,6 +9,7 @@ yum install -y ansible git
 git clone --depth=1 --single-branch --branch "5.0-dev" https://github.com/SamuraiWTF/samuraiwtf.git /tmp/samuraiwtf
 pushd /tmp/samuraiwtf
 ansible-playbook -K base/vm-centos/local_playbook.yml
+katana --update
 SCRIPT
 
 
