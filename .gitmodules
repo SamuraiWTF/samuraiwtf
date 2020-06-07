@@ -1,0 +1,3 @@
+[submodule "base/packer/scripts/build/bento"]
+	path = base/packer/scripts/build/bento
+	url = https://github.com/chef/bento.git
