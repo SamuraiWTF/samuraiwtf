@@ -4,6 +4,21 @@
   hosts: 127.0.0.1
   connection: local
   tasks:
+
+### Disable SELinux
+  - name: Disable SELinux
+    replace:
+      path: /etc/selinux/config
+      regexp: '^SELINUX=enforcing'
+      replace: 'SELINUX=disabled'
+    become: yes
+
+  - name: Add exec path to sudo
+    replace:
+      path: /etc/sudoers
+      regexp: '^Defaults[ ]*secure_path = /sbin:/bin:/usr/sbin:/usr/bin'
+      replace: 'Defaults    secure_path = /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
+
 ### Prerequisites
 
   - name: ensure prerequisite packages are installed
@@ -145,6 +160,7 @@
           if [ ! -L ~/samurai ]; then
             ln -s /opt/samurai ~/samurai
           fi
+          cp /opt/samurai/samurai-background.png /home/samurai/Pictures/
           touch $HOME/.samurai
         fi
         cd $HOME
