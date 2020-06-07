@@ -111,7 +111,7 @@ class KatanaServer(object):
         results = {}
         locked_modules = katanacore.load_locked_modules()
         for module in module_list:
-            if len(locked_modules) > 0 and module.get_name() in locked_modules:
+            if len(locked_modules) == 0 or module.get_name() in locked_modules:
                 if module.get_category() not in results:
                     results[module.get_category()] = []
                 status = katanacore.status_module(module.get_name())
