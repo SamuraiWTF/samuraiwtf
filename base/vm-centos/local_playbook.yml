@@ -48,7 +48,7 @@
     user:
       name: samurai
       password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
-      groups: 'dockerroot'
+      groups: 'dockerroot,wheel'
       shell: /usr/bin/bash
 
   - name: create the main Samurai program folder
