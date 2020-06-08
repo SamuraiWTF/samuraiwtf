@@ -4,18 +4,18 @@ set -${-//[s]/}eu${DEBUG+xv}o pipefail
 
 if [[ ! -f variables.json ]] ; then
 
-    # shellcheck disable=SC1091
-    source scripts/setup/env_vars
-    
-    vagrant destroy -f
-    vagrant box update
-    vagrant up
-    
-    set +e
-    vagrant ssh
-    set -e
+  # shellcheck disable=SC1091
+  source scripts/setup/env_vars
+  
+  vagrant destroy -f
+  vagrant box update
+  vagrant up
+  
+  set +e
+  vagrant ssh
+  set -e
 
-    unset VAGRANT_CLOUD_TOKEN  PACKET_API_KEY TEXTBELT_KEY
+  unset VAGRANT_CLOUD_TOKEN  PACKET_API_KEY TEXTBELT_KEY
 
 fi
 
@@ -24,8 +24,8 @@ fi
 # sudo ufw disable
 
 if ! grep headless variables.json 1>/dev/null ; then
-    # adding headless to json file
-    vim variables.json
+  # adding headless to json file
+  vim variables.json
 fi
 
 # generating samurai.json packer template
