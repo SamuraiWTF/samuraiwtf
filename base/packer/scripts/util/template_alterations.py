@@ -12,6 +12,10 @@ ansible_scripts = scripts_path + '/'
 bento_path = build_script + '/bento'
 # bento_debian_path = bento_path + '/packer_templates/debian'
 bento_ubuntu_path = bento_path + '/packer_templates/ubuntu'
+config_dir = '{}'.format(build_script)
+install_dir = '{}'.format(build_script)
+# config_dir = '../../'
+# install_dir = '../../'
 base_box_name = 'samuraiwtf-base_box'
 
 # start each section with a pre-defined message and it's name
@@ -187,7 +191,7 @@ def prov_alterations(json_obj):
         {
             "type": "shell-local",
             "execute_command": [ "bash", "-c", "{{.Script}}" ],
-            "command": "pushd ./scripts/build/ || exit 1 && tar -czvf config.tgz config && popd"
+            "command": "pushd {} || exit 1 && tar -czvf config.tgz config && popd".format(config_dir)
 
         }
     )
@@ -196,7 +200,7 @@ def prov_alterations(json_obj):
     prov_list.append(
         {
             'type': 'file',
-            'source': build_script + '/config.tgz',
+            'source': config_dir + '/config.tgz',
             'destination': '/tmp/config.tgz'
         }
     )
@@ -205,8 +209,8 @@ def prov_alterations(json_obj):
     prov_list.append(
         {
             'type': 'ansible-local',
-            'playbook_dir': build_script + '/install',
-            'playbook_file': './scripts/build/install/samuraiwtf.yml'
+            'playbook_dir': install_dir + '/install',
+            'playbook_file': '{}/install/samuraiwtf.yml'.format(install_dir)
         }
     )
 
