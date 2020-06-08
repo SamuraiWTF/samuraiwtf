@@ -21,13 +21,22 @@
 
 ### Prerequisites
 
+  - name: install containered.io
+    dnf:
+      name: 'https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.10-3.2.el7.x86_64.rpm'
+      state: present
+
+  - name: install the latest version of Apache
+    dnf:
+      name: docker-ce
+      state: latest
+
   - name: ensure prerequisite packages are installed
     yum:
       name:
         - nginx
         - vim
         - curl
-        - docker
         - unzip
         - php-fpm
         - nano
