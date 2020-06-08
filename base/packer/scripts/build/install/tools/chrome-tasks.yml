@@ -1,0 +1,28 @@
+- name: Add Google Chrome repo key
+  apt_key:
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    state: present
+
+- name: Add Google Chrome repository
+  apt_repository:
+    repo: deb http://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+    filename: google-chrome
+
+- name: Install Google Chrome
+  apt:
+    name:
+      - google-chrome-stable
+    update_cache: yes
+
+- name: Copy extensions
+  copy:
+    src: /opt/config/crx/
+    dest: /opt/google/chrome/extensions/
+
+- name: Update Google Chrome menu category
+  ini_file:
+    path: /usr/share/applications/google-chrome.desktop
+    section: Desktop Entry
+    option: Categories
+    value: Network;WebBrowser;samuraiwtf
