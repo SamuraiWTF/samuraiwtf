@@ -285,7 +285,7 @@
 
   - name: Install Katana requirements
     pip:
-      requirements: /opt/katana/requirements.txt
+      requirements: /tmp/samuraiwtf/katana/requirements.txt
       executable: /usr/bin/pip3
     become: yes
 

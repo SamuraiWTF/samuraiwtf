@@ -1,7 +1,9 @@
 $bootstrapscript = <<-SCRIPT
 echo ">>>>>>>>>>>>> Installing the UI..."
 yum -y update
-yum install gdm xorg-x11-drv-libinput xorg-x11-drv-keyboard xorg-x11-drv-vmmouse xorg-x11-drv-vmware xorg-x11-server-Xvfb xdg-user-dirs-gtk xorg-x11-xinit libXfont xorg-x11-xauth xz xz-libs
+yum install -y xorg-x11-xinit libXfont xorg-x11-xauth
+yum install -y xorg-x11-drv-libinput xorg-x11-drv-keyboard xorg-x11-drv-vmmouse xorg-x11-drv-vmware xorg-x11-server-Xvfb xdg-user-dirs-gtk  xz xz-libs
+yum install -y gdm 
 amazon-linux-extras install mate-desktop1.x -y
 bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
 amazon-linux-extras install epel -y
@@ -32,7 +34,8 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
       vb.memory = "4096"
       vb.customize ["modifyvm", :id, "--vram", "128"]
-      vb.customize ["modifyvm", :id, "--cpus", "2"]    
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+      vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]    
 
     end
 
