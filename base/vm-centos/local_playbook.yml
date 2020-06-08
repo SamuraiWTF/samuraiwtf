@@ -33,7 +33,7 @@
         - python3
         - docker-ce
         - docker-ce-cli
-        - contanerd.io
+        - containerd.io
     become: true
 
   - name: python prerequisite modules
