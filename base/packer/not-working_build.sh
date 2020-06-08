@@ -21,7 +21,7 @@ fi
 
 
 # disabling firewall for vmware-iso build
-sudo ufw disable
+# sudo ufw disable
 
 if ! grep headless variables.json 1>/dev/null ; then
     # adding headless to json file
