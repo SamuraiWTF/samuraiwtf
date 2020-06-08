@@ -1,7 +1,10 @@
 $bootstrapscript = <<-SCRIPT
 echo ">>>>>>>>>>>>> Installing the UI..."
-yum install epel-release -y
-yum groupinstall "Server with GUI" -y
+yum -y update
+yum install epel-release gcc yum-utils -y
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum -y update
+yum groupinstall "X Window system" -y
 yum groupinstall "MATE Desktop" -y
 systemctl set-default graphical.target
 echo ">>>>>>>>>>>>> Installing Ansible..."
@@ -10,6 +13,9 @@ git clone --depth=1 --single-branch --branch "5.0-dev" https://github.com/Samura
 pushd /tmp/samuraiwtf
 ansible-playbook -K base/vm-centos/local_playbook.yml
 katana --update
+katana install katana
+systemctl enable samurai-katana
+katana start katana
 SCRIPT
 
 
@@ -21,7 +27,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "centos/7"
+  config.vm.box = "generic/centos8"
 
    config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
     samuraiwtf.vm.host_name = "SamuraiWTF"    
@@ -33,7 +39,7 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
       vb.memory = "4096"
       vb.customize ["modifyvm", :id, "--vram", "128"]
-      vb.customize ["modifyvm", :id, "--cpus", "2"]      
+      vb.customize ["modifyvm", :id, "--cpus", "2"]    
 
     end
 

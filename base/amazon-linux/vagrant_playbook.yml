@@ -4,37 +4,40 @@
   hosts: 127.0.0.1
   connection: local
   tasks:
-
-### Disable SELinux
-  - name: Disable SELinux
-    replace:
-      path: /etc/selinux/config
-      regexp: '^SELINUX=enforcing'
-      replace: 'SELINUX=disabled'
-    become: yes
-
-  - name: Add exec path to sudo
-    replace:
-      path: /etc/sudoers
-      regexp: '^Defaults[ ]*secure_path = /sbin:/bin:/usr/sbin:/usr/bin'
-      replace: 'Defaults    secure_path = /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
-
 ### Prerequisites
+
+  - name: Allow local passwordless access for root user
+    lineinfile:
+      path: /etc/security/access.conf
+      line: +:root:ALL
+
+  - name: Check if nginx is already installed
+    stat:
+      path: /etc/nginx/nginx.conf
+    register: stat_nginx_conf
+
+  - name: Install nginx
+    command: "amazon-linux-extras install nginx1.12"
+    become: yes
+    when: stat_nginx_conf.stat.exists == False
 
   - name: ensure prerequisite packages are installed
     yum:
       name:
-        - nginx
         - vim
         - curl
+        - docker
         - unzip
         - php-fpm
         - nano
         - python3
-        - docker-ce
-        - docker-ce-cli
-        - containerd.io
+        - java-11-amazon-corretto
     become: true
+
+  - name: set up corretto as the preferred Java alternative
+    alternatives:
+      name: java
+      path: /usr/lib/jvm/java-11-amazon-corretto.x86_64/bin/java
 
   - name: python prerequisite modules
     pip:
@@ -65,7 +68,7 @@
     user:
       name: samurai
       password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
-      groups: 'dockerroot,wheel'
+      groups: 'docker,wheel'
       shell: /usr/bin/bash
 
   - name: create the main Samurai program folder
@@ -73,6 +76,7 @@
       path: /opt/samurai
       state: directory
       owner: samurai
+      group: samurai
     become: yes
 
   - name: Copy Samurai icon
@@ -162,7 +166,6 @@
           if [ ! -L ~/samurai ]; then
             ln -s /opt/samurai ~/samurai
           fi
-          cp /opt/samurai/samurai-background.png /home/samurai/Pictures/
           touch $HOME/.samurai
         fi
         cd $HOME
@@ -286,11 +289,19 @@
       executable: /usr/bin/pip3
     become: yes
 
+  - name: Update home page to katana
+    replace:
+      path: /usr/lib64/firefox/amazon-workspaces.cfg
+      regexp: '"https:\/\/clients\.amazonworkspaces\.com\/"'
+      replace: '"http://katana.wtf/"'
+    become: yes
+
   - name: Create add-ons folder
     file:
       path: /opt/samurai/add-ons/firefox
       state: directory
       owner: samurai
+      group: samurai
     become: yes
 
   - name: Download Foxy Proxy add-on for Firefox
