@@ -1,0 +1,131 @@
+
+- name: The main SamuraiWTF provisioning playbook
+  hosts: all
+  connection: local
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+
+  - name: Install some dependencies
+    apt:
+      name:
+        - aufs-tools
+        - cgroupfs-mount
+        - apt-transport-https
+        - pigz
+        - ca-certificates
+        - curl
+        - gnupg
+        - software-properties-common
+        - python3-pip
+        - unzip
+        - nano
+        - default-jre
+        - ansible
+      update_cache: yes
+
+  - name: Create samurai user
+    user:
+      name: samurai
+      password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
+      groups: 'sudo'
+
+  - name: Copy configuration files to opt/samurai
+    unarchive:
+      src: /tmp/config.tgz
+      dest: /opt/
+      mode: 0744
+
+  - name: Install dconf
+    apt:
+      name: 
+        - dconf-service
+        - dconf-cli
+
+  - name: Set greeter screen background image
+    ini_file:
+      path: /etc/lightdm/lightdm-gtk-greeter.conf
+      section: greeter
+      option: background
+      value: /opt/samurai/samurai-background.png
+
+  - name: Configure desktop environment
+    debconf:
+      name: lightdm
+
+  # bash command is as follow: sudo update-alternatives --install /usr/share/images/desktop-base/desktop-background desktop-background /opt/config/opt/samurai/samurai-background.png 100
+  # TODO: use alternatives command with these options
+  # link: /usr/share/images/desktop-base/desktop-background
+  # name: desktop-background
+  # path: /opt/config/opt/samurai/samurai-background.png
+  # priority: 100
+  - name: Set default background
+    copy:
+      src: /opt/config/opt/samurai/samurai-background.png
+      dest: /etc/alternatives/desktop-background
+
+  - name: Make ansible configuration directory
+    file:
+      name: /etc/ansible
+      state: directory
+
+  - name: Create local ansible hosts file
+    copy:
+      dest: /etc/ansible/hosts
+      content: |
+        samuraiwtf ansible_connection=local ansible_python_interpreter="{{ansible_playbook_python}}"
+        
+  - name: Add Docker repo key
+    apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      state: present
+
+  - name: Add Docker repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+      state: present
+
+  # TODO: remove containerd.io and docker-ce-cli (should come packaged w/docker-ce)
+  - name: Install Docker stuff 
+    apt:
+      name:
+        - docker-ce-cli
+        - containerd.io
+        - docker-ce
+      update_cache: yes
+    ignore_errors: yes
+  # - name: Create necessary folders
+  #   file:
+  #     path: '{{ item }}'
+  #     state: directory
+  #   loop:
+  #     - '{{ main_folder }}/katana'
+  #     - '{{ main_folder }}/samurai'
+  #     - '{{ main_folder }}/targets'
+  #   vars:
+  #     - main_folder: '/opt'
+
+    
+  - import_tasks: menu-tasks.yml
+
+
+- name: Install tools
+  import_playbook: tools.yml
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Install targets
+  import_playbook: targets.yml
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Configure samurai user
+  import_playbook: user.yml
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Configure training materials
+  import_playbook: training.yml
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
