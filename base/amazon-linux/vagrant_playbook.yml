@@ -68,7 +68,6 @@
     user:
       name: samurai
       password: $1$xyz$YXFPLFW0zK.jHG/.VMUbD/
-      group: samurai
       groups: 'docker,wheel'
       shell: /usr/bin/bash
 
