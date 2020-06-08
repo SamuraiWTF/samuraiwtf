@@ -1,7 +1,9 @@
 $bootstrapscript = <<-SCRIPT
 echo ">>>>>>>>>>>>> Installing the UI..."
 yum -y update
-yum install epel-release gcc -y
+yum install epel-release gcc yum-utils -y
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum -y update
 yum groupinstall "X Window system" -y
 yum groupinstall "MATE Desktop" -y
 systemctl set-default graphical.target
