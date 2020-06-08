@@ -185,16 +185,6 @@ def prov_alterations(json_obj):
     for my_script in my_scripts_list:
         bento_prov['scripts'].append(my_script)
 
-    ### Prepending to prov_list
-    ## shell-local: compressing the config dir to upload later
-    prov_list.insert(0,
-        {
-            "type": "shell-local",
-            "execute_command": [ "bash", "-c", "{{.Script}}" ],
-            "command": "pushd {} || exit 1 && tar -czvf config.tgz config && popd".format(config_dir)
-
-        }
-    )
     ### need to add the following provisions
     ## FILE: upload compressed config files to /tmp
     prov_list.append(
