@@ -4,8 +4,7 @@ yum -y update
 yum install epel-release gcc yum-utils -y
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 yum -y update
-yum groupinstall "X Window system" -y
-yum groupinstall "MATE Desktop" -y
+yum groupinstall "GNOME" -y
 systemctl set-default graphical.target
 echo ">>>>>>>>>>>>> Installing Ansible..."
 yum install -y ansible git
