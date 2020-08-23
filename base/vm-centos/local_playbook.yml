@@ -20,6 +20,11 @@
       replace: 'Defaults    secure_path = /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
 
 ### Prerequisites
+  - name: Manually install containerd.io since this is broken on centos8
+    yum:
+      name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+      state: present
+    become: true
 
   - name: ensure prerequisite packages are installed
     yum:
@@ -33,7 +38,8 @@
         - python3
         - docker-ce
         - docker-ce-cli
-        - containerd.io
+#        - containerd.io
+        - chromium
     become: true
 
   - name: python prerequisite modules
@@ -54,6 +60,11 @@
     shell: 'curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose'
     become: yes
     when: stat_docker_compose.stat.exists == False 
+
+  - name: Create dockerroot group
+    group:
+      name: dockerroot
+      state: present
 
   - name: set permissions for docker-compose
     file:
@@ -297,3 +308,16 @@
     get_url:
       url: https://addons.mozilla.org/firefox/downloads/file/3476518/
       dest: /opt/samurai/add-ons/firefox/
+
+  - name: Copy Chrome extensions
+    copy:
+      src: ./base/common/config/chrome/crx/
+      dest: /opt/google/chrome/extensions/
+    become: yes
+
+  - name: Update Google Chrome menu category
+    ini_file:
+      path: /usr/share/applications/google-chrome.desktop
+      section: Desktop Entry
+      option: Categories
+      value: Network;WebBrowser;samuraiwtf

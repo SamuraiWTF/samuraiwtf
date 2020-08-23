@@ -30,7 +30,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "generic/centos8"
 
    config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
-    samuraiwtf.vm.host_name = "SamuraiWTF"    
+    samuraiwtf.vm.host_name = "SamuraiWTF"
+
+    config.vm.synced_folder "../../", "/tmp/vagrantdev"
 
     samuraiwtf.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
