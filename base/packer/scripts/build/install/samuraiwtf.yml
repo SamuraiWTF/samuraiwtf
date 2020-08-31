@@ -37,6 +37,12 @@
       dest: /opt/
       mode: 0744
 
+  - name: Copy katana files to opt/samurai
+    unarchive:
+      src: /tmp/katana.tgz
+      dest: /opt/
+      mode: 0744
+
   - name: Install dconf
     apt:
       name: 
@@ -95,16 +101,18 @@
         - docker-ce
       update_cache: yes
     ignore_errors: yes
-  # - name: Create necessary folders
-  #   file:
-  #     path: '{{ item }}'
-  #     state: directory
-  #   loop:
-  #     - '{{ main_folder }}/katana'
-  #     - '{{ main_folder }}/samurai'
-  #     - '{{ main_folder }}/targets'
-  #   vars:
-  #     - main_folder: '/opt'
+  - name: Create necessary folders
+    file:
+      path: '{{ item }}'
+      state: directory
+    loop:
+      # will get created by packer uploading folder
+      # - '{{ main_folder }}/katana'
+      - '{{ main_folder }}/samurai'
+      # currently gets created already
+      # - '{{ main_folder }}/targets'
+    vars:
+      - main_folder: '/opt'
 
     
   - import_tasks: menu-tasks.yml
