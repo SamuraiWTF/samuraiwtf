@@ -16,6 +16,8 @@ config_dir = '{}'.format(build_script)
 install_dir = '{}'.format(build_script)
 # config_dir = '../../'
 # install_dir = '../../'
+project_root = '../../'
+katana_dir = '{}'.format(project_root)
 base_box_name = 'samuraiwtf-base_box'
 
 # start each section with a pre-defined message and it's name
@@ -190,8 +192,18 @@ def prov_alterations(json_obj):
     prov_list.append(
         {
             'type': 'file',
-            'source': config_dir + '/config.tgz',
+            'source': '{}/config.tgz'.format(config_dir),
             'destination': '/tmp/config.tgz'
+        }
+    )
+
+    ### need to add the following provisions
+    ## FILE: upload compressed config files to /tmp
+    prov_list.append(
+        {
+            'type': 'file',
+            'source': '{}/katana.tgz'.format(katana_dir),
+            'destination': '/tmp/katana.tgz'
         }
     )
 

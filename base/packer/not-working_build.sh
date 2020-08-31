@@ -31,8 +31,19 @@ fi
 # generating samurai.json packer template
 scripts/util/template_alterations.py
 
-# compressing config folder
-pushd ./scripts/build/ || exit 1 && tar -czvf config.tgz config && popd
+# folders to compress
+folder_array=(
+  './scripts/build/:config'
+  '../../:katana'
+)
+
+for array_item in "${folder_array[@]}" ; do
+  path_to_folder="${array_item%:*}"
+  folder_to_compress="${array_item##*:}"
+  # compressing folder
+  pushd "${path_to_folder}" || exit 1 && tar -czvf "${folder_to_compress}.tgz" "${folder_to_compress}" && popd
+
+done
 
 # building vagrant box
 packer validate -only=virtualbox-iso -var-file variables.json samurai.json |& tee build.log
