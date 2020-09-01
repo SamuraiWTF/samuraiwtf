@@ -283,7 +283,7 @@
         if [[ "$1" = "--update" ]]; then
           sudo rm -rf /tmp/samuraiwtf
           pushd /tmp
-          sudo git clone --depth=1 --single-branch --branch "5.0-dev" https://github.com/SamuraiWTF/samuraiwtf.git || exit
+          sudo git clone --depth=1 --single-branch --branch "master" https://github.com/SamuraiWTF/katana.git || exit
           sudo mkdir -p /opt/katana
           sudo cp -R /tmp/samuraiwtf/katana/* /opt/katana/
           popd
