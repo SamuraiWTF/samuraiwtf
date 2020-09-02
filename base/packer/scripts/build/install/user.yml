@@ -1,0 +1,11 @@
+- name: Customizations for the samurai user.
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+
+  - name: Copy home folder contents
+    copy:
+      dest: /home/samurai
+      src: /opt/config/home/
+      owner: samurai

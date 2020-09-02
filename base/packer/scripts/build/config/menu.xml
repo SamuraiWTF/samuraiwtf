@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu xmlns="http://openbox.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/
+	file:///usr/share/openbox/menu.xsd">
+ <menu id="root-menu" label="Openbox 3" >
+ 	<separator label="--SamuraiWTF--" />
+ 	<item label="Terminal">
+ 		<action name="Execute"><execute>sakura</execute></action>
+ 	</item>
+ 	<item label="Firefox">
+ 		<action name="Execute"><execute>firefox</execute></action>
+ 	</item>
+	<item label="Chrome">
+		<action name="Execute"><execute>google-chrome</execute></action>
+	</item>
+ 	<separator label="--Tools--" />
+	<item label="Burp Suite">
+		<action name="Execute"><execute>burp</execute></action>
+	</item>
+	<item label="Zed Attack Proxy">
+		<action name="Execute"><execute>zaproxy</execute></action>
+	</item>
+ 	<menu id="recon" label="Recon">
+ 		<separator label="--GUI--" />
+ 		<!--item label="W3AF">
+ 			<action name="Execute"><execute>w3af</execute></action>
+ 		</item-->
+		<item label="Postman">
+ 			<action name="Execute"><command>postman</command></action>
+ 		</item> 
+ 		<item label="ZenMap">
+ 			<action name="Execute"><command>gksudo zenmap</command></action>
+ 		</item>
+ 		<separator label="--Console--" />
+ 		<item label="nmap">
+ 			<action name="Execute"><command>x-terminal-emulator -e "bash -c \"nmap -h;bash\""</command></action>
+ 		</item>
+ 		<!--item label="w3af_console">
+ 			<action name="Execute"><command>x-terminal-emulator -e "w3af_console;bash"</command></action>
+ 		</item-->
+ 	</menu>
+ 	<menu id="discovery" label="Discovery">
+ 		<item label="SqlMap">
+ 			<action	name="Execute"><command>x-terminal-emulator -e "bash -c \"sqlmap --help;bash\""</command></action>
+ 		</item>
+		<item label="Nikto">
+			<action name="Execute"><command>x-terminal-emulator -e "bash -c \"nikto -Help;bash\""</command></action>
+		</item>
+ 	</menu>
+ 	<separator label="--System--" />
+    <item label="File Manager">
+       <action name="Execute">
+          <command>xfe</command>
+       </action>
+    </item>
+     <item label="Display Manager">
+       <action name="Execute">
+          <command>arandr</command>
+       </action>
+    </item>
+ 	<item label="Logout">
+       <action name="Execute">
+          <command>openbox --exit</command>
+       </action>
+    </item>
+ </menu>
+</openbox_menu>
