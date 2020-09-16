@@ -1,0 +1,15 @@
+# packet info
+export PACKET_API_KEY=""
+export PACKET_PROJECT_UUID=""
+
+# vagrant cloud info
+export VAGRANT_CLOUD_USER=""
+export VAGRANT_CLOUD_TOKEN="" 
+
+# versioning for vagrant cloud
+export MAJOR_RELEASE_VERSION=0
+export MINOR_RELEASE_VERSION=0
+
+# text info
+export PERSONAL_NUM=''
+export TEXTBELT_KEY=''

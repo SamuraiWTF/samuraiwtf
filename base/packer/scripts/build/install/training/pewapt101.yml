@@ -1,0 +1,11 @@
+
+- name: Create PEWAPT101 directory
+  file: 
+    path: /home/samurai/Desktop/training/pewapt101
+    state: directory
+    mode: '0755'
+
+- name: Clone PEWAPT101
+  git:
+    repo: https://github.com/ProfessionallyEvil/pewapt101.git
+    dest: /home/samurai/Desktop/training/pewapt101
