@@ -7,6 +7,7 @@ apt install -y python-is-python3 gnome-shell-extension-arc-menu gnome-tweaks
 chown samurai:samurai /opt/katana
 
 cp /vagrant/base/common/*.png /opt/samurai/
+cp /vagrant/base/common/*.jpg /opt/samurai/
 
 echo "Setting up first-time login script."
 rm -f /etc/profile.d/first_login.sh
@@ -18,9 +19,12 @@ then
   echo "Skipping first run: already run first time scripts."
 else
   cd /etc/dconf
-  /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai-background.png'"
+  /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai_wallpaper_wide_fade.jpg'"
   /usr/bin/dconf write /org/mate/desktop/background/picture-options "'stretched'"
-  /usr/bin/dconf write /org/gnome/desktop/background/picture-uri "'file:///opt/samurai/samurai-background.png'"
+  /usr/bin/dconf write /org/gnome/desktop/background/picture-uri "'file:///opt/samurai/samurai_wallpaper_wide_fade.jpg'"
+  /usr/bin/dconf write /org/gnome/desktop/session/idle-delay "uint32 0"
+  /usr/bin/dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'nothing'"
+  /usr/bin/dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type "'nothing'"
   /usr/bin/dconf write /org/mate/terminal/profiles/default/custom-command "'bash'"
   /usr/bin/dconf write /org/mate/terminal/profiles/default/use-custom-command true
   /usr/bin/dconf write /org/gnome/shell/enabled-extensions "['arc-menu@linxgem33.com']"
@@ -37,12 +41,6 @@ else
 
 fi
 EOT
-
-## TODO: this doesn't seem to work
-cat <<EOT >> /etc/xdg/autostart/samuraisize.desktop
-sleep 20 && xrand --size 1440x900
-EOT
-
 
 echo "Installing Katana launcher..."
 rm -f /usr/bin/katana
@@ -69,3 +67,6 @@ EOT
 chmod 777 /usr/bin/katana
 
 su -c "/usr/bin/katana --update"
+
+katana install katana
+katana start katana
