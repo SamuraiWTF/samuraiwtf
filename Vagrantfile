@@ -25,6 +25,7 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]
       vb.customize ["modifyvm", :id, "--accelerate2dvideo", "on"]
 
+      config.vm.network "private_network", :type => 'dhcp', :adapter => 2
     end
 
     samuraiwtf.vm.provision "shell", path: "provision.sh"

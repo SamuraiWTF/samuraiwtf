@@ -9,6 +9,9 @@ chown samurai:samurai /opt/katana
 cp /vagrant/base/common/*.png /opt/samurai/
 cp /vagrant/base/common/*.jpg /opt/samurai/
 
+sed -i 's/^Categories=.*/&samuraiwtf;/' /usr/share/applications/mate-terminal.desktop
+# TODO: remove /vagrant entry from /etc/fstab
+
 echo "Setting up first-time login script."
 rm -f /etc/profile.d/first_login.sh
 cat <<EOT >> /etc/profile.d/first_login.sh
@@ -19,9 +22,10 @@ then
   echo "Skipping first run: already run first time scripts."
 else
   cd /etc/dconf
-  /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai_wallpaper_wide_fade.jpg'"
+  /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai-wide-faded.jpg'"
   /usr/bin/dconf write /org/mate/desktop/background/picture-options "'stretched'"
-  /usr/bin/dconf write /org/gnome/desktop/background/picture-uri "'file:///opt/samurai/samurai_wallpaper_wide_fade.jpg'"
+  /usr/bin/dconf write /org/gnome/desktop/background/picture-uri "'file:///opt/samurai/samurai-wide-faded.jpg'"
+  /usr/bin/dconf write /org/gnome/desktop/screensaver/picture-uri "'file:///opt/samurai/samurai-wide-faded.jpg'"
   /usr/bin/dconf write /org/gnome/desktop/session/idle-delay "uint32 0"
   /usr/bin/dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'nothing'"
   /usr/bin/dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type "'nothing'"
@@ -41,6 +45,22 @@ else
 
 fi
 EOT
+
+echo "Setting up distribution prep file /tmp/prepare-for-distribution.sh"
+cat <<EOT >> /tmp/prepare-for-distibution.sh
+#!/usr/bin/bash
+sudo userdel vagrant
+sudo apt install -y bleachbit
+sudo bleachbit -c apt.* system.trash system.rotated_logs system.tmp
+sudo bleachbit -w -o /opt/ /var/ /etc/ /tmp/ /home/
+sudo apt remove -y bleachbit
+echo "***********  DONE  ***********"
+echo "* 1) you might want to do a 'katana lock'. This will make the katana UI a bit more student-friendly."
+echo "* 2) Don't forget to remove the /vagrant share from /etc/fstab and the VM configuration."
+echo "* 3) Shutdown, double-check your VM settings, then export your .OVI file."
+EOT
+
+chmod a+x /tmp/prepare-for-distribution.sh
 
 echo "Installing Katana launcher..."
 rm -f /usr/bin/katana
@@ -70,3 +90,4 @@ su -c "/usr/bin/katana --update"
 
 katana install katana
 katana start katana
+systemctl enable samurai-katana
