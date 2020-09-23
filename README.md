@@ -43,7 +43,7 @@ Starting with version 5.0 of SamuraiWTF we now use an Ubuntu-based basebox that 
 
 ### OVA on Oracle VirtualBox
 1. Make sure you have the Oracle VirtualBox installed, and if you are in Windows you should disable Hyper-V [(Instructions from Microsoft)](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
-2. Download the OVA to import a full virtual machine, here: https://tiny.si/samurai-5.0
+2. Download the OVA to import a full virtual machine, here: https://tiny.si/samurai
 
 **note**: The login is samurai/samurai
 
