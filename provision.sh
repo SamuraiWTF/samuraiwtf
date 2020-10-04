@@ -68,10 +68,15 @@ cat <<EOT >> /usr/bin/katana
 #!/usr/bin/bash
 if [[ "\$1" = "--update" ]]; then
   echo "Updating Katana..."
+  BRANCH="master"
+  if [[ -n "$2" ]] ; then
+    BRANCH="$2"
+  fi
   sudo rm -rf /tmp/katana
   pushd /tmp
   sudo rm -rf /tmp/katana
-  sudo git clone --depth=1 --single-branch --branch "master" https://github.com/SamuraiWTF/katana.git || exit
+  echo "Cloning repository branch '$BRANCH'"
+  sudo git clone --depth=1 --single-branch --branch $BRANCH https://github.com/SamuraiWTF/katana.git || exit
   sudo mkdir -p /opt/katana
   sudo cp -R /tmp/katana/* /opt/katana/
   sudo chown -R samurai:root /opt/katana
