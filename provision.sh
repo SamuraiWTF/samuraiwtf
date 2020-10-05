@@ -47,7 +47,7 @@ fi
 EOT
 
 echo "Setting up distribution prep file /tmp/prepare-for-distribution.sh"
-cat <<EOT >> /tmp/prepare-for-distibution.sh
+cat <<EOT >> /usr/bin/prepare-for-distribution.sh
 #!/usr/bin/bash
 sudo userdel vagrant
 sudo apt install -y bleachbit
@@ -60,7 +60,7 @@ echo "* 2) Don't forget to remove the /vagrant share from /etc/fstab and the VM 
 echo "* 3) Shutdown, double-check your VM settings, then export your .OVI file."
 EOT
 
-chmod a+x /tmp/prepare-for-distribution.sh
+chmod a+x /usr/bin/prepare-for-distribution.sh
 
 echo "Installing Katana launcher..."
 rm -f /usr/bin/katana
@@ -69,14 +69,14 @@ cat <<EOT >> /usr/bin/katana
 if [[ "\$1" = "--update" ]]; then
   echo "Updating Katana..."
   BRANCH="master"
-  if [[ -n "$2" ]] ; then
-    BRANCH="$2"
+  if [[ -n "\$2" ]] ; then
+    BRANCH="\$2"
   fi
   sudo rm -rf /tmp/katana
   pushd /tmp
   sudo rm -rf /tmp/katana
-  echo "Cloning repository branch '$BRANCH'"
-  sudo git clone --depth=1 --single-branch --branch $BRANCH https://github.com/SamuraiWTF/katana.git || exit
+  echo "Cloning repository branch '\$BRANCH'"
+  sudo git clone --depth=1 --single-branch --branch \$BRANCH https://github.com/SamuraiWTF/katana.git || exit
   sudo mkdir -p /opt/katana
   sudo cp -R /tmp/katana/* /opt/katana/
   sudo chown -R samurai:root /opt/katana
