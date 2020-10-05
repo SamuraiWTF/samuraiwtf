@@ -9,7 +9,7 @@
   <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/></a>
   <a href="https://github.com/SamuraiWTF/samuraiwtf"> <img alt="SourceForge" src="https://img.shields.io/sourceforge/dt/samurai.svg?label=%28Deprecated%29%20%20SourceForge%20Downloads"/></a>
   <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Latest version" src="https://img.shields.io/github/release/SamuraiWTF/samuraiwtf.svg" /></a>
-  <a href="https://github.com/SamuraiWTF/samuraiwtf/blob/master/LICENSE" > <img alt="License" src="https://img.shields.io/badge/license-GPLv3-blue.svg" /></a>
+  <a href="https://github.com/SamuraiWTF/samuraiwtf/blob/main/LICENSE" > <img alt="License" src="https://img.shields.io/badge/license-GPLv3-blue.svg" /></a>
   <a href="https://twitter.com/intent/tweet?via=secureideas&hashtags=SamuraiWTF%2CProfessionallyEvil&url=https%3A%2F%2Fsamurai.wtf"> <img alt="Twitter Hashtag" src="https://img.shields.io/badge/%23SamuraiWTF-tweet%20about%20us-lightgrey.svg?logo=twitter&style=social" /></a>
   <a href="https://twitter.com/intent/follow?screen_name=secureideas" > <img alt="Twitter handle" src="https://img.shields.io/twitter/follow/secureideas.svg?label=Follow%20%40secureideas%20for%20updates&style=social" /></a>
 </p>
@@ -86,9 +86,9 @@ More detailed instructions on using Katana are available in the readme of the [S
 Most of the development in this repo is related to updating basebox provisioning scripts and supporting additional platforms.
 
 
-- Our integration branch is the one called `next`. That's where all new features and bug fixes go for testing before a planned release.  The `master` branch should be kept stable at all times.
+- Our integration branch is the one called `next`. That's where all new features and bug fixes go for testing before a planned release.  The `main` branch should be kept stable at all times.
 - Larger changes should be done in separate feature branches.  Make sure to merge `next` into your feature branch, then PR the feature branch to merge into `next`.
-- If you break `next` or `master`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
+- If you break `next` or `main`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
 
 ## Production VM Notes:
 Once you load the VM, unless this was a AWS Workspace install the username and password are:
