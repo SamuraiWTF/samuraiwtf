@@ -1,0 +1,36 @@
+- name: Add ZAP repo key
+  apt_key:
+    url: https://download.opensuse.org/repositories/home:cabelo/Debian_9.0/Release.key
+    state: present
+
+- name: Add ZAP repository
+  apt_repository:
+    repo: deb http://download.opensuse.org/repositories/home:/cabelo/Debian_9.0/ /
+    filename: home:cabelo.list
+    state: present
+
+- name: Install ZAP
+  apt:
+    name:
+      - owasp-zap
+    update_cache: yes
+
+- name: Create zap menu item
+  copy:
+    dest: /etc/samurai.d/applications/zap.desktop
+    content: |
+      #!/usr/bin/env xdg-open
+
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Terminal=false
+      Exec=/usr/bin/owasp-zap
+      Name=ZAP
+      Icon=/opt/samurai/icons/zap.png
+      Categories=samuraiwtf
+      Comment=OWASP Interception proxy
+      Name[en_US]=ZAP
+    mode: 0744
+  become: yes
+

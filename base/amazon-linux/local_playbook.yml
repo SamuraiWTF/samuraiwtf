@@ -1,0 +1,321 @@
+---
+
+- name: run the playbook tasks on the localhost from the ~/samuraiwtf folder
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+### Prerequisites
+
+  - name: Allow local passwordless access for root user
+    lineinfile:
+      path: /etc/security/access.conf
+      line: +:root:ALL
+
+  - name: Check if nginx is already installed
+    stat:
+      path: /etc/nginx/nginx.conf
+    register: stat_nginx_conf
+
+  - name: Install nginx
+    command: "amazon-linux-extras install nginx1.12"
+    become: yes
+    when: stat_nginx_conf.stat.exists == False
+
+  - name: ensure prerequisite packages are installed
+    yum:
+      name:
+        - vim
+        - curl
+        - docker
+        - unzip
+        - php-fpm
+        - nano
+        - python3
+        - java-11-amazon-corretto
+    become: true
+
+  - name: set up corretto as the preferred Java alternative
+    alternatives:
+      name: java
+      path: /usr/lib/jvm/java-11-amazon-corretto.x86_64/bin/java
+
+  - name: python prerequisite modules
+    pip:
+      name: "{{ modules }}"
+      executable: /usr/bin/pip3
+    become: yes
+    vars:
+      modules:
+      - docker
+
+  - name: Check if docker-compose is already installed
+    stat:
+      path: /usr/bin/docker-compose
+    register: stat_docker_compose
+
+  - name: install docker-compose
+    shell: 'curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose'
+    become: yes
+    when: stat_docker_compose.stat.exists == False 
+
+  - name: set permissions for docker-compose
+    file:
+      path: /usr/bin/docker-compose
+      mode: "+x"
+    become: yes
+
+  - name: create the main Samurai program folder
+    file:
+      path: /opt/samurai
+      state: directory
+      owner: "{{ lookup('env','USER') }}"
+      group: "CORP\\domain users"
+    become: yes
+
+  - name: Copy Samurai icon
+    copy:
+      src: ../common/samurai-icon.png
+      dest: /opt/samurai/
+    become: yes
+
+
+### Menus
+
+  - name: Setup menu /etc/samurai.d/desktop-directories
+    file:
+      path: /etc/samurai.d/desktop-directories/
+      state: directory
+    become: yes
+
+  - name: Setup menu /etc/samurai.d/applications
+    file:
+      path: /etc/samurai.d/applications/
+      state: directory
+    become: yes
+
+  - name: Setup menu /etc/samurai.d/desktop-directories
+    file:
+      path: /etc/samurai.d/desktop-directories/
+      state: directory
+    become: yes
+
+  - name: Create main samurai-wtf menu
+    copy:
+      dest: /etc/samurai.d/desktop-directories/samuraiwtf.directory
+      content: |
+        [Desktop Entry]
+        Type=Directory
+        Name=Samurai WTF
+        Icon=/opt/samurai/samurai-icon.png
+      mode: 0744
+    become: yes
+
+  - name: Create applications-merged folder
+    file:
+      path: /etc/xdg/menus/applications-merged
+      state: directory
+    become: yes
+
+  - name: Create main samurai-wtf menu
+    copy:
+      dest: /etc/xdg/menus/applications-merged/samuraiwtf.menu
+      content: |
+        <!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+        "http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">
+        <Menu>
+          <Name>Applications</Name> <!-- This is necessary for your directory to appear in the applications drop down -->
+          <Menu> <!--app -->
+            <Name>Samurai</Name>
+            <AppDir>/etc/samurai.d/applications</AppDir>
+            <DirectoryDir>/etc/samurai.d/desktop-directories</DirectoryDir>
+            <Directory>samuraiwtf.directory</Directory>
+            <Include>
+              <Category>samuraiwtf</Category>
+            </Include>
+          </Menu> <!-- End app -->
+        </Menu> <!-- End Applications -->
+      mode: 0744
+    become: yes
+
+### Setup first-time login customizations
+  - name: Copy desktop file somewhere we can use it
+    copy:
+      src: ../common/samurai-background.png
+      dest: /opt/samurai/samurai-background.png
+
+  - name: Create first-time login setup script.
+    copy:
+      dest: /etc/profile.d/first_login.sh
+      content: |
+        #!/bin/bash
+        
+        if [ -e $HOME/.samurai ]
+        then
+          echo "already run first time scripts."
+        else
+          cd /etc/dconf
+          /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai-background.png'"
+          /usr/bin/dconf write /org/mate/desktop/background/picture-options "'stretched'"
+          if [ ! -L ~/samurai ]; then
+            ln -s /opt/samurai ~/samurai
+          fi
+          touch $HOME/.samurai
+        fi
+        cd $HOME
+      mode: 0755
+    become: yes
+
+  # - name: Copy bookmarks to somewhere we can use it
+  #   copy:
+  #     src: ../../config/home/bookmarks.html
+  #     dest: /opt/samurai
+
+### Update PHP Config
+  - name: Update PHP listener
+    replace:
+      path: /etc/php-fpm.d/www.conf
+      regexp: '^listen = 127.0.0.1.*'
+      replace: 'listen = /var/run/php-fpm/php-fpm.sock'
+    become: yes
+
+  - name: Update PHP User
+    replace:
+      path: /etc/php-fpm.d/www.conf
+      regexp: '^user = apache'
+      replace: 'user = nginx'
+    become: yes
+
+  - name: Update PHP Group
+    replace:
+      path: /etc/php-fpm.d/www.conf
+      regexp: '^group = apache'
+      replace: 'group = nginx'
+    become: yes
+
+  - name: Add info.php test file
+    copy:
+      dest: /usr/share/nginx/html/info.php
+      content: |
+        <?php phpinfo(); ?>
+      mode: 0644
+      force: no
+    become: yes
+
+  - name: Install nginx configuration
+    copy:
+      src: ../common/config/nginx/
+      dest: /etc/nginx/conf.d/
+      force: no
+    become: yes
+
+  - name: Start PHP Processor
+    service:
+      name: php-fpm
+      state: started
+      enabled: yes
+    become: yes
+
+
+#  - name: Create service descriptor
+#    copy:
+#      dest: /etc/systemd/system/wtftargets.service
+#      content: |
+#        [Unit]
+#        Description=WTF Targets service
+#        After=systemd-user-sessions.service
+#        [Service]
+#        Type=forking
+#        ExecStart=/usr/local/bin/startup_targets.sh
+#      mode: 0744
+#    become: yes
+
+  - name: Start nginx
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+    become: yes
+
+  - name: Check if npm installer already downloaded
+    stat:
+      path: /tmp/npm_setup.sh
+    register: stat_npm_setup
+
+  - name: Download npm installer
+    get_url:
+      url: https://rpm.nodesource.com/setup_10.x
+      dest: /tmp/npm_setup.sh
+      mode: 0744
+#    when: stat_npm_setup.stat.exists == False
+
+  - name: Install npm repo
+    shell: '/tmp/npm_setup.sh'
+    become: yes
+#    when: stat_npm_setup.stat.exists == False
+
+  - name: Add nodejs repo
+    yum:
+      name: nodejs
+      enablerepo: nodesource
+    become: yes
+
+  - name: Add yarn repository
+    get_url:
+      url: http://dl.yarnpkg.com/rpm/yarn.repo
+      dest: /etc/yum.repos.d/yarn.repo
+      owner: root
+      mode: 0644
+    become: yes
+
+  - name: Install nodejs
+    yum:
+      name: 
+        - nodejs
+        - yarn
+      update_cache: yes
+    become: yes
+
+  - name: Setup katana launcher
+    copy:
+      dest: /usr/bin/katana
+      content: |
+        #!/bin/bash
+        if [[ "$1" = "--update" ]]; then
+          sudo rm -rf /tmp/samuraiwtf
+          pushd /tmp
+          sudo git clone --depth=1 --single-branch --branch "master" https://github.com/SamuraiWTF/katana.git || exit
+          sudo mkdir -p /opt/katana
+          sudo cp -R /tmp/samuraiwtf/katana/* /opt/katana/
+          popd
+        else
+          cd /opt/katana
+          sudo python3 ./katanacli.py "$@"
+        fi
+      mode: 0777
+    become: yes
+
+  - name: Install Katana requirements
+    pip:
+      requirements: /opt/katana/requirements.txt
+      executable: /usr/bin/pip3
+    become: yes
+
+  - name: Update home page to katana
+    replace:
+      path: /usr/lib64/firefox/amazon-workspaces.cfg
+      regexp: '"https:\/\/clients\.amazonworkspaces\.com\/"'
+      replace: '"http://katana.wtf/"'
+    become: yes
+
+  - name: Create add-ons folder
+    file:
+      path: /opt/samurai/add-ons/firefox
+      state: directory
+      owner: "{{ lookup('env','USER') }}"
+      group: "CORP\\domain users"
+    become: yes
+
+  - name: Download Foxy Proxy add-on for Firefox
+    get_url:
+      url: https://addons.mozilla.org/firefox/downloads/file/3476518/
+      dest: /opt/samurai/add-ons/firefox/

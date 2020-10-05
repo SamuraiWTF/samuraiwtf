@@ -1,0 +1,65 @@
+$bootstrapscript = <<-SCRIPT
+echo ">>>>>>>>>>>>> Installing the UI..."
+yum -y update
+yum install epel-release gcc yum-utils -y
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum -y update
+yum groupinstall "GNOME" -y
+systemctl set-default graphical.target
+echo ">>>>>>>>>>>>> Installing Ansible..."
+yum install -y ansible git
+git clone --depth=1 --single-branch --branch "5.0-dev" https://github.com/SamuraiWTF/samuraiwtf.git /tmp/samuraiwtf
+pushd /tmp/samuraiwtf
+ansible-playbook -K base/vm-centos/local_playbook.yml
+katana --update
+katana install katana
+systemctl enable samurai-katana
+katana start katana
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "generic/centos8"
+
+   config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
+    samuraiwtf.vm.host_name = "SamuraiWTF"
+
+    config.vm.synced_folder "../../", "/tmp/vagrantdev"
+
+    samuraiwtf.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+      vb.gui = true
+      vb.name = "SamuraiWTF-5"
+    # Customize the amount of memory on the VM:
+      vb.memory = "4096"
+      vb.customize ["modifyvm", :id, "--vram", "128"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]    
+
+    end
+
+    samuraiwtf.vm.provision "shell", inline: $bootstrapscript
+
+    samuraiwtf.vm.provision "shell", inline: "systemctl isolate graphical.target"
+
+    # Make sure VBGuestAdditions is up-to-date and certain pre-requisite packages are installed.  Then restart (reload) so we are using the right
+    # version of VBGuestAdditions before continuing.
+    # samuraiwtf.vm.provision :shell, inline: "yum -y install mate-desktop-environment"
+    # samuraiwtf.vm.provision :reload 
+
+    # samuraiwtf.vm.provision "ansible_local", run: "once" do |ansible1|      
+    #   ansible1.playbook = "install/samuraiwtf.yml"
+    #   ansible1.version = "latest"
+    #   ansible1.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
+    #   ansible1.install_mode = "pip3"
+    #   ansible1.compatibility_mode = "2.0"
+    # end
+
+  end
+end

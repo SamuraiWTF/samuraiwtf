@@ -1,5 +1,39 @@
+# vagrant
 .vagrant
+
 *.log
 .DS_Store
+# misc
 config/home/Burp*
+
+# ansible
 *.retry
+.venv/*
+.vscode/*
+
+# OSX
+.DS_Store
+
+# packer folders
+packer_cache/
+output-*-iso/
+
+# log + tmp files
+*.swp
+*.swo
+*.box
+*.log
+
+# secret files
+**/__pycache__
+variables.json
+secrets.txt
+scripts/setup/env_vars
+
+## automated packer files
+samurai.json
+# compressed config folder
+.idea/*
+**/.ansible
+**/~*
+*.tgz

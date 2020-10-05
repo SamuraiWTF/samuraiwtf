@@ -1,6 +1,8 @@
 <p align="center">
-  <img alt="SamuraiWTF Logo" src="https://tiny.si/images/SamuraiWTFLogo.png" height="200"/>
+  <img alt="SamuraiWTF Logo" src="http://tiny.si/images/owasp_samurai_v3.png"  height="400"/>
 </p>
+
+## Samurai Web Training Framework 5.0
 
 <p align="center">
   <a href="https://professionallyevil.slack.com/messages/samuraiwtf"> <img alt="Slack" src="https://img.shields.io/badge/chat-ProfessionallyEvil-%238c0000.svg?logo=slack" /></a>
@@ -14,66 +16,82 @@
 
 ----
 
-**Want to chat with us? Come message us in the [Professionally Evil slack][samurai-slack-url].**
+This project is not a vulnerable application. It is a framework designed for quickly configuring training virtual machines with tools and vulnerable application targets. This of this as a base box with a specialized package manager.
+For example, an instructor could use SamuraiWTF to easily set up a classroom virtual machine image containing OWASP ZAP and OWASP Juice Shop, and then distribute it to each student.
+
+This project includes and uses the [Samurai Katana][samurai-katana-url] project to manage installation and running of tools and targets in the virtual environment. 
+
+**Want to chat with us? Join us in either the OWASP Slack #project-samuraiwtf channel or visit us in [Professionally Evil slack][samurai-slack-url].**
 
 **Want to Contribute? See [here](#Contributors)**
 
-The purpose behind this project is to migrate the SamuraiWTF (http://www.samurai-wtf.org), which until now has been maintained as a monolithic virtual machine, to a "packageable" distribution system. The current direction of choice is Vagrant with a VirtualBox provider, which is the effort in this master branch.  Alternative efforts can be found in other branches.
-
 **NOTE:** for getting started quickly you can follow the ova installation [here](#OVA)
 
-## Prerequisites
-- Vagrant - https://www.vagrantup.com/
-- Virtualization Software - The base vagrant box used supports virtualbox, vmware, and parallels, but testing at this time has been solely on virtualbox - https://www.virtualbox.org/
-- vagrant-vbguest plugin for vagrant (virtualbox only) - this automatically installs guest extensions which provide support for higher display resolutions, as well as other conveniences like clipboard sharing - https://github.com/dotless-de/vagrant-vbguest
-- vagrant-reload plugin - this facilitates a necessary reboot during initial provisioning (can be installed with `vagrant plugin install vagrant-reload`).
-- Disable Hyper-V (Windows and Virtualbox only) - follow the Resolution instructions provided by Microsoft to disable and enable Hyper-V (requires reboot) - https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g
+**Art Credit:** the above Samurai figure is the original work of Ben Faircloth, who has granted the OWASP SamuraiWTF project permission to use in the product and websites. 
 
 ## Initial Install
-### OVA
-1. Make sure you have the Virtualization Software and Disabled Hyper-V from the prereqs [above](#Prerequisites)
-2. Download the OVA to import a full virtual machine, here: https://tiny.si/samurai.
-3. Watch this [video tutorial](https://www.youtube.com/watch?v=3a3qOFubfGg), made by [webpwnized](https://twitter.com/webpwnized), which shows you how to install SamuraiWTF using the OVA.
+There are several options for the initial install, as follows:
 
-### Vagrant
-1. Make sure you have the prereqs listed [above](#Prerequisites). Webpwnized has made some helpful [YouTube video instructionals](https://www.youtube.com/watch?v=MCqpTpxNSlA&list=PLZOToVAK85Mru8ye3up3VR_jXms56OFE5) for getting Vagrant and VirtualBox with vbguest plugin installed in case you have not done so before.
+### Vagrant (Preferred)
+Starting with version 5.0 of SamuraiWTF we now use an Ubuntu-based basebox that has most of the prerequisites pre-installed so you can get up and running quickly.
+
+1. Make sure you have Oracle VirtualBox installed (see above [OVA section](#OVA))
 2. Clone this repository.
-3. From a command-line terminal in the project directory, run the command `vagrant up`. Then sit back and wait for it to finish.
-4. (Optional) If you want to understand this process a little more, we have a video that discusses what is happening with more detail. It is listed as a free course on our training site: https://training.secureideas.com/course/foldingsteel/
+3. From a command-line terminal in the root project folder, run the command `vagrant up`. Then sit back and wait for it to finish.
 
-**NOTE: The Guest VM's window will open with the CLI while provisioning is still ongoing. It's best to leave it alone until the `vagrant up` command fully completes.**
+**note**: The login is samurai/samurai
 
-#### Provisioning Scripts
-SamuraiWTF is provisioned through the ansible-local Vagrant provisioner.  Provisioning is organized into the following playbooks, all found in the install folder:
+### OVA on Oracle VirtualBox
+1. Make sure you have the Oracle VirtualBox installed, and if you are in Windows you should disable Hyper-V [(Instructions from Microsoft)](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
+2. Download the OVA to import a full virtual machine, here: https://tiny.si/samurai
 
-- bootstrap.yml: Prepare the environment to install tools and targets.  A reboot occurs after this playbook runs.
-- tools.yml:  Install all tools for the SamuraiWTF environment. Tool installation tasks are found in the install/tools folder.
-- targets.yml:  Install all the targets for the SamuraiWTF environment.  Target installation tasks are found in the install/targets folder.
-- user.yml:  Finalize any configuration for the samurai user.
+**note**: The login is samurai/samurai
+
+### AWS Workspace
+We have a method of bootstrapping SamuraiWTF into an AWS Workspace (running AWS Linux). This can be useful in situations an instructor wants to set up a remotely accessible SamuraiWTF environment.
+
+1. Make sure you have an AWS account plus the AWS Workspaces client.
+2. Create a Workspace with Amazon Linux and 4GB of RAM
+3. Log in to the workspace and clone this GitHub repository.
+4. Navigate into `samuraiwtf/base/amazon-linux` and run the `bootstrap.sh` shell script. This should set up the rest of what you need.
+
+**note**: The login is your AWS Workspace username and password.
+
+## Lab Quick Setup
+Once you log in to the environment, you can install tools and targets using katana either from the command line, or from a browser.
+
+### Command Line
+Simply use the command `katana list` to see which packages are available, then install any package with `katana install <package>`. For example, to install ZAP and JuiceShop:
+
+```shell script
+katana install zap
+katana install juice-shop
+katana start juice-shop
+```
+
+## Web UI
+The web UI can be seen in a browser by visiting `http://katana.wtf`.
+
+If it is not running, you may first need to use the command line to install and start katana. This is done with the commands:
+```shell script
+katana install katana
+katana start katana
+```
+
+More detailed instructions on using Katana are available in the readme of the [Samurai Katana][samurai-katana-url] GitHub project.
+
+**IMPORTANT**: Be aware that Katana runs with root privileges and is not intended to be run in a secure or production environment.
 
 ## Development
-Once you have a running environment, use the ansible playbooks to define any changes or additions to the installation.  To test the change, there is no need to re-run the entire provisioning through Vagrant every time.  Instead, you can just run one of the ansible playbooks from the vagrant folder inside the guest (i.e. first do `vagrant ssh`).  For example, if you are adjusting a tool, you would type:
+Most of the development in this repo is related to updating basebox provisioning scripts and supporting additional platforms.
 
-```
-cd /vagrant
-ansible-playbook -i /etc/ansible/hosts install/tools.yml
-```
 
-_Note that this is run as the vagrant (non-privileged) user, and does not require sudo.  Ansible will call sudo internally if needed._
-
-### Development Guidelines
-
-- Our integration branch is the one called `next`. That's where all new features and bug fixes go for testing before a release.  The `master` branch should be kept stable at all times.
+- Our integration branch is the one called `next`. That's where all new features and bug fixes go for testing before a planned release.  The `master` branch should be kept stable at all times.
 - Larger changes should be done in separate feature branches.  Make sure to merge `next` into your feature branch, then PR the feature branch to merge into `next`.
 - If you break `next` or `master`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
 
-### Expected Errors
-Sometimes there are some expected errors during the build process.  
-
-- There is one scary error in the _Install Docker_ task for VirtualBox provisioning that looks like it fails miserably.  At the bottom of that error output you will see the message `...ignoring` .  This is because our ansible playbook is expecting the error and moves on to the next task. Docker should still have installed but it had trouble getting to the right version of certain a kernel library due to an upgrade of guest additions. This should resolve itself once the system reboots (which should happen automatically).
-
 ## Production VM Notes:
-Once you load the VM, the username and password are:
+Once you load the VM, unless this was a AWS Workspace install the username and password are:
 
 - Username: samurai
 - Password: samurai
@@ -82,18 +100,15 @@ The menus are available in the top-left corner of the desktop.
 
 Once you log in, there are a couple of things that might need to be adjusted manually.
 
-First, load the Chrome bookmarks by starting *Chrome*.  Then select the *three dots* menu and select *Bookmarks*.
-From the sub menu, select *Import bookmarks and settings*.  In the window that opens, select *Bookmarks HTML File*.
-A file selector window will open.  Select the *chrome_bookmarks.html* file in the samurai home directory.
-
 ## Virtualbox Display
 - To automatically adjust the display resolution, do the following:
-	- Select Virtualbox Menu -> View
+	- Select Virtualbox `Menu -> View`
 	- Click Auto-Resize Guest Display
 	- Resize Virtualbox window and display should change to fit window size.
+	- OR: Use the `Menu -> View -> Virtual Screen 1` menu to adjust the screen dimensions (e.g. Resize to 1440x900; Scale to 200%). 
 
 # License
-The scripts and resources belonging to this project itself are licensed under the GNU Public License version 3 (GPL3).
+The scripts and resources belonging directly to this project are licensed under the Lesser GNU Public License version 3 (LGPLv3).
 All software loaded into the VM, including the tools, targets, utilities, and operating system itself retain their original license agreements.
 
 
@@ -107,3 +122,4 @@ Contributors are very welcome and the contribution process is standard:
 Substantial or *Regular* contributors may also be brought in as full team members. This includes those who have made substantial contributions to previous versions of SamuraiWTF with the assumption they will continue to do so.
 
 [samurai-slack-url]: https://professionallyevil.slack.com/messages/samuraiwtf
+[samurai-katana-url]: https://github.com/SamuraiWTF/katana

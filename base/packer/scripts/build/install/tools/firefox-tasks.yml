@@ -1,0 +1,16 @@
+- name: Install Mozilla Firefox (Debian)
+  apt:
+    name:
+      - firefox-esr
+    update_cache: yes
+  when: ansible_distribution == "Debian"
+
+- name: Install Mozilla Firefox (Ubuntu)
+  apt:
+    name:
+      - firefox
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+
+
+# TODO: add extensions equivilant to chrome
