@@ -142,6 +142,8 @@
     copy:
       src: ../common/samurai-wide-faded.jpg
       dest: /opt/samurai/samurai-wide-faded.jpg
+      owner: "{{ lookup('env','USER') }}"
+      group: "CORP\\domain users"
 
   - name: Create first-time login setup script.
     copy:
@@ -329,3 +331,13 @@
     get_url:
       url: https://addons.mozilla.org/firefox/downloads/file/3476518/
       dest: /opt/samurai/add-ons/firefox/
+
+  - name: Recursively update the main Samurai program folder
+    file:
+      path: /opt/samurai
+      state: directory
+      owner: "{{ lookup('env','USER') }}"
+      group: "CORP\\domain users"
+      recurse: yes
+      mode: 'g+r'
+    become: yes
