@@ -10,4 +10,8 @@ sudo ansible-playbook -K base/amazon-linux/local_playbook.yml
 
 katana --update
 
+katana install katana
+
 popd
+
+sudo systemctl enable samurai-katana
