@@ -140,8 +140,10 @@
 ### Setup first-time login customizations
   - name: Copy desktop file somewhere we can use it
     copy:
-      src: ../common/samurai-background.png
-      dest: /opt/samurai/samurai-background.png
+      src: ../common/samurai-wide-faded.jpg
+      dest: /opt/samurai/samurai-wide-faded.jpg
+      owner: "{{ lookup('env','USER') }}"
+      group: "CORP\\domain users"
 
   - name: Create first-time login setup script.
     copy:
@@ -154,7 +156,7 @@
           echo "already run first time scripts."
         else
           cd /etc/dconf
-          /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai-background.png'"
+          /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai-wide-faded.jpg'"
           /usr/bin/dconf write /org/mate/desktop/background/picture-options "'stretched'"
           if [ ! -L ~/samurai ]; then
             ln -s /opt/samurai ~/samurai
@@ -281,12 +283,22 @@
       content: |
         #!/bin/bash
         if [[ "$1" = "--update" ]]; then
-          sudo rm -rf /tmp/samuraiwtf
+          echo "Updating Katana..."
+          BRANCH="master"
+          if [[ -n "$2" ]] ; then
+            BRANCH="$2"
+          fi
+          sudo rm -rf /tmp/katana
           pushd /tmp
-          sudo git clone --depth=1 --single-branch --branch "master" https://github.com/SamuraiWTF/katana.git || exit
+          sudo rm -rf /tmp/katana
+          echo "Cloning repository branch '$BRANCH'"
+          sudo git clone --depth=1 --single-branch --branch $BRANCH https://github.com/SamuraiWTF/katana.git || exit
           sudo mkdir -p /opt/katana
-          sudo cp -R /tmp/samuraiwtf/katana/* /opt/katana/
+          sudo cp -R /tmp/katana/* /opt/katana/
+          cd /opt/katana
+          sudo pip3 install -r requirements.txt
           popd
+          echo "Update is complete."
         else
           cd /opt/katana
           sudo python3 ./katanacli.py "$@"
@@ -319,3 +331,13 @@
     get_url:
       url: https://addons.mozilla.org/firefox/downloads/file/3476518/
       dest: /opt/samurai/add-ons/firefox/
+
+  - name: Recursively update the main Samurai program folder
+    file:
+      path: /opt/samurai
+      state: directory
+      owner: "{{ lookup('env','USER') }}"
+      group: "CORP\\domain users"
+      recurse: yes
+      mode: 'g+r'
+    become: yes
