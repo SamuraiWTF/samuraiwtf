@@ -15,3 +15,5 @@ katana install katana
 popd
 
 sudo systemctl enable samurai-katana
+
+sudo systemctl enable docker
