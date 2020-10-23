@@ -245,7 +245,7 @@
 
   - name: Download npm installer
     get_url:
-      url: https://rpm.nodesource.com/setup_10.x
+      url: https://rpm.nodesource.com/setup_12.x
       dest: /tmp/npm_setup.sh
       mode: 0744
 #    when: stat_npm_setup.stat.exists == False
