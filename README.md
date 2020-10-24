@@ -90,6 +90,12 @@ Most of the development in this repo is related to updating basebox provisioning
 - Larger changes should be done in separate feature branches.  Make sure to merge `next` into your feature branch, then PR the feature branch to merge into `next`.
 - If you break `next` or `main`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
 
+## Bundles
+SamuraiWTF now supports bundles during the build process.  When *vagrant up* or *vagrant provision* is run, the system will
+prompt you for a bundle from the list.  These bundles will pre-install tools and targets, using katana, into the system so 
+that the end result will be ready.  If you select *base* or press return, the system will run the base bundle, which currently
+does nothing extra.  The plan is to make this a release bundle and have it run the tools needed to build a release.
+
 ## Production VM Notes:
 Once you load the VM, unless this was a AWS Workspace install the username and password are:
 

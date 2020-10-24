@@ -2,6 +2,11 @@
 
 echo "Vagrant Provisioning for Ubuntu"
 
+echo "Command line"
+bundle=$1
+
+
+
 apt install -y python-is-python3 gnome-shell-extension-arc-menu gnome-tweaks
 
 chown samurai:samurai /opt/katana
@@ -96,3 +101,9 @@ su -c "/usr/bin/katana --update"
 katana install katana
 katana start katana
 systemctl enable samurai-katana
+
+# Run the chosen bundle
+echo "Running chosen bundle"
+cp /vagrant/bundles/${bundle}.sh /tmp
+. /tmp/${bundle}.sh
+
