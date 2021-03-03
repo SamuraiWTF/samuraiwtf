@@ -21,7 +21,7 @@ For example, an instructor could use SamuraiWTF to easily set up a classroom vir
 
 This project includes and uses the [Samurai Katana][samurai-katana-url] project to manage installation and running of tools and targets in the virtual environment. 
 
-**Want to chat with us? Join us in either the OWASP Slack #project-samuraiwtf channel or visit us in [Professionally Evil slack][samurai-slack-url].**
+**Want to chat with us? Join us in either the OWASP Slack #project-samuraiwtf channel.**
 
 **Want to Contribute? See [here](#Contributors)**
 
@@ -86,9 +86,9 @@ More detailed instructions on using Katana are available in the readme of the [S
 Most of the development in this repo is related to updating basebox provisioning scripts and supporting additional platforms.
 
 
-- Our integration branch is the one called `next`. That's where all new features and bug fixes go for testing before a planned release.  The `master` branch should be kept stable at all times.
+- Our integration branch is the one called `next`. That's where all new features and bug fixes go for testing before a planned release.  The `main` branch should be kept stable at all times.
 - Larger changes should be done in separate feature branches.  Make sure to merge `next` into your feature branch, then PR the feature branch to merge into `next`.
-- If you break `next` or `master`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
+- If you break `next` or `main`, fix it (with help if necessary). It's best to run a full test build (i.e. `vagrant destroy`, `vagrant up`) and make sure tools ard targets are working before pushing changes.
 
 ## Production VM Notes:
 Once you load the VM, unless this was a AWS Workspace install the username and password are:
@@ -121,5 +121,4 @@ Contributors are very welcome and the contribution process is standard:
   
 Substantial or *Regular* contributors may also be brought in as full team members. This includes those who have made substantial contributions to previous versions of SamuraiWTF with the assumption they will continue to do so.
 
-[samurai-slack-url]: https://professionallyevil.slack.com/messages/samuraiwtf
 [samurai-katana-url]: https://github.com/SamuraiWTF/katana
