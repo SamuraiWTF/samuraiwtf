@@ -2,7 +2,7 @@
 
 echo "Vagrant Provisioning for Ubuntu"
 
-apt install -y python-is-python3 gnome-shell-extension-arc-menu gnome-tweaks
+apt install -y python-is-python3 jq libnss3-tools gnome-shell-extension-arc-menu gnome-tweaks
 
 chown samurai:samurai /opt/katana
 
@@ -21,6 +21,8 @@ if [ -e ~/.samurai ]
 then
   echo "Skipping first run: already run first time scripts."
 else
+  export CAROOT=/opt/samurai/mkcert
+  mkcert -install
   cd /etc/dconf
   /usr/bin/dconf write /org/mate/desktop/background/picture-filename "'/opt/samurai/samurai-wide-faded.jpg'"
   /usr/bin/dconf write /org/mate/desktop/background/picture-options "'stretched'"
@@ -61,6 +63,18 @@ echo "* 3) Shutdown, double-check your VM settings, then export your .OVI file."
 EOT
 
 chmod a+x /usr/bin/prepare-for-distribution.sh
+
+echo "Setting up mkcert"
+wget $(curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest | jq -r ".assets[] | select(.name | test(\"linux-amd64\")) | .browser_download_url") -O mkcert
+chmod +x ./mkcert
+mv ./mkcert /usr/local/bin/mkcert
+
+echo "Creating cert directories"
+mkdir /opt/samurai/mkcert
+# horrible permission change currently represents the easy way to give an unknown user read/write access.
+chmod 777 /opt/samurai/mkcert
+mkdir /etc/nginx/certs
+
 
 echo "Installing Katana launcher..."
 rm -f /usr/bin/katana
