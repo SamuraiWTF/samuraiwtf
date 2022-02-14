@@ -296,7 +296,7 @@
           sudo mkdir -p /opt/katana
           sudo cp -R /tmp/katana/* /opt/katana/
           cd /opt/katana
-          sudo pip3 install -r requirements.txt
+          sudo pip3 install -r /opt/katana/requirements.txt
           popd
           echo "Update is complete."
         else
