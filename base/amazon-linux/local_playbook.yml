@@ -341,3 +341,22 @@
       recurse: yes
       mode: 'g+r'
     become: yes
+
+  - name: Create cert folder
+    file:
+      path: /etc/samurai.d/certs
+      state: directory
+    become: yes
+
+  - name: Setup katana.test certificate ext
+    copy:
+      dest: /etc/samurai.d/certs/katana.test.ext
+      content: |
+        authorityKeyIdentifier=keyid,issuer
+        basicConstraints=CA:FALSE
+        keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+        subjectAltName = @alt_names
+  
+        [alt_names]
+        DNS.1 = katana.test
+        DNS.2 = katana.wtf
