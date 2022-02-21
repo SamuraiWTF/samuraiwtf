@@ -50,17 +50,35 @@
 
   - name: Check if docker-compose is already installed
     stat:
-      path: /usr/bin/docker-compose
+      path: /usr/local/lib/docker/cli-plugins/docker-compose
     register: stat_docker_compose
+    become: yes
+
+  - name: Create cli-plugins folder
+    file:
+      path: /usr/local/lib/docker/cli-plugins
+      state: directory
+    become: yes
 
   - name: install docker-compose
-    shell: 'curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose'
+    shell: 'curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose'
     become: yes
-    when: stat_docker_compose.stat.exists == False 
+    when: stat_docker_compose.stat.exists == False
 
   - name: set permissions for docker-compose
     file:
-      path: /usr/bin/docker-compose
+      path: /usr/local/lib/docker/cli-plugins/docker-compose
+      mode: "+x"
+    become: yes
+
+  - name: install compose-switch switch to support docker 1.x
+    shell: 'curl -fL https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64 -o /usr/local/bin/compose-switch'
+    become: yes
+    when: stat_docker_compose.stat.exists == False
+
+  - name: set permissions for compose-switch
+    file:
+      path: /usr/local/bin/compose-switch
       mode: "+x"
     become: yes
 
