@@ -324,12 +324,6 @@
       mode: 0777
     become: yes
 
-  - name: Install Katana requirements
-    pip:
-      requirements: /opt/katana/requirements.txt
-      executable: /usr/bin/pip3
-    become: yes
-
   - name: Update home page to katana
     replace:
       path: /usr/lib64/firefox/amazon-workspaces.cfg
