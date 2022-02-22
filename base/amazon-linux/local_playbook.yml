@@ -328,7 +328,7 @@
     replace:
       path: /usr/lib64/firefox/amazon-workspaces.cfg
       regexp: '"https:\/\/clients\.amazonworkspaces\.com\/"'
-      replace: '"https://katana.test/"'
+      replace: '"https://katana.test:8443/"'
     become: yes
 
   - name: Create add-ons folder
