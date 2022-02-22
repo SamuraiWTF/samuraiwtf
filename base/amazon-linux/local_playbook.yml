@@ -61,7 +61,7 @@
     become: yes
 
   - name: install docker-compose
-    shell: 'curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins'
+    shell: 'curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose'
     become: yes
     when: stat_docker_compose.stat.exists == False
 
