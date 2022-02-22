@@ -15,7 +15,7 @@ sudo update-ca-trust
 sudo openssl req -new -newkey rsa:4096 -nodes -keyout /etc/samurai.d/certs/katana.test.key -out /etc/samurai.d/certs/katana.test.csr -subj "/C=US/ST=Hacking/L=Springfield/O=SamuraiWTF/CN=katana.test"
 
 
-katana --update updates/rollup2022-02-rollup
+katana --update updates/2022-02-rollup
 
 katana install katana
 
