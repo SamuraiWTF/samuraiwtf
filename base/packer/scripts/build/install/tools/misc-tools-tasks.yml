@@ -1,7 +1,0 @@
-# File to install various miscellaneous tools 
-
-- name: Install httpie (https://github.com/jakubroztocil/httpie)
-  apt:
-    name: 
-      - httpie 
-      
