@@ -27,7 +27,7 @@ echo "pref('browser.startup.homepage', 'https://katana.test');" >> $ff_preferenc
 echo ">>>>>>>>>>>>>>>> Installing Ansible and Git"
 
 amazon-linux-extras install -y ansible2
-git clone --depth=1 --single-branch --branch="updates/2022-02-rollup" https://github.com/SamuraiWTF/samuraiwtf.git /tmp/samuraiwtf
+git clone --depth=1 --single-branch --branch="updates/2022-03-vm-updates" https://github.com/SamuraiWTF/samuraiwtf.git /tmp/samuraiwtf
 
 pushd /tmp/samuraiwtf
 # ansible-playbook -K base/amazon-linux/vagrant_playbook.yml --extra-vars "groupname=samurai"
