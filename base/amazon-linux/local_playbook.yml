@@ -3,6 +3,8 @@
 - name: run the playbook tasks on the localhost from the ~/samuraiwtf folder
   hosts: 127.0.0.1
   connection: local
+  vars:
+    groupname: "CORP\\domain users"
   tasks:
 ### Prerequisites
 
@@ -87,7 +89,7 @@
       path: /opt/samurai
       state: directory
       owner: "{{ lookup('env','USER') }}"
-      group: "CORP\\domain users"
+      group: "{{ groupname }}"
     become: yes
 
   - name: Copy Samurai icon
@@ -161,7 +163,8 @@
       src: ../common/samurai-wide-faded.jpg
       dest: /opt/samurai/samurai-wide-faded.jpg
       owner: "{{ lookup('env','USER') }}"
-      group: "CORP\\domain users"
+      group: "{{ groupname }}"
+    become: yes
 
   - name: Create first-time login setup script.
     copy:
@@ -324,19 +327,25 @@
       mode: 0777
     become: yes
 
+  - name: Check if firefox amazon-workspaces.cfg exists.
+    stat:
+      path: /usr/lib64/firefox/amazon-workspaces.cfg
+    register: stat_ff_aws_cfg
+
   - name: Update home page to katana
     replace:
       path: /usr/lib64/firefox/amazon-workspaces.cfg
       regexp: '"https:\/\/clients\.amazonworkspaces\.com\/"'
-      replace: '"https://katana.test:8443/"'
+      replace: '"http://katana.wtf/"'
     become: yes
+    when: stat_ff_aws_cfg.stat.exists == True
 
   - name: Create add-ons folder
     file:
       path: /opt/samurai/add-ons/firefox
       state: directory
       owner: "{{ lookup('env','USER') }}"
-      group: "CORP\\domain users"
+      group: "{{ groupname }}"
     become: yes
 
   - name: Download Foxy Proxy add-on for Firefox
@@ -349,7 +358,7 @@
       path: /opt/samurai
       state: directory
       owner: "{{ lookup('env','USER') }}"
-      group: "CORP\\domain users"
+      group: "{{ groupname }}"
       recurse: yes
       mode: 'g+r'
     become: yes
@@ -372,3 +381,4 @@
         [alt_names]
         DNS.1 = katana.test
         DNS.2 = katana.wtf
+    become: yes

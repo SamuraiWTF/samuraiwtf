@@ -1,27 +1,46 @@
 $bootstrapscript = <<-SCRIPT
 echo ">>>>>>>>>>>>> Installing the UI..."
 yum -y update
-yum install -y xorg-x11-xinit libXfont xorg-x11-xauth
-yum install -y xorg-x11-drv-libinput xorg-x11-drv-keyboard xorg-x11-drv-vmmouse xorg-x11-drv-vmware xorg-x11-server-Xvfb xdg-user-dirs-gtk  xz xz-libs
-yum install -y gdm 
-amazon-linux-extras install mate-desktop1.x -y
+yum install -y xorg-x11*
+
+
+amazon-linux-extras install -y mate-desktop1.x
+
 bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
-amazon-linux-extras install epel -y
-amazon-linux-extras install ansible2 -y
-yum install -y git
-git clone --depth=1 --single-branch --branch "5.0-dev" https://github.com/SamuraiWTF/samuraiwtf.git /tmp/samuraiwtf
+
+echo ">>>>>>>>>>>>>>>> Adding user"
+useradd -m samurai
+
+echo samurai:samurai | chpasswd
+
+echo ">>>>>>>>>>>>>>>>> Install Firefox"
+wget -O /tmp/firefox.tar.bz2 "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
+pushd /tmp
+tar xjf firefox.tar.bz2
+mv firefox/ /opt
+ln -s /opt/firefox/firefox /usr/bin/firefox
+wget https://raw.githubusercontent.com/mozilla/sumo-kb/main/install-firefox-linux/firefox.desktop -P /usr/local/share/applications
+ff_preferences="/opt/firefox/browser/defaults/preferences/all-samurai.js"
+touch $ff_preferences
+echo "pref('browser.startup.homepage', 'https://katana.test');" >> $ff_preferences
+
+echo ">>>>>>>>>>>>>>>> Installing Ansible and Git"
+
+amazon-linux-extras install -y ansible2
+git clone --depth=1 --single-branch --branch="updates/2022-02-rollup" https://github.com/SamuraiWTF/samuraiwtf.git /tmp/samuraiwtf
+
 pushd /tmp/samuraiwtf
-ansible-playbook -K base/amazon-linux/vagrant_playbook.yml
-katana --update
-katana install katana
-systemctl enable samurai-katana
-katana start katana
+# ansible-playbook -K base/amazon-linux/vagrant_playbook.yml --extra-vars "groupname=samurai"
+# katana --update
+# katana install katana
+# systemctl enable samurai-katana
+# katana start katana
 SCRIPT
 
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "bento/amazonlinux-2"
+  config.vm.box = "gbailey/amzn2"
 
  
    config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
@@ -30,13 +49,16 @@ Vagrant.configure("2") do |config|
     samuraiwtf.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
       vb.gui = true
-      vb.name = "SamuraiWTF-5"
+      vb.name = "SamuraiWTF-5.2"
     # Customize the amount of memory on the VM:
       vb.memory = "4096"
       vb.customize ["modifyvm", :id, "--vram", "128"]
       vb.customize ["modifyvm", :id, "--cpus", "2"]
-      vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]    
+      vb.customize ["modifyvm", :id, "--vrde", "off"]
+      vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]
+      vb.customize ["modifyvm", :id, "--accelerate2dvideo", "on"]
 
+      config.vm.network "private_network", :type => 'dhcp', :adapter => 2
     end
 
     samuraiwtf.vm.provision "shell", inline: $bootstrapscript
