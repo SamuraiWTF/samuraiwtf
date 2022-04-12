@@ -1,40 +1,44 @@
 $bootstrapscript = <<-SCRIPT
+set -euxvo pipefail
 echo ">>>>>>>>>>>>> Installing the UI..."
 yum -y update
 yum install -y xorg-x11*
-
+yum install -y gdm
 
 amazon-linux-extras install -y mate-desktop1.x
 
 bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
 
-echo ">>>>>>>>>>>>>>>> Adding user"
-useradd -m samurai
+echo ">>>>>>>>>>>>>>>> Adding samurai user"
+useradd -m samurai -G wheel
 
 echo samurai:samurai | chpasswd
 
-echo ">>>>>>>>>>>>>>>>> Install Firefox"
+echo ">>>>>>>>>>>>>>>> Install Firefox"
 wget -O /tmp/firefox.tar.bz2 "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
 pushd /tmp
 tar xjf firefox.tar.bz2
 mv firefox/ /opt
 ln -s /opt/firefox/firefox /usr/bin/firefox
 wget https://raw.githubusercontent.com/mozilla/sumo-kb/main/install-firefox-linux/firefox.desktop -P /usr/local/share/applications
+mkdir -p /opt/firefox/browser/defaults/preferences/
 ff_preferences="/opt/firefox/browser/defaults/preferences/all-samurai.js"
 touch $ff_preferences
 echo "pref('browser.startup.homepage', 'https://katana.test');" >> $ff_preferences
 
 echo ">>>>>>>>>>>>>>>> Installing Ansible and Git"
-
 amazon-linux-extras install -y ansible2
-git clone --depth=1 --single-branch --branch="updates/2022-03-vm-updates" https://github.com/SamuraiWTF/samuraiwtf.git /tmp/samuraiwtf
+yum install -y git
 
-pushd /tmp/samuraiwtf
-# ansible-playbook -K base/amazon-linux/vagrant_playbook.yml --extra-vars "groupname=samurai"
-# katana --update
-# katana install katana
-# systemctl enable samurai-katana
-# katana start katana
+echo ">>>>>>>>>>>>>>>> Running Playbook"
+pushd /vagrant
+ansible-playbook -K amazon-linux/local_playbook.yml --extra-vars "groupname=samurai"
+
+echo ">>>>>>>>>>>>>>>> Installing Katana"
+katana --update
+katana install katana
+systemctl enable samurai-katana
+katana start katana
 SCRIPT
 
 
@@ -42,9 +46,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "gbailey/amzn2"
 
- 
    config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
-    samuraiwtf.vm.host_name = "SamuraiWTF"    
+    samuraiwtf.vm.host_name = "SamuraiWTF"
+    samuraiwtf.vm.synced_folder "..", "/vagrant"
 
     samuraiwtf.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
@@ -57,8 +61,6 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--vrde", "off"]
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]
       vb.customize ["modifyvm", :id, "--accelerate2dvideo", "on"]
-
-#       config.vm.network "private_network", :type => 'dhcp', :adapter => 2
     end
 
     samuraiwtf.vm.provision "shell", inline: $bootstrapscript
