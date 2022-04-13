@@ -13,8 +13,8 @@
 
 ----
 
-This project is not a vulnerable application. It is a framework designed for quickly configuring training virtual machines with tools and vulnerable application targets. This of this as a base box with a specialized package manager.
-For example, an instructor could use SamuraiWTF to easily set up a classroom virtual machine image containing OWASP ZAP and OWASP Juice Shop, and then distribute it to each student.
+This project is not a vulnerable application. It is a framework designed for quickly configuring training virtual machines with tools and vulnerable application targets. 
+For example, an instructor could use SamuraiWTF to easily set up a virtual machine image containing OWASP ZAP and OWASP Juice Shop, and then distribute it to each student as a training lab environment.
 
 This project includes and uses the [Samurai Katana][samurai-katana-url] project to manage installation and running of tools and targets in the virtual environment. 
 
@@ -22,37 +22,40 @@ This project includes and uses the [Samurai Katana][samurai-katana-url] project 
 
 **Want to Contribute? See [here](#Contributors)**
 
-**NOTE:** for getting started quickly you can follow the ova installation [here](#OVA)
-
 **Art Credit:** the above Samurai figure is the original work of Ben Faircloth, who has granted the OWASP SamuraiWTF project permission to use in the product and websites. 
 
-## Initial Install
-There are several options for the initial install, as follows:
+## How to set up Samurai WTF
+There are several options available to you. The quickest option is to download a pre-built virtual machine and then use Katana (already installed) to configure it with the targets you want to use.
 
-### Vagrant (Preferred)
-Starting with version 5.0 of SamuraiWTF we now use an Ubuntu-based basebox that has most of the prerequisites pre-installed so you can get up and running quickly.
+### Option 1: Download Pre-Built OVA (for Oracle VirtualBox)
+This option works best if you are not using Windows, or if you are using Windows without Hyper-V running.
 
-1. Make sure you have Oracle VirtualBox installed (see above [OVA section](#OVA))
-2. Clone this repository.
-3. From a command-line terminal in the root project folder, run the command `vagrant up`. Then sit back and wait for it to finish.
+[<div style="text-align: center;">Download SamuraiWTF for VirtualBox</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF.ova)
+* MD5: `2e49952c1c285cf5dd1523de24886ccd`
+* SHA256: `e6224851a90f7f30b90f32edc4dcd8fe633f76cffa859bd9d50989dee692453a`
 
-**note**: The login is samurai/samurai
+For more information on removing or disabling Hyper-V, see [these instructions from Microsoft](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
 
-### OVA on Oracle VirtualBox
-1. Make sure you have the Oracle VirtualBox installed, and if you are in Windows you should disable Hyper-V [(Instructions from Microsoft)](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
-2. Download the OVA to import a full virtual machine, here: https://tiny.si/samurai
+### Option 2: Download Pre-Built VHDX (for Hyper-V)
+This option works best if you are running Windows 10 or higher and already have Hyper-V installed. If you use the Windows Linux Subsystem (WLS), then you have Hyper-V installed.
 
-**note**: The login is samurai/samurai
+[<div style="text-align: center;">Download SamuraiWTF for Hyper-V</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF_HyperV.zip)
+* MD5: `c261110ffa44bb2c45e881571785365b`
+* SHA256: `5421b576a65f6ae2f20814da8c69223448716f21006ce737a69044b38c6251ef`
 
-### AWS Workspace
-We have a method of bootstrapping SamuraiWTF into an AWS Workspace (running AWS Linux). This can be useful in situations an instructor wants to set up a remotely accessible SamuraiWTF environment.
+Once it is downloaded, you will want to unzip the file and then
 
-1. Make sure you have an AWS account plus the AWS Workspaces client.
-2. Create a Workspace with Amazon Linux and 4GB of RAM
-3. Log in to the workspace and clone this GitHub repository.
-4. Navigate into `samuraiwtf/base/amazon-linux` and run the `bootstrap.sh` shell script. This should set up the rest of what you need.
+### Option 3: Build an Amazon Workspace
+This option works best if you are familiar with Amazon Web Services (AWS) and want your students to remote into the lab environments instead of running them as local virtual machines. This can be a great option when students are running potentially low-powered machines because it even works from a Chromebook. For details, view [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
 
-**note**: The login is your AWS Workspace username and password.
+### Build on VirtualBox with Vagrant
+Currently, the most stable Vagrant build is the one for Amazon Linux. This builds from a Windows environment. Details are in the file [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
+
+If you are interested in building alternatives on different Linux distributions, use the Amazon Linux folder as a starting point, since that is the current reference implementation.  
+
+## Default Password
+There is a default user and password for the SamuraiWTF environment: `samurai` / `samurai`
+This is the same for every build except the AWS Workspace, where you will instead use your workspace username and password.
 
 ## Lab Quick Setup
 Once you log in to the environment, you can install tools and targets using katana either from the command line, or from a browser.
