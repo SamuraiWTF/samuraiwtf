@@ -2,7 +2,7 @@
   <img alt="SamuraiWTF Logo" src="http://tiny.si/images/owasp_samurai_v3.png"  height="400"/>
 </p>
 
-## Samurai Web Training Framework 5.1
+## Samurai Web Training Framework 5.2
 
 <p align="center">
   <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/></a>
