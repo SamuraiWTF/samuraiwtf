@@ -31,8 +31,8 @@ There are several options available to you. The quickest option is to download a
 This option works best if you are not using Windows, or if you are using Windows without Hyper-V running.
 
 [<div style="text-align: center;">Download SamuraiWTF for VirtualBox</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF.ova)
-* MD5: `2e49952c1c285cf5dd1523de24886ccd`
-* SHA256: `e6224851a90f7f30b90f32edc4dcd8fe633f76cffa859bd9d50989dee692453a`
+* MD5: `ec082f87d7f4644057c754afe9d39b93`
+* SHA256: `2211213df19ca97b430745a1442c6a488a592068c8fadd55b7c3b68497b44e82`
 
 For more information on removing or disabling Hyper-V, see [these instructions from Microsoft](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
 
@@ -40,8 +40,8 @@ For more information on removing or disabling Hyper-V, see [these instructions f
 This option works best if you are running Windows 10 or higher and already have Hyper-V installed. If you use the Windows Linux Subsystem (WLS), then you have Hyper-V installed.
 
 [<div style="text-align: center;">Download SamuraiWTF for Hyper-V</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF_HyperV.zip)
-* MD5: `c261110ffa44bb2c45e881571785365b`
-* SHA256: `5421b576a65f6ae2f20814da8c69223448716f21006ce737a69044b38c6251ef`
+* MD5: `6ef78ffcad8b2b88fef9bf500fb19346`
+* SHA256: `1ee0563075770f3a02060f4c0967336c0985e270164525c3cd727dd38e80a848`
 
 Once it is downloaded, you will want to unzip the file and then
 

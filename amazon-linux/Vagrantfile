@@ -53,10 +53,12 @@ SCRIPT
 Vagrant.configure("2") do |config|
 
   config.vm.box = "gbailey/amzn2"
+  config.vm.boot_timeout = 1200
 
    config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
     samuraiwtf.vm.host_name = "SamuraiWTF"
     samuraiwtf.vm.synced_folder "..", "/vagrant"
+
 
     samuraiwtf.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
