@@ -16,8 +16,9 @@
   - name: Ensure samurai user is present
     ansible.builtin.user:
       name: "{{ username }}"
-      groups: "{{ groupname }}"
+      groups: "{{ groupname }},sudo"
       password: $1$XF.06J/n$A1G6zX5AF33pQQOTcH0Ix.
+      shell: /usr/bin/bash
       state: present
 
   - name: Install prerequisite packages
