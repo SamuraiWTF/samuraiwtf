@@ -1,0 +1,326 @@
+---
+
+- name: run the playbook tasks on the localhost from the ~/samuraiwtf folder
+  hosts: 127.0.0.1
+  connection: local
+  vars:
+    groupname: samurai
+    username: samurai
+  tasks:
+### Prerequisites
+  - name: Create group
+    group:
+      name: "{{ groupname }}"
+      state: present
+
+  - name: Ensure samurai user is present
+    ansible.builtin.user:
+      name: "{{ username }}"
+      groups: "{{ groupname }}"
+      password: $1$XF.06J/n$A1G6zX5AF33pQQOTcH0Ix.
+      state: present
+
+  - name: Install prerequisite packages
+    apt:
+      name:
+        - nginx
+        - vim
+        - curl
+        - docker
+        - docker-compose
+        - unzip
+        - php-fpm
+        - nano
+        - python3
+        - python3-pip
+        - firefox
+      state: present
+    become: true
+
+#  - name: Install Java corretto from remote repo
+#    yum:
+#      name: https://corretto.aws/downloads/latest/amazon-corretto-8-x64-linux-jdk.rpm
+#      state: present
+
+  - name: python prerequisite modules
+    pip:
+      name: "{{ modules }}"
+      executable: /usr/bin/pip3
+    become: yes
+    vars:
+      modules:
+      - docker
+
+#  - name: Create cli-plugins folder
+#    file:
+#      path: /usr/local/lib/docker/cli-plugins
+#      state: directory
+#    become: yes
+
+#  - name: install docker-compose
+#    shell: 'curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose'
+#    become: yes
+#    when: stat_docker_compose.stat.exists == False
+#
+#  - name: set permissions for docker-compose
+#    file:
+#      path: /usr/local/lib/docker/cli-plugins/docker-compose
+#      mode: "+x"
+#    become: yes
+#
+#  - name: install compose-switch switch to support docker 1.x
+#    shell: 'curl -fL https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64 -o /usr/local/bin/compose-switch'
+#    become: yes
+#    when: stat_docker_compose.stat.exists == False
+#
+#  - name: set permissions for compose-switch
+#    file:
+#      path: /usr/local/bin/compose-switch
+#      mode: "+x"
+#    become: yes
+
+  - name: create the main Samurai program folder
+    file:
+      path: /opt/samurai
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ groupname }}"
+    become: yes
+
+  - name: Copy Samurai icon
+    copy:
+      src: ../common/samurai-icon.png
+      dest: /opt/samurai/
+    become: yes
+
+
+### Menus
+
+  - name: Setup menu /etc/samurai.d/desktop-directories
+    file:
+      path: /etc/samurai.d/desktop-directories/
+      state: directory
+    become: yes
+
+  - name: Setup menu /etc/samurai.d/applications
+    file:
+      path: /etc/samurai.d/applications/
+      state: directory
+    become: yes
+
+  - name: Setup menu /etc/samurai.d/desktop-directories
+    file:
+      path: /etc/samurai.d/desktop-directories/
+      state: directory
+    become: yes
+
+  - name: Create main samurai-wtf menu
+    copy:
+      dest: /etc/samurai.d/desktop-directories/samuraiwtf.directory
+      content: |
+        [Desktop Entry]
+        Type=Directory
+        Name=Samurai WTF
+        Icon=/opt/samurai/samurai-icon.png
+      mode: 0744
+    become: yes
+
+  - name: Create applications-merged folder
+    file:
+      path: /etc/xdg/menus/applications-merged
+      state: directory
+    become: yes
+
+  - name: Create main samurai-wtf menu
+    copy:
+      dest: /etc/xdg/menus/applications-merged/samuraiwtf.menu
+      content: |
+        <!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+        "http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">
+        <Menu>
+          <Name>Applications</Name> <!-- This is necessary for your directory to appear in the applications drop down -->
+          <Menu> <!--app -->
+            <Name>Samurai</Name>
+            <AppDir>/etc/samurai.d/applications</AppDir>
+            <DirectoryDir>/etc/samurai.d/desktop-directories</DirectoryDir>
+            <Directory>samuraiwtf.directory</Directory>
+            <Include>
+              <Category>samuraiwtf</Category>
+            </Include>
+          </Menu> <!-- End app -->
+        </Menu> <!-- End Applications -->
+      mode: 0744
+    become: yes
+
+### Setup first-time login customizations
+  - name: Copy desktop file somewhere we can use it
+    copy:
+      src: ../common/samurai-wide-faded.jpg
+      dest: /opt/samurai/samurai-wide-faded.jpg
+      owner: "{{ username }}"
+      group: "{{ groupname }}"
+    become: yes
+
+  - name: Create first-time login setup script.
+    copy:
+      dest: /etc/profile.d/first_login.sh
+      content: |
+        #!/bin/bash
+        
+        if [ -e $HOME/.samurai ]
+        then
+          echo "already run first time scripts."
+        else
+          gsettings set org.gnome.desktop.background picture-uri file:///opt/samurai/samurai-wide-faded.jpg
+
+          if [ ! -L ~/samurai ]; then
+            ln -s /opt/samurai ~/samurai
+          fi
+          touch $HOME/.samurai
+        fi
+        cd $HOME
+      mode: 0755
+    become: yes
+
+### Update PHP Config
+#  - name: Update PHP listener
+#    replace:
+#      path: /etc/php-fpm.d/www.conf
+#      regexp: '^listen = 127.0.0.1.*'
+#      replace: 'listen = /var/run/php-fpm/php-fpm.sock'
+#    become: yes
+
+#  - name: Update PHP User
+#    replace:
+#      path: /etc/php-fpm.d/www.conf
+#      regexp: '^user = apache'
+#      replace: 'user = nginx'
+#    become: yes
+#
+#  - name: Update PHP Group
+#    replace:
+#      path: /etc/php-fpm.d/www.conf
+#      regexp: '^group = apache'
+#      replace: 'group = nginx'
+#    become: yes
+
+  - name: Add info.php test file
+    copy:
+      dest: /var/www/html/info.php
+      content: |
+        <?php phpinfo(); ?>
+      mode: 0644
+      force: no
+    become: yes
+
+  - name: Install nginx configuration
+    copy:
+      src: ./nginx/
+      dest: /etc/nginx/conf.d/
+      force: yes
+    become: yes
+
+  - name: Start PHP Processor
+    service:
+      name: php7.4-fpm
+      state: started
+      enabled: yes
+    become: yes
+
+  - name: Start nginx
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+    become: yes
+
+  - name: Check if npm installer already downloaded
+    stat:
+      path: /tmp/npm_setup.sh
+    register: stat_npm_setup
+
+  - name: Download npm installer
+    get_url:
+      url: https://deb.nodesource.com/setup_16.x
+      dest: /tmp/npm_setup.sh
+      mode: 0744
+#    when: stat_npm_setup.stat.exists == False
+
+  - name: Install npm repo
+    shell: '/tmp/npm_setup.sh'
+    become: yes
+#    when: stat_npm_setup.stat.exists == False
+
+  - name: Add nodejs repo
+    apt:
+      name: nodejs
+      state: present
+    become: yes
+
+  - name: Install npm repo
+    shell: 'npm install -g yarn'
+    become: yes
+
+  - name: Setup katana launcher
+    copy:
+      dest: /usr/bin/katana
+      content: |
+        #!/bin/bash
+        if [[ "$1" = "--update" ]]; then
+          echo "Updating Katana..."
+          BRANCH="main"
+          if [[ -n "$2" ]] ; then
+            BRANCH="$2"
+          fi
+          sudo rm -rf /tmp/katana
+          pushd /tmp
+          sudo rm -rf /tmp/katana
+          echo "Cloning repository branch '$BRANCH'"
+          sudo git clone --depth=1 --single-branch --branch $BRANCH https://github.com/SamuraiWTF/katana.git || exit
+          sudo mkdir -p /opt/katana
+          sudo cp -R /tmp/katana/* /opt/katana/
+          cd /opt/katana
+          sudo pip3 install -r /opt/katana/requirements.txt
+          popd
+          echo "Update is complete."
+        else
+          cd /opt/katana
+          sudo python3 ./katanacli.py "$@"
+        fi
+      mode: 0777
+    become: yes
+
+  - name: Create add-ons folder
+    file:
+      path: /opt/samurai/add-ons/firefox
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ groupname }}"
+    become: yes
+
+  - name: Download Foxy Proxy add-on for Firefox
+    get_url:
+      url: https://addons.mozilla.org/firefox/downloads/file/3476518/
+      dest: /opt/samurai/add-ons/firefox/
+
+  - name: Recursively update the main Samurai program folder
+    file:
+      path: /opt/samurai
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ groupname }}"
+      recurse: yes
+      mode: 'g+r'
+    become: yes
+
+  - name: Create cert folder
+    file:
+      path: /etc/samurai.d/certs
+      state: directory
+    become: yes
+
+#  - name: Ensure SELinux is set to disabled mode
+#    ansible.builtin.lineinfile:
+#      path: /etc/selinux/config
+#      regexp: '^SELINUX='
+#      line: SELINUX=disabled

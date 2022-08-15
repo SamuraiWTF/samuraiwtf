@@ -1,0 +1,143 @@
+$bootstrapscript = <<-SCRIPT
+set -euxvo pipefail
+echo ">>>>>>>>>>>>> Installing prerequisites and Mate UI..."
+add-apt-repository ppa:ubuntu-mate-dev/fresh-mate -y
+apt update -y
+apt upgrade -y
+
+apt install mate-desktop-environment -y
+apt install ansible git -y
+
+echo ">>>>>>>>>>>>>>>> Update Firefox Prefs"
+ff_preferences="/etc/firefox/syspref.js"
+touch $ff_preferences
+echo "pref('browser.startup.homepage', 'https://katana.test:8443');" >> $ff_preferences
+
+echo ">>>>>>>>>>>>>>>> Running Playbook"
+pushd /vagrant
+ansible-playbook -K ubuntu-20/local_playbook.yml
+popd
+
+echo ">>>>>>>>>>>>>>>> Initializing certificates"
+openssl genrsa -out /etc/samurai.d/certs/rootCAKey.pem 2048
+openssl req -x509 -sha256 -new -nodes -key /etc/samurai.d/certs/rootCAKey.pem -days 365 -out /etc/samurai.d/certs/rootCACert.pem -subj "/C=US/ST=Hacking/L=Springfield/O=SamuraiWTF/CN=samuraiwtf"
+openssl req -new -newkey rsa:4096 -nodes -keyout /etc/samurai.d/certs/katana.test.key -out /etc/samurai.d/certs/katana.test.csr -subj "/C=US/ST=Hacking/L=Springfield/O=SamuraiWTF/CN=katana.test"
+openssl x509 -inform pem -outform der -in /etc/samurai.d/certs/rootCACert.pem -out /etc/samurai.d/certs/localRootCA.crt
+cp /etc/samurai.d/certs/localRootCA.crt /usr/local/share/ca-certificates/
+update-ca-certificates
+
+echo ">>>>>>>>>>>>>>>> Installing Katana"
+katana --update
+katana install katana
+systemctl enable samurai-katana
+katana start katana
+
+echo ">>>>>>>>>>>>>>>> Setting default session to graphical.target"
+# systemctl set-default graphical.target
+SCRIPT
+
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+
+  config.vm.box = "bento/ubuntu-20.04"
+
+  config.vm.define "samuraiwtf", primary: true do |samuraiwtf|
+      samuraiwtf.vm.host_name = "SamuraiWTF"
+      samuraiwtf.vm.synced_folder "..", "/vagrant", type: "rsync", rsync_exclude: ".git/"
+
+      samuraiwtf.vm.provider "hyperv" do |hv|
+        hv.vmname = "SamuraiWTF-5.2.1"
+        hv.maxmemory = "4096"
+        hv.vm_integration_services = {
+            guest_service_interface: true
+            }
+       end
+
+      samuraiwtf.vm.provider "virtualbox" do |vb|
+        vb.gui = true
+        vb.name = "SamuraiWTF-5.2.1"
+        vb.memory = "4096"
+        vb.customize ["modifyvm", :id, "--vram", "128"]
+        vb.customize ["modifyvm", :id, "--cpus", "2"]
+        vb.customize ["modifyvm", :id, "--vrde", "off"]
+        vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]
+        vb.customize ["modifyvm", :id, "--accelerate2dvideo", "on"]
+      end
+
+  end
+
+  #   config.vm.provider "virtualbox" do |v|
+  #     v.customize ["modifyvm", :id, "--memory", "2048"]
+  #   end
+  #
+  #   config.vm.provider "vmware_fusion" do |v|
+  #     v.vmx["memsize"] = "2048"
+  #   end
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  # config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  #   # Customize the amount of memory on the VM:
+  #   vb.memory = "1024"
+  # end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+  config.vm.provision "shell", inline: $bootstrapscript
+end
