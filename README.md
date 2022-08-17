@@ -18,6 +18,9 @@ For example, an instructor could use SamuraiWTF to easily set up a virtual machi
 
 This project includes and uses the [Samurai Katana][samurai-katana-url] project to manage installation and running of tools and targets in the virtual environment. 
 
+**Reference Implementation**
+Currently the reference implementation for this project is built on top of Ubuntu 20.04 (look in the ubuntu-20 subfolder).
+
 **Want to chat with us? Join us in either the OWASP Slack #project-samuraiwtf channel.**
 
 **Want to Contribute? See [here](#Contributors)**
@@ -31,8 +34,8 @@ There are several options available to you. The quickest option is to download a
 This option works best if you are not using Windows, or if you are using Windows without Hyper-V running.
 
 [<div style="text-align: center;">Download SamuraiWTF for VirtualBox</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF.ova)
-* MD5: `ec082f87d7f4644057c754afe9d39b93`
-* SHA256: `2211213df19ca97b430745a1442c6a488a592068c8fadd55b7c3b68497b44e82`
+* MD5: `edbcb6dd46d31ad2ca7a813520eee7e4`
+* SHA256: `f43d4c59bd49f032b5ae3b70a165398fa8dee68c88336c918c7b25f0ed633044`
 
 For more information on removing or disabling Hyper-V, see [these instructions from Microsoft](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
 
@@ -40,18 +43,16 @@ For more information on removing or disabling Hyper-V, see [these instructions f
 This option works best if you are running Windows 10 or higher and already have Hyper-V installed. If you use the Windows Linux Subsystem (WLS), then you have Hyper-V installed.
 
 [<div style="text-align: center;">Download SamuraiWTF for Hyper-V</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF_HyperV.zip)
-* MD5: `6ef78ffcad8b2b88fef9bf500fb19346`
-* SHA256: `1ee0563075770f3a02060f4c0967336c0985e270164525c3cd727dd38e80a848`
+* MD5: `93d262417fc0dd3a16c96b516be60d2e`
+* SHA256: `d4aad0a92f94604e082f02b3247e9a1a1406aaad85f2c1114f2ae253cc5627fe`
 
-Once it is downloaded, you will want to unzip the file and then
+Once it is downloaded, you will want to unzip the file and then create a new VM in Hyper-V. Attach the .hvdx drive and set the RAM to 4096.
 
 ### Option 3: Build an Amazon Workspace
 This option works best if you are familiar with Amazon Web Services (AWS) and want your students to remote into the lab environments instead of running them as local virtual machines. This can be a great option when students are running potentially low-powered machines because it even works from a Chromebook. For details, view [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
 
-### Build on VirtualBox with Vagrant
-Currently, the most stable Vagrant build is the one for Amazon Linux. This builds from a Windows environment. Details are in the file [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
-
-If you are interested in building alternatives on different Linux distributions, use the Amazon Linux folder as a starting point, since that is the current reference implementation.  
+### Build on Hyper-V or VirtualBox with Vagrant
+Currently, the most stable Vagrant build is the one for Ubuntu 20.04.  Details are in the file [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/ubuntu-20/README.md).
 
 ## Default Password
 There is a default user and password for the SamuraiWTF environment: `samurai` / `samurai`
