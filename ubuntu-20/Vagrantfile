@@ -8,15 +8,16 @@ apt upgrade -y
 apt install mate-desktop-environment -y
 apt install ansible git -y
 
-echo ">>>>>>>>>>>>>>>> Update Firefox Prefs"
-ff_preferences="/etc/firefox/syspref.js"
-touch $ff_preferences
-echo "pref('browser.startup.homepage', 'https://katana.test:8443');" >> $ff_preferences
-
 echo ">>>>>>>>>>>>>>>> Running Playbook"
 pushd /vagrant
 ansible-playbook -K ubuntu-20/local_playbook.yml
 popd
+
+# TODO: This doesn't seem to be doing anything. Prefs may need to be set locally for the samurai user.
+# echo ">>>>>>>>>>>>>>>> Update Firefox Prefs"
+# ff_preferences="/etc/firefox/syspref.js"
+# touch $ff_preferences
+# echo "pref('browser.startup.homepage', 'https://katana.test:8443');" >> $ff_preferences
 
 echo ">>>>>>>>>>>>>>>> Initializing certificates"
 openssl genrsa -out /etc/samurai.d/certs/rootCAKey.pem 2048

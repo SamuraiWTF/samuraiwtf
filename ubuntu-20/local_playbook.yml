@@ -35,6 +35,10 @@
         - python3
         - python3-pip
         - firefox
+        - gnome-shell-extensions
+        - mate-tweak
+        - python-is-python3
+        - default-jre
       state: present
     become: true
 
@@ -52,11 +56,25 @@
       modules:
       - docker
 
-#  - name: Create cli-plugins folder
-#    file:
-#      path: /usr/local/lib/docker/cli-plugins
-#      state: directory
-#    become: yes
+  - name: Create cli-plugins folder for docker-compose
+    file:
+      path: /usr/local/lib/docker/cli-plugins
+      state: directory
+    become: yes
+
+  - name: Download and install docker-compose
+    ansible.builtin.uri:
+      url: https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-linux-x86_64
+      dest: /usr/local/lib/docker/cli-plugins/docker-compose
+      mode: "+x"
+    become: yes
+
+  - name: install compose-switch switch to support docker 1.x
+    ansible.builtin.uri:
+      url: https://github.com/docker/compose-switch/releases/download/v1.0.5/docker-compose-linux-amd64
+      dest: /usr/local/bin/compose-switch
+      mode: "+x"
+    become: yes
 
 #  - name: install docker-compose
 #    shell: 'curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose'
@@ -319,6 +337,11 @@
       path: /etc/samurai.d/certs
       state: directory
     become: yes
+
+  - name: Add application menu
+    shell: 'gnome-extensions enable app-menu@gnome-shell-extensions.gcampax.github.com'
+    become: yes
+    become_user: samurai
 
 #  - name: Ensure SELinux is set to disabled mode
 #    ansible.builtin.lineinfile:
