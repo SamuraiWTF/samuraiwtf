@@ -318,7 +318,7 @@
     replace:
       path: /usr/lib64/firefox/amazon-workspaces.cfg
       regexp: '"https:\/\/clients\.amazonworkspaces\.com\/"'
-      replace: '"http://katana.wtf/"'
+      replace: '"http://katana.test/"'
     become: yes
     when: stat_ff_aws_cfg.stat.exists == True
 
