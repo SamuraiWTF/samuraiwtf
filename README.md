@@ -33,7 +33,7 @@ There are several options available to you. The quickest option is to download a
 ### Option 1: Download Pre-Built OVA (for Oracle VirtualBox)
 This option works best if you are not using Windows, or if you are using Windows without Hyper-V running.
 
-[<div style="text-align: center;">Download SamuraiWTF for VirtualBox</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF.ova)
+[Download SamuraiWTF for VirtualBox](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF.ova)
 * MD5: `edbcb6dd46d31ad2ca7a813520eee7e4`
 * SHA256: `f43d4c59bd49f032b5ae3b70a165398fa8dee68c88336c918c7b25f0ed633044`
 
@@ -42,7 +42,7 @@ For more information on removing or disabling Hyper-V, see [these instructions f
 ### Option 2: Download Pre-Built VHDX (for Hyper-V)
 This option works best if you are running Windows 10 or higher and already have Hyper-V installed. If you use the Windows Linux Subsystem (WLS), then you have Hyper-V installed.
 
-[<div style="text-align: center;">Download SamuraiWTF for Hyper-V</div>](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF_HyperV.zip)
+[Download SamuraiWTF for Hyper-V](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF_HyperV.zip)
 * MD5: `93d262417fc0dd3a16c96b516be60d2e`
 * SHA256: `d4aad0a92f94604e082f02b3247e9a1a1406aaad85f2c1114f2ae253cc5627fe`
 
