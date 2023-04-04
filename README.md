@@ -43,8 +43,8 @@ For more information on removing or disabling Hyper-V, see [these instructions f
 This option works best if you are running Windows 10 or higher and already have Hyper-V installed. If you use the Windows Linux Subsystem (WLS), then you have Hyper-V installed.
 
 [Download SamuraiWTF for Hyper-V](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF_HyperV.zip)
-* MD5: `93d262417fc0dd3a16c96b516be60d2e`
-* SHA256: `d4aad0a92f94604e082f02b3247e9a1a1406aaad85f2c1114f2ae253cc5627fe`
+* MD5: `B7B406D70956574CE29A83344CD59E97`
+* SHA256: `9FD30B272A20CD3CA1003BAC0CEB180D18202F0A448FCFDEB0EDE52CA65DDA74`
 
 Once it is downloaded, you will want to unzip the file and then create a new VM in Hyper-V. Attach the .hvdx drive and set the RAM to at least 4096.
 
