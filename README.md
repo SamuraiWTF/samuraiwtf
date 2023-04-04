@@ -2,7 +2,7 @@
   <img alt="SamuraiWTF Logo" src="http://tiny.si/images/owasp_samurai_v3.png"  height="400"/>
 </p>
 
-## Samurai Web Training Framework 5.2
+## Samurai Web Training Framework 5.3
 
 <p align="center">
   <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/></a>
@@ -46,10 +46,13 @@ This option works best if you are running Windows 10 or higher and already have 
 * MD5: `93d262417fc0dd3a16c96b516be60d2e`
 * SHA256: `d4aad0a92f94604e082f02b3247e9a1a1406aaad85f2c1114f2ae253cc5627fe`
 
-Once it is downloaded, you will want to unzip the file and then create a new VM in Hyper-V. Attach the .hvdx drive and set the RAM to 4096.
+Once it is downloaded, you will want to unzip the file and then create a new VM in Hyper-V. Attach the .hvdx drive and set the RAM to at least 4096.
 
-### Option 3: Build an Amazon Workspace
+### Option 3: Build an Amazon Workspace 
 This option works best if you are familiar with Amazon Web Services (AWS) and want your students to remote into the lab environments instead of running them as local virtual machines. This can be a great option when students are running potentially low-powered machines because it even works from a Chromebook. For details, view [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
+
+Please note that once the Docker containers have been added to the Workspace instance, you can no longer create an image from the instance.  While this won't affect most people using this as a training environment, it does break the ability to prebuild classroom labs using AWS Workspaces.  We have reached out to AWS to see if there is a fix.
+
 
 ### Build on Hyper-V or VirtualBox with Vagrant
 Currently, the most stable Vagrant build is the one for Ubuntu 20.04.  Details are in the file [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/ubuntu-20/README.md).

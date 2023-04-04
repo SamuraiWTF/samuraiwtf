@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     samuraiwtf.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
       vb.gui = true
-      vb.name = "SamuraiWTF-5.1"
+      vb.name = "SamuraiWTF-5.3"
 
       # Customize the amount of memory on the VM:
       vb.memory = "4096"
