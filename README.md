@@ -34,8 +34,8 @@ There are several options available to you. The quickest option is to download a
 This option works best if you are not using Windows, or if you are using Windows without Hyper-V running.
 
 [Download SamuraiWTF for VirtualBox](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF.ova)
-* MD5: `edbcb6dd46d31ad2ca7a813520eee7e4`
-* SHA256: `f43d4c59bd49f032b5ae3b70a165398fa8dee68c88336c918c7b25f0ed633044`
+* MD5: `1da174a13218ad60080d4666f305124d`
+* SHA256: `92490a0f16584644ad681d94a3b144778fcb837a845a4f5f63d252e71d98ed4d`
 
 For more information on removing or disabling Hyper-V, see [these instructions from Microsoft](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
 
