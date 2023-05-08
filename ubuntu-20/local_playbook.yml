@@ -38,7 +38,7 @@
         - gnome-shell-extensions
         - mate-tweak
         - python-is-python3
-        - default-jre
+        - openjdk-17-jre
       state: present
     become: true
 

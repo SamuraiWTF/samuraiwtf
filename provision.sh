@@ -5,7 +5,7 @@ echo "Vagrant Provisioning for Ubuntu"
 export DEBIAN_FRONTEND='noninteractive'
 apt-get update
 
-apt install -y python-is-python3 jq libnss3-tools gnome-shell-extension-arc-menu gnome-tweaks
+apt install -y python-is-python3 jq libnss3-tools gnome-shell-extension-arc-menu gnome-tweaks openjdk-17-jre
 
 chown samurai:samurai /opt/katana
 

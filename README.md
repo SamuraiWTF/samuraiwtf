@@ -2,7 +2,7 @@
   <img alt="SamuraiWTF Logo" src="http://tiny.si/images/owasp_samurai_v3.png"  height="400"/>
 </p>
 
-## Samurai Web Training Framework 5.2
+## Samurai Web Training Framework 5.3
 
 <p align="center">
   <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/></a>
@@ -34,8 +34,8 @@ There are several options available to you. The quickest option is to download a
 This option works best if you are not using Windows, or if you are using Windows without Hyper-V running.
 
 [Download SamuraiWTF for VirtualBox](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF.ova)
-* MD5: `edbcb6dd46d31ad2ca7a813520eee7e4`
-* SHA256: `f43d4c59bd49f032b5ae3b70a165398fa8dee68c88336c918c7b25f0ed633044`
+* MD5: `1da174a13218ad60080d4666f305124d`
+* SHA256: `92490a0f16584644ad681d94a3b144778fcb837a845a4f5f63d252e71d98ed4d`
 
 For more information on removing or disabling Hyper-V, see [these instructions from Microsoft](https://support.microsoft.com/en-us/help/3204980/virtualization-applications-do-not-work-together-with-hyper-v-device-g).
 
@@ -43,13 +43,16 @@ For more information on removing or disabling Hyper-V, see [these instructions f
 This option works best if you are running Windows 10 or higher and already have Hyper-V installed. If you use the Windows Linux Subsystem (WLS), then you have Hyper-V installed.
 
 [Download SamuraiWTF for Hyper-V](https://downloads-samuraiwtf-com.s3.us-west-2.amazonaws.com/SamuraiWTF_HyperV.zip)
-* MD5: `93d262417fc0dd3a16c96b516be60d2e`
-* SHA256: `d4aad0a92f94604e082f02b3247e9a1a1406aaad85f2c1114f2ae253cc5627fe`
+* MD5: `B7B406D70956574CE29A83344CD59E97`
+* SHA256: `9FD30B272A20CD3CA1003BAC0CEB180D18202F0A448FCFDEB0EDE52CA65DDA74`
 
-Once it is downloaded, you will want to unzip the file and then create a new VM in Hyper-V. Attach the .hvdx drive and set the RAM to 4096.
+Once it is downloaded, you will want to unzip the file and then create a new VM in Hyper-V. Attach the .hvdx drive and set the RAM to at least 4096.
 
-### Option 3: Build an Amazon Workspace
+### Option 3: Build an Amazon Workspace 
 This option works best if you are familiar with Amazon Web Services (AWS) and want your students to remote into the lab environments instead of running them as local virtual machines. This can be a great option when students are running potentially low-powered machines because it even works from a Chromebook. For details, view [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
+
+Please note that once the Docker containers have been added to the Workspace instance, you can no longer create an image from the instance.  While this won't affect most people using this as a training environment, it does break the ability to prebuild classroom labs using AWS Workspaces.  We have reached out to AWS to see if there is a fix.
+
 
 ### Build on Hyper-V or VirtualBox with Vagrant
 Currently, the most stable Vagrant build is the one for Ubuntu 20.04.  Details are in the file [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/ubuntu-20/README.md).
