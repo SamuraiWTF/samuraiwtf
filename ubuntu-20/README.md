@@ -18,7 +18,7 @@ We use Vagrant to build this VM, so that is the prerequisite. Hyper-V is the def
 1. To allow vagrant to modify VMware workstation install the plugin [HERE](https://developer.hashicorp.com/vagrant/docs/providers/vmware/vagrant-vmware-utility) or with Chocolatey `choco install vagrant-vmware-utility`
 2. To install VMware provider to [Vagrant](https://developer.hashicorp.com/vagrant/docs/providers/vmware/installation) use the following command `vagrant plugin install vagrant-vmware-desktop` 
 3. From the command line, navigate to this folder and run `vagrant up --provider=vmware_desktop`
-4. The VirtualBox provider will automatically open a new window. Ignore that window for now and wait for the script to complete. This may take a long time (20-30 minutes, possibly longer when running alongside Hyper-V).
+4. The VMware provider will automatically open a new window/vm in vmware workstation. Ignore that window for now and wait for the script to complete. This may take a long time (20-30 minutes, possibly longer when running alongside Hyper-V).
 5. Run `vagrant reload` to restart the VM and ensure all the configuration is in place during boot.
 6. Connect to the VM and login in with user: _samurai_ , password: _samurai_
 
