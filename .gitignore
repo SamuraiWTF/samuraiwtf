@@ -37,3 +37,7 @@ samurai.json
 **/.ansible
 **/~*
 *.tgz
+
+
+# windsurf rules
+.windsurfrules
