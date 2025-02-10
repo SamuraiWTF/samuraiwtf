@@ -7,32 +7,40 @@ set -euxvo pipefail
 # Set noninteractive mode for apt
 export DEBIAN_FRONTEND=noninteractive
 
-echo ">>>>>>>>>>>>> Installing prerequisites and KDE Plasma..."
+echo ">>>>>>>>>>>>> Installing prerequisites..."
 apt-get update
-# Do system upgrade in a way that handles grub and other prompts
-apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade -y
-
-# Install X11, LightDM, and KDE Plasma
-apt-get install -y xorg
-apt-get install -y lightdm lightdm-kde-greeter
-apt-get install -y --no-install-recommends kde-plasma-desktop
 
 # Install basic tools
-apt-get install -y git curl wget
+apt install git curl wget -y
+apt install ansible git -y
 
-# Configure LightDM for autologin
-echo "[SeatDefaults]
-autologin-user=vagrant
-autologin-user-timeout=0
-user-session=plasma
-greeter-session=lightdm-kde-greeter" > /etc/lightdm/lightdm.conf
+echo ">>>>>>>>>>>>>>>> Running Playbook"
+pushd /vagrant
+ansible-playbook -K ubuntu-22/local_playbook.yml
+popd
 
-# Enable the display manager and set graphical target
-systemctl enable lightdm
-systemctl set-default graphical.target
+# echo ">>>>>>>>>>>>>>>> Update Firefox Prefs"
+# ff_preferences="/etc/firefox/syspref.js"
+# touch $ff_preferences
+# echo "pref('browser.startup.homepage', 'https://katana.test:8443');" >> $ff_preferences
 
-# Ensure proper permissions
-chown vagrant:vagrant /home/vagrant -R
+echo ">>>>>>>>>>>>>>>> Initializing certificates"
+openssl genrsa -out /etc/samurai.d/certs/rootCAKey.pem 2048
+openssl req -x509 -sha256 -new -nodes -key /etc/samurai.d/certs/rootCAKey.pem -days 365 -out /etc/samurai.d/certs/rootCACert.pem -subj "/C=US/ST=Hacking/L=Springfield/O=SamuraiWTF/CN=samuraiwtf"
+openssl req -new -newkey rsa:4096 -nodes -keyout /etc/samurai.d/certs/katana.test.key -out /etc/samurai.d/certs/katana.test.csr -subj "/C=US/ST=Hacking/L=Springfield/O=SamuraiWTF/CN=katana.test"
+openssl x509 -inform pem -outform der -in /etc/samurai.d/certs/rootCACert.pem -out /etc/samurai.d/certs/localRootCA.crt
+cp /etc/samurai.d/certs/localRootCA.crt /usr/local/share/ca-certificates/
+update-ca-certificates
+
+# Make root CA easily accessible for manual browser import
+ln -sf /etc/samurai.d/certs/localRootCA.crt /opt/samurai/SamuraiWTF_Root_CA.crt
+
+echo ">>>>>>>>>>>>>>>> Installing Katana UI"
+katana --update
+katana install katana
+systemctl enable samurai-katana
+katana start katana
+
 SCRIPT
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
@@ -47,7 +55,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
 
-  config.vm.box = "generic/ubuntu2204"
+  config.vm.box = "gusztavvargadr/ubuntu-desktop-2204-lts"
 
   # Disable automatic box update checking to speed up startup
   config.vm.box_check_update = false
@@ -59,6 +67,8 @@ Vagrant.configure("2") do |config|
       samuraiwtf.vm.provider "hyperv" do |hv|
         hv.vmname = "SamuraiWTF-6.0"
         hv.maxmemory = "4096"
+        hv.cpus = "2" 
+        hv.enable_virtualization_extensions = true
         hv.vm_integration_services = {
             guest_service_interface: true
             }

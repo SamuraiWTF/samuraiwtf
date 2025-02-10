@@ -2,7 +2,7 @@
   <img alt="SamuraiWTF Logo" src="http://tiny.si/images/owasp_samurai_v3.png"  height="400"/>
 </p>
 
-## Samurai Web Training Framework 5.3
+## Samurai Web Training Framework 6.0
 
 <p align="center">
   <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/></a>
@@ -19,7 +19,11 @@ For example, an instructor could use SamuraiWTF to easily set up a virtual machi
 This project includes and uses the [Samurai Katana][samurai-katana-url] project to manage installation and running of tools and targets in the virtual environment. 
 
 **Reference Implementation**
-Currently the reference implementation for this project is built on top of Ubuntu 20.04 (look in the ubuntu-20 subfolder).
+Currently the reference implementation for this project is built on top of Ubuntu 22.04 (look in the ubuntu-22 subfolder).
+
+**Important Notes**
+- All targets installed with Katana will be configured in the `.test` primary domain
+- All targets will use port 8443 for HTTPS connections
 
 **Want to chat with us? Join us in either the OWASP Slack #project-samuraiwtf channel.**
 
@@ -48,18 +52,29 @@ This option works best if you are running Windows 10 or higher and already have 
 
 Once it is downloaded, you will want to unzip the file and then create a new VM in Hyper-V. Attach the .hvdx drive and set the RAM to at least 4096.
 
-### Option 3: Build an Amazon Workspace 
-This option works best if you are familiar with Amazon Web Services (AWS) and want your students to remote into the lab environments instead of running them as local virtual machines. This can be a great option when students are running potentially low-powered machines because it even works from a Chromebook. For details, view [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
-
-Please note that once the Docker containers have been added to the Workspace instance, you can no longer create an image from the instance.  While this won't affect most people using this as a training environment, it does break the ability to prebuild classroom labs using AWS Workspaces.  We have reached out to AWS to see if there is a fix.
-
+### Option 3: Build an Amazon Workspace (DEPRECATED)
+This option is now deprecated due to ongoing issues with AWS Workspaces provisioning. Historical documentation can be found at [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/amazon-linux/README.md).
 
 ### Build on Hyper-V or VirtualBox with Vagrant
-Currently, the most stable Vagrant build is the one for Ubuntu 20.04.  Details are in the file [/amazon-linux/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/ubuntu-20/README.md).
+Currently, the most stable Vagrant build is the one for Ubuntu 22.04. Details are in the file [/ubuntu-22/README.md](https://github.com/SamuraiWTF/samuraiwtf/blob/main/ubuntu-22/README.md).
 
 ## Default Password
 There is a default user and password for the SamuraiWTF environment: `samurai` / `samurai`
 This is the same for every build except the AWS Workspace, where you will instead use your workspace username and password.
+
+## Root Certificate Authority
+During the build process, SamuraiWTF generates a local Root Certificate Authority (CA) that is used to secure internal training targets. To properly simulate real-world pentesting scenarios, you'll need to import this CA into your browser:
+
+1. The Root CA certificate is located at `/opt/samurai/SamuraiWTF_Root_CA.crt`
+2. To import in Firefox:
+   - Go to Settings (or Preferences)
+   - Search for "certificates"
+   - Click "View Certificates"
+   - Go to the "Authorities" tab
+   - Click "Import" and select the Root CA file
+   - Check "Trust this CA to identify websites"
+
+⚠️ **SECURITY WARNING**: This Root CA should ONLY be trusted in browsers used for training within the SamuraiWTF VM. Never import this certificate on browsers used outside the VM or for regular web browsing, as it could compromise your browser security.
 
 ## Lab Quick Setup
 Once you log in to the environment, you can install tools and targets using katana either from the command line, or from a browser.
@@ -74,7 +89,7 @@ katana start juice-shop
 ```
 
 ## Web UI
-The web UI can be seen in a browser by visiting `http://katana.wtf`.
+The web UI can be seen in a browser by visiting `https://katana.test`.
 
 If it is not running, you may first need to use the command line to install and start katana. This is done with the commands:
 ```shell script
