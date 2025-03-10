@@ -14,7 +14,7 @@
 ----
 
 This project is not a vulnerable application. It is a framework designed for quickly configuring training virtual machines with tools and vulnerable application targets. 
-For example, an instructor could use SamuraiWTF to easily set up a virtual machine image containing OWASP ZAP and OWASP Juice Shop, and then distribute it to each student as a training lab environment.
+For example, an instructor could use SamuraiWTF to easily set up a virtual machine image containing ZAP and OWASP Juice Shop, and then distribute it to each student as a training lab environment.
 
 This project includes and uses the [Samurai Katana][samurai-katana-url] project to manage installation and running of tools and targets in the virtual environment. 
 
