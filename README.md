@@ -2,7 +2,7 @@
   <img alt="SamuraiWTF Logo" src="http://tiny.si/images/owasp_samurai_v3.png"  height="400"/>
 </p>
 
-## Samurai Web Training Framework 6.0
+## Samurai Web Training Framework 7.0-dev
 
 <p align="center">
   <a href="https://github.com/SamuraiWTF/samuraiwtf/releases"> <img alt="Github" src="https://img.shields.io/github/downloads/SamuraiWTF/samuraiwtf/total.svg?label=Github%20Downloads"/></a>
@@ -19,7 +19,7 @@ For example, an instructor could use SamuraiWTF to easily set up a virtual machi
 This project includes and uses the [Samurai Katana][samurai-katana-url] project to manage installation and running of tools and targets in the virtual environment. 
 
 **Reference Implementation**
-Currently the reference implementation for this project is built on top of Ubuntu 22.04 (look in the ubuntu-22 subfolder).
+Currently the reference implementation for this project is built on top of Ubuntu 24.04 (look in the ubuntu-2404 subfolder).
 
 **Important Notes**
 - All targets installed with Katana will be configured in the `.test` primary domain
