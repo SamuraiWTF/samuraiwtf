@@ -35,6 +35,7 @@ update-ca-certificates
 # Make root CA easily accessible for manual browser import
 ln -sf /etc/samurai.d/certs/localRootCA.crt /opt/samurai/SamuraiWTF_Root_CA.crt
 
+# This needs to be updated once we fix the katana install 
 echo ">>>>>>>>>>>>>>>> Installing Katana UI"
 katana --update
 katana install katana
