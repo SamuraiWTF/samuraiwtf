@@ -247,7 +247,7 @@
 
   - name: Create katana modules folder
     file:
-      path: /opt/samurai/modules
+      path: /opt/samurai/katana
       state: directory
     become: yes
 
@@ -259,7 +259,7 @@
   - name: Unzip katana modules
     unarchive:
       src: /tmp/modules.zip
-      dest: /opt/samurai
+      dest: /opt/samurai/katana/
       remote_src: yes
     become: yes
 
