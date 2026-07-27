@@ -27,8 +27,8 @@
         - nginx
         - vim
         - curl
-        - docker
-        - docker-compose
+        - ca-certificates
+        - gnupg
         - unzip
         - nano
         - python3
@@ -42,55 +42,59 @@
     become: true
 
   - name: python prerequisite modules
-    pip:
-      name: "{{ modules }}"
-      executable: /usr/bin/pip3
+    apt:
+      name: python3-docker
+      state: present
     become: yes
-    vars:
-      modules:
-      - docker
 
-  - name: Create cli-plugins folder for docker-compose
+  - name: Create keyrings directory for apt
     file:
-      path: /usr/local/lib/docker/cli-plugins
+      path: /etc/apt/keyrings
       state: directory
+      mode: "0755"
     become: yes
 
-  - name: Download and install docker-compose
-    ansible.builtin.uri:
-      url: https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-linux-x86_64
-      dest: /usr/local/lib/docker/cli-plugins/docker-compose
-      mode: "+x"
+  - name: Add Docker's official GPG key
+    get_url:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      dest: /etc/apt/keyrings/docker.asc
+      mode: "0644"
     become: yes
 
-  - name: install compose-switch switch to support docker 1.x
-    ansible.builtin.uri:
-      url: https://github.com/docker/compose-switch/releases/download/v1.0.5/docker-compose-linux-amd64
-      dest: /usr/local/bin/compose-switch
-      mode: "+x"
+  - name: Add Docker apt repository
+    apt_repository:
+      repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable"
+      state: present
+      filename: docker
     become: yes
 
-#  - name: install docker-compose
-#    shell: 'curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose'
-#    become: yes
-#    when: stat_docker_compose.stat.exists == False
-#
-#  - name: set permissions for docker-compose
-#    file:
-#      path: /usr/local/lib/docker/cli-plugins/docker-compose
-#      mode: "+x"
-#    become: yes
-#
-#  - name: install compose-switch switch to support docker 1.x
-#    shell: 'curl -fL https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64 -o /usr/local/bin/compose-switch'
-#    become: yes
-#    when: stat_docker_compose.stat.exists == False
-#
-#  - name: set permissions for compose-switch
-#    file:
-#      path: /usr/local/bin/compose-switch
-#      mode: "+x"
-#    become: yes
+  - name: Install Docker Engine and Compose plugin
+    apt:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-buildx-plugin
+        - docker-compose-plugin
+      state: present
+      update_cache: yes
+    become: yes
+
+  - name: Add samurai user to docker group
+    user:
+      name: "{{ username }}"
+      groups: docker
+      append: yes
+    become: yes
+
+  - name: Create docker-compose (v1 syntax) compatibility shim
+    copy:
+      dest: /usr/local/bin/docker-compose
+      content: |
+        #!/bin/sh
+        exec docker compose "$@"
+      mode: "0755"
+    become: yes
 
   - name: create the main Samurai program folder
     file:
@@ -219,12 +223,10 @@
       url: https://deb.nodesource.com/setup_24.x
       dest: /tmp/npm_setup.sh
       mode: 0744
-#    when: stat_npm_setup.stat.exists == False
 
   - name: Install npm repo
     shell: '/tmp/npm_setup.sh'
     become: yes
-#    when: stat_npm_setup.stat.exists == False
 
   - name: Add nodejs repo
     apt:
@@ -241,6 +243,24 @@
       url: https://github.com/SamuraiWTF/katana/releases/latest/download/katana-linux-x64
       dest: /usr/bin/katana
       mode: 0777
+    become: yes
+
+  - name: Create katana modules folder
+    file:
+      path: /opt/samurai/modules
+      state: directory
+    become: yes
+
+  - name: Install katana modules
+    get_url:
+      url: https://github.com/SamuraiWTF/katana/releases/latest/download/modules.zip
+      dest: /tmp/modules.zip
+
+  - name: Unzip katana modules
+    unarchive:
+      src: /tmp/modules.zip
+      dest: /opt/samurai
+      remote_src: yes
     become: yes
 
   - name: Create add-ons folder
@@ -266,11 +286,6 @@
       mode: 'g+r'
     become: yes
 
-  - name: Create cert folder
-    file:
-      path: /etc/samurai.d/certs
-      state: directory
-    become: yes
 
   - name: Add application menu
     shell: 'gnome-extensions enable app-menu@gnome-shell-extensions.gcampax.github.com'
@@ -327,9 +342,3 @@
       content: |
         #!/bin/bash
         gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Terminal.desktop']"
-
-#  - name: Ensure SELinux is set to disabled mode
-#    ansible.builtin.lineinfile:
-#      path: /etc/selinux/config
-#      regexp: '^SELINUX='
-#      line: SELINUX=disabled
